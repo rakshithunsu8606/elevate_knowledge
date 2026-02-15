@@ -1,0 +1,416 @@
+import React, { useEffect } from 'react';
+import { NavLink } from 'react-router';
+import About from '../About/About';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllCategory } from '../../Redux/Slice/CategorySlice';
+
+function Header(props) {
+    const dispatch = useDispatch()
+
+    const getData = () => {
+
+    }
+
+    useEffect(() => {
+        dispatch(getAllCategory())
+    }, [])
+
+    const Category = useSelector(state => state.Category)
+
+    console.log(Category.category);
+
+    return (
+        <header className="navbar-light navbar-sticky header-static">
+            {/* Logo Nav START */}
+            <nav className="navbar navbar-expand-xl">
+                <div className="container-fluid px-3 px-xl-5">
+                    {/* Logo START */}
+                    <a className="navbar-brand" href="index.html">
+                        <img className="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo" />
+                        <img className="dark-mode-item navbar-brand-item" src="assets/images/logo-light.svg" alt="logo" />
+                    </a>
+                    {/* Logo END */}
+                    {/* Responsive navbar toggler */}
+                    <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-animation">
+                            <span />
+                            <span />
+                            <span />
+                        </span>
+                    </button>
+                    {/* Main navbar START */}
+                    <div className="navbar-collapse w-100 collapse" id="navbarCollapse">
+                        {/* Nav category menu START */}
+                        <ul className="navbar-nav navbar-nav-scroll me-auto">
+                            {/* Nav item 1 Demos */}
+
+                            <li className="nav-item dropdown dropdown-menu-shadow-stacked">
+
+                                <a className="nav-link bg-primary bg-opacity-10 rounded-3 text-primary px-3 py-3 py-xl-0" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" /><span>Category</span></a>
+
+                                <ul className="dropdown-menu" aria-labelledby="categoryMenu">
+                                    {
+                                        Category.category.map((v) => (
+
+                                            <li><NavLink className="dropdown-item" to={'/Category'}>{v.name}</NavLink> </li>
+
+                                        ))
+                                    }
+
+                                    <li> <NavLink className="dropdown-item bg-primary text-primary bg-opacity-10 rounded-2 mb-0" to={'/display'}>View all categories</NavLink></li>
+                                </ul>
+
+
+                            </li>
+
+                        </ul>
+                        {/* Nav category menu END */}
+                        {/* Nav Main menu START */}
+                        <ul className="navbar-nav navbar-nav-scroll me-auto">
+                            <li class="nav-item dropdown">
+                                <NavLink className="nav-link" to={'./about'}>
+                                    About
+                                </NavLink>
+                            </li>
+                            {/* Nav item 1 Demos */}
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demos</a>
+                                <ul className="dropdown-menu" aria-labelledby="demoMenu">
+                                    <li> <a className="dropdown-item active" href="index.html">Home Default</a></li>
+                                    <li> <a className="dropdown-item" href="index-2.html">Home Education</a></li>
+                                    <li> <a className="dropdown-item" href="index-3.html">Home Academy</a></li>
+                                    <li> <a className="dropdown-item" href="index-4.html">Home Course</a></li>
+                                    <li> <a className="dropdown-item" href="index-5.html">Home University</a></li>
+                                    <li> <a className="dropdown-item" href="index-6.html">Home Kindergarten</a></li>
+                                    <li> <a className="dropdown-item" href="index-7.html">Home Landing</a></li>
+                                    <li> <a className="dropdown-item" href="index-8.html">Home Tutor</a></li>
+                                    <li> <hr className="dropdown-divider" /></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Request_demo'}>Request a demo</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Book_Class'}>Book a Class</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Request_acess'}>Free Access</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/University'}>Admission Form</NavLink></li>
+                                    <li> <hr className="dropdown-divider" /></li>
+                                    <li className="dropdown-submenu dropend">
+                                        <a className="dropdown-item dropdown-toggle" href="#">Dropdown levels</a>
+                                        <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                            {/* dropdown submenu open right */}
+                                            <li className="dropdown-submenu dropend">
+                                                <a className="dropdown-item dropdown-toggle" href="#">Dropdown (end)</a>
+                                                <ul className="dropdown-menu" data-bs-popper="none">
+                                                    <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
+                                                    <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
+                                            {/* dropdown submenu open left */}
+                                            <li className="dropdown-submenu dropstart">
+                                                <a className="dropdown-item dropdown-toggle" href="#">Dropdown (start)</a>
+                                                <ul className="dropdown-menu dropdown-menu-end" data-bs-popper="none">
+                                                    <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
+                                                    <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
+                                                </ul>
+                                            </li>
+                                            <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            {/* Nav item 2 Pages */}
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
+                                <ul className="dropdown-menu" aria-labelledby="pagesMenu">
+                                    {/* Dropdown submenu */}
+                                    <li className="dropdown-submenu dropend">
+                                        <a className="dropdown-item dropdown-toggle" href="#">Course</a>
+                                        <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                            <li> <NavLink className="dropdown-item" to={'/Course_grid'}>Course Grid Classic</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_grid_2'}>Course Grid Minimal</NavLink></li>
+                                            <li> <hr className="dropdown-divider" /></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_list'}>Course List Classic</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_list_2'}>Course List Minimal</NavLink></li>
+                                            <li> <hr className="dropdown-divider" /></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_details'}>Course Detail Classic</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_detail_min'}>Course Detail Minimal</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_detail_adv'}>Course Detail Advance</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_video_palyer'}>Course Full Screen Video</NavLink></li>
+                                        </ul>
+                                    </li>
+                                    {/* Dropdown submenu */}
+                                    <li className="dropdown-submenu dropend">
+                                        <a className="dropdown-item dropdown-toggle" href="#">About</a>
+                                        <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                            <li> <NavLink className="dropdown-item" to={'./about'}>About Us</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Contact_us'}>Contact Us</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Blog_Grid'}>Blog Grid</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Blog_Masonry'}>Blog Masonry</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Blog_Detail'}>Blog Detail</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Pricing'}>Pricing</NavLink></li>
+                                        </ul>
+                                    </li>
+                                    <li> <NavLink className="dropdown-item" to={'/Instructor_list'}>Instructor List</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Instructor_single'}>Instructor Single</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Become_Insdtructor'}>Become an Instructor</NavLink></li>
+                                    {/* Dropdown submenu */}
+                                    <li className="dropdown-submenu dropend">
+                                        <a className="dropdown-item dropdown-toggle" href="#">Authentication</a>
+                                        <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                            <li> <NavLink className="dropdown-item" to={'/Sign_in'}>Sign In</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Sign_up'}>Sign Up</NavLink></li>
+                                            <li> <NavLink className="dropdown-item" to={'/Forgot'}>Forgot Password</NavLink></li>
+                                        </ul>
+                                    </li>
+                                    <li> <NavLink className="dropdown-item" to={'/Falg'}>FAQs</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Error'}>Error 404</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Coming_Soon'}>Coming Soon</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Cart'}>Cart</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Checkout'}>Checkout</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Empty_cart'}>Empty Cart</NavLink></li>
+                                    <li> <NavLink className="dropdown-item" to={'/Wishlist'}>Wishlist</NavLink></li>
+                                </ul>
+                            </li>
+                            {/* Nav item 3 Account */}
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="accounntMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accounts</a>
+                                <ul className="dropdown-menu" aria-labelledby="accounntMenu">
+                                    {/* Dropdown submenu */}
+                                    <li className="dropdown-submenu dropend">
+                                        <a className="dropdown-item dropdown-toggle" href="#"><i className="fas fa-user-tie fa-fw me-1" />Instructor</a>
+                                        <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_dashBorad'}><i className="bi bi-grid-fill fa-fw me-1" />Dashboard</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_manage_course'}><i className="bi bi-basket-fill fa-fw me-1" />Courses</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_create_Course'}><i className="bi bi-file-earmark-plus-fill fa-fw me-1" />Create Course</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Course_add'}><i className="bi bi-file-check-fill fa-fw me-1" />Course Added</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_earning'}><i className="fas fa-chart-line fa-fw me-1" />Earnings</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_studentlist'}><i className="fas fa-user-graduate fa-fw me-1" />Students</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_order'}><i className="bi bi-cart-check-fill fa-fw me-1" />Orders</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_review'}><i className="bi bi-star-fill fa-fw me-1" />Reviews</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Instructor_payout'}><i className="fas fa-wallet fa-fw me-1" />Payout</NavLink> </li>
+                                        </ul>
+                                    </li>
+                                    {/* Dropdown submenu */}
+                                    <li className="dropdown-submenu dropend">
+                                        <a className="dropdown-item dropdown-toggle" href="#"><i className="fas fa-user-graduate fa-fw me-1" />Student</a>
+                                        <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                            <li> <NavLink className="dropdown-item" to={'/Student_deshborad'}><i className="bi bi-grid-fill fa-fw me-1" />Dashboard</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Student_subscription'}><i className="bi bi-card-checklist fa-fw me-1" />My Subscriptions</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Student_list_course'}><i className="bi bi-basket-fill fa-fw me-1" />Courses</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Student_payment'}><i className="bi bi-credit-card-2-front-fill fa-fw me-1" />Payment Info</NavLink> </li>
+                                            <li> <NavLink className="dropdown-item" to={'/Wishlist'}><i className="fas bi-cart-check-fill fa-fw me-1" />Wishlist</NavLink> </li>
+                                        </ul>
+                                    </li>
+                                    <li> <a className="dropdown-item" href="#"><i className="fas fa-user-cog fa-fw me-1" />Admin (Coming Soon)</a> </li>
+                                    <li> <hr className="dropdown-divider" /></li>
+                                    <li> <a className="dropdown-item" href="instructor-edit-profile.html"><i className="fas fa-fw fa-edit me-1" />Edit Profile</a> </li>
+                                    <li> <a className="dropdown-item" href="instructor-setting.html"><i className="fas fa-fw fa-cog me-1" />Settings</a> </li>
+                                    <li> <a className="dropdown-item" href="instructor-delete-account.html"><i className="fas fa-fw fa-trash-alt me-1" />Delete Profile</a> </li>
+                                </ul>
+                            </li>
+                            {/* Nav item 4 Megamenu*/}
+                            <li className="nav-item dropdown dropdown-fullwidth">
+                                <a className="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Megamenu</a>
+                                <div className="dropdown-menu dropdown-menu-end pb-0" data-bs-popper="none">
+                                    <div className="row p-4 g-4">
+                                        {/* Dropdown column item */}
+                                        <div className="col-xl-6 col-xxl-3">
+                                            <h6 className="mb-0">Get started</h6>
+                                            <hr />
+                                            <ul className="list-unstyled">
+                                                <li> <a className="dropdown-item" href="#">Market research</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Advertising</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Consumer behavior</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Digital marketing</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Marketing ethics</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Social media marketing</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Public relations</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Advertising</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Decision science</a> </li>
+                                                <li> <a className="dropdown-item" href="#">SEO</a> </li>
+                                                <li> <a className="dropdown-item" href="#">Business marketing</a> </li>
+                                            </ul>
+                                        </div>
+                                        {/* Dropdown column item */}
+                                        <div className="col-xl-6 col-xxl-3">
+                                            <h6 className="mb-0">Degree</h6>
+                                            <hr />
+                                            {/* Dropdown item */}
+                                            <div className="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
+                                                <a className="stretched-link h6 mb-0" href="#">Contact management</a>
+                                                <p className="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
+                                            </div>
+                                            {/* Dropdown item */}
+                                            <div className="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
+                                                <a className="stretched-link h6 mb-0" href="#">Sales pipeline</a>
+                                                <p className="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
+                                            </div>
+                                            {/* Dropdown item */}
+                                            <div className="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
+                                                <a className="stretched-link h6 mb-0" href="#">Security &amp; Permission</a>
+                                                <p className="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
+                                            </div>
+                                        </div>
+                                        {/* Dropdown column item */}
+                                        <div className="col-xl-6 col-xxl-3">
+                                            <h6 className="mb-0">Certificate</h6>
+                                            <hr />
+                                            {/* Dropdown item */}
+                                            <div className="d-flex mb-4 position-relative">
+                                                <h2 className="mb-0"><i className="fab fa-fw fa-google text-google-icon" /></h2>
+                                                <div className="ms-2">
+                                                    <a className="stretched-link h6 mb-0" href="#">Google SEO certificate</a>
+                                                    <p className="mb-0 small">No prerequisites</p>
+                                                </div>
+                                            </div>
+                                            {/* Dropdown item */}
+                                            <div className="d-flex mb-4 position-relative">
+                                                <h2 className="mb-0"><i className="fab fa-fw fa-linkedin-in text-linkedin" /></h2>
+                                                <div className="ms-2">
+                                                    <a className="stretched-link h6 mb-0" href="#">Business Development Executive(BDE)</a>
+                                                    <p className="mb-0 small">No prerequisites</p>
+                                                </div>
+                                            </div>
+                                            {/* Dropdown item */}
+                                            <div className="d-flex mb-4 position-relative">
+                                                <h2 className="mb-0"><i className="fab fa-fw fa-facebook text-facebook" /></h2>
+                                                <div className="ms-2">
+                                                    <a className="stretched-link h6 mb-0" href="#">Facebook social media marketing</a>
+                                                    <p className="mb-0 small">Expert advice</p>
+                                                </div>
+                                            </div>
+                                            {/* Dropdown item */}
+                                            <div className="d-flex mb-4 position-relative">
+                                                <h2 className="mb-0"><i className="fas fa-fw fa-basketball-ball text-dribbble" /></h2>
+                                                <div className="ms-2">
+                                                    <a className="stretched-link h6 mb-0" href="#">Creative graphics design</a>
+                                                    <p className="mb-0 small">No prerequisites</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* Dropdown column item */}
+                                        <div className="col-xl-6 col-xxl-3">
+                                            <h6 className="mb-0">Download Eduport</h6>
+                                            <hr />
+                                            {/* Image */}
+                                            <img src="assets/images/element/14.svg" alt />
+                                            {/* Download button */}
+                                            <div className="row g-2 justify-content-center mt-3">
+                                                {/* Google play store button */}
+                                                <div className="col-6 col-sm-4 col-xxl-6">
+                                                    <a href="#"> <img src="assets/images/client/google-play.svg" className="btn-transition" alt="google-store" /> </a>
+                                                </div>
+                                                {/* App store button */}
+                                                <div className="col-6 col-sm-4 col-xxl-6">
+                                                    <a href="#"> <img src="assets/images/client/app-store.svg" className="btn-transition" alt="app-store" /> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* Action box */}
+                                        <div className="col-12">
+                                            <div className="alert alert-success alert-dismissible fade show mt-2 mb-0 rounded-3" role="alert">
+                                                {/* Avatar */}
+                                                <div className="avatar avatar-xs me-2">
+                                                    <img className="avatar-img rounded-circle" src="assets/images/avatar/09.jpg" alt="avatar" />
+                                                </div>
+                                                {/* Info */}
+                                                The personality development class starts at 2:00 pm, click to <a href="#" className="alert-link">Join Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {/* Nav item 5 link*/}
+                            <li className="nav-item dropdown">
+                                <a className="nav-link" href="#" id="advanceMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i className="fas fa-ellipsis-h" />
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-end min-w-auto" data-bs-popper="none">
+                                    <li>
+                                        <a className="dropdown-item" href="https://support.webestica.com/" target="_blank">
+                                            <i className="text-warning fa-fw bi bi-life-preserver me-2" />Support
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="docs/index.html" target="_blank">
+                                            <i className="text-danger fa-fw bi bi-card-text me-2" />Documentation
+                                        </a>
+                                    </li>
+                                    <li> <hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <a className="dropdown-item" href="https://eduport.webestica.com/rtl/" target="_blank">
+                                            <i className="text-info fa-fw bi bi-toggle-off me-2" />RTL demo
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a className="dropdown-item" href="https://themes.getbootstrap.com/store/webestica/" target="_blank">
+                                            <i className="text-success fa-fw bi bi-cloud-download-fill me-2" />Buy Eduport!
+                                        </a>
+                                    </li>
+                                    <li> <hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <a className="dropdown-item" href="docs/alerts.html" target="_blank">
+                                            <i className="text-orange fa-fw bi bi-puzzle-fill me-2" />Components
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        {/* Nav Main menu END */}
+                        {/* Nav Search START */}
+                        <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
+                            <div className="nav-item w-100">
+                                <form className="position-relative">
+                                    <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" />
+                                    <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i className="fas fa-search fs-6 " /></button>
+                                </form>
+                            </div>
+                        </div>
+                        {/* Nav Search END */}
+                    </div>
+                    {/* Main navbar END */}
+                    {/* Profile START */}
+                    <div className="dropdown ms-1 ms-lg-0">
+                        <a className="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
+                        </a>
+                        <ul className="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+                            {/* Profile info */}
+                            <li className="px-3">
+                                <div className="d-flex align-items-center">
+                                    {/* Avatar */}
+                                    <div className="avatar me-3">
+                                        <img className="avatar-img rounded-circle shadow" src="assets/images/avatar/01.jpg" alt="avatar" />
+                                    </div>
+                                    <div>
+                                        <a className="h6" href="#">Lori Ferguson</a>
+                                        <p className="small m-0">example@gmail.com</p>
+                                    </div>
+                                </div>
+                                <hr />
+                            </li>
+                            {/* Links */}
+                            <li><a className="dropdown-item" href="#"><i className="bi bi-person fa-fw me-2" />Edit Profile</a></li>
+                            <li><a className="dropdown-item" href="#"><i className="bi bi-gear fa-fw me-2" />Account Settings</a></li>
+                            <li><a className="dropdown-item" href="#"><i className="bi bi-info-circle fa-fw me-2" />Help</a></li>
+                            <li><NavLink className="dropdown-item bg-danger-soft-hover" to={'/Sign_in'}><i className="bi bi-power fa-fw me-2" />Sign in</NavLink></li>
+                            <li> <hr className="dropdown-divider" /></li>
+                            {/* Dark mode switch START */}
+                            <li>
+                                <div className="modeswitch-wrap" id="darkModeSwitch">
+                                    <div className="modeswitch-item">
+                                        <div className="modeswitch-icon" />
+                                    </div>
+                                    <span>Dark mode</span>
+                                </div>
+                            </li>
+                            {/* Dark mode switch END */}
+                        </ul>
+                    </div>
+                    {/* Profile START */}
+                </div>
+            </nav>
+            {/* Logo Nav END */}
+        </header >
+
+    );
+}
+
+export default Header;
