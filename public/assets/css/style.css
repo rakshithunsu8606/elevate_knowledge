@@ -4166,10 +4166,10 @@ textarea.form-control-lg {
   padding: 1rem 0.8rem;
   margin: 0;
   font-size: 0.9375rem;
-  color: #747579;
+  /* color: #747579; */
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  /* background-color: #fff; */
   background-clip: padding-box;
   border: 0 solid rgba(0, 0, 0, 0.1);
   border-radius: 0.325rem;
@@ -4370,7 +4370,7 @@ textarea.form-control-lg {
   padding: 0.4rem 1rem;
   clear: both;
   font-weight: 500;
-  color: #747579;
+  /* color: #747579; */
   text-align: inherit;
   white-space: nowrap;
   background-color: transparent;
@@ -19344,14 +19344,11 @@ body {
   position: relative;
 }
 
-main {
-  background-color: #fff;
-}
+
 
 header {
   position: relative;
   z-index: 1020;
-  background: #fff;
 }
 
 a {
@@ -20684,3 +20681,13 @@ html[dir=rtl] .choices__input {
 }
 
 /*User CSS*/
+
+.dark{
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.light{
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}

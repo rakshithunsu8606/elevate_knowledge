@@ -18,6 +18,11 @@ export const addCategory = createAsyncThunk(
         formData.append("description", values.description);
         formData.append("category_img", values.category_img);
 
+        if (values.parent_category_id) {
+            formData.append("parent_category_id", values.parent_category_id);
+        }
+        
+
         console.log("formData", formData);
 
         const response = await fetch(BASE_URL + 'category/addCategory', {
@@ -39,16 +44,16 @@ export const getAllCategory = createAsyncThunk(
     async () => {
 
         try {
-            // const response = await fetch(BASE_URL + 'category/getAllCategory');
+            const response = await fetch(BASE_URL + 'category/getAllCategory');
 
-            // const data = await response.json();
+            const data = await response.json();
 
-            // console.log(data);
+            console.log(data);
 
-            // return data.data;
+            return data.data;
             return []
         } catch (error) {
-            console.log(error);
+            console.log(error + message);
 
         }
     }
@@ -117,6 +122,8 @@ const CategorySlice = createSlice({
             state.category = action.payload
         })
         builder.addCase(addCategory.fulfilled, (state, action) => {
+            console.log(action.payload);
+
             state.category.push(action.payload)
         })
         builder.addCase(DeleteCategory.fulfilled, (state, action) => {

@@ -25,6 +25,22 @@ function Catogary(props) {
     const [data, setData] = useState([])
     const [update, setUpdate] = useState({})
 
+    const CategoryData = useSelector(state => state.Category)
+
+    console.log(CategoryData.category);
+
+    const CateDropData = [{ value: '', label: '--Select Category--' }];
+
+    console.log(CateDropData);
+
+    CategoryData.category.forEach((v) => {
+        console.log(v);
+        
+        CateDropData.push({ value: v._id, label: v.name })
+    })
+
+
+
     const dispatch = useDispatch()
 
     const handleClickOpen = () => {
@@ -34,11 +50,6 @@ function Catogary(props) {
     const handleClose = () => {
         setOpen(false);
     };
-
-    const CategoryData = useSelector(state => state.Category)
-
-    console.log(CategoryData.category);
-
 
     const getData = () => {
 
@@ -62,16 +73,16 @@ function Catogary(props) {
 
         if (Object.keys(update).length > 0) {
 
-            if (typeof values.category_img=== 'object') {
+            if (typeof values.category_img === 'object') {
                 dispatch(UpdateCategory(values))
             } else {
                 dispatch(UpdateCategory(values))
             }
         } else {
             console.log("handleSubmit", values);
-            
+
             dispatch(addCategory(values))
-        }
+        } 
 
 
 
@@ -141,15 +152,33 @@ function Catogary(props) {
         setUpdate(val)
     }
 
+
+
+
+
+
+
     const columns = [
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'description', headerName: 'description', width: 130 },
         {
             field: 'category_img', headerName: 'category_img', width: 130,
             renderCell: (params) => (
-                
+
                 <img src={IMAGE_URL + params.row.category_img} width={'50px'} height={'50px'} />
-            )   
+            )
+        },
+        {
+            field: 'parent_category_id',
+            headerName: 'parentCategory',
+            width: 130,
+            renderCell: (params) => {
+                const categoryObj = CategoryData.category?.find(
+                    (v) => v._id === params.row.parent_category_id
+                );
+
+                return categoryObj ? categoryObj.name : "null";
+            }
         },
         {
             field: 'Action', headerName: 'Action', width: 130,
@@ -166,6 +195,7 @@ function Catogary(props) {
         },
 
 
+
     ];
 
     const paginationModel = { page: 0, pageSize: 5 };
@@ -174,9 +204,11 @@ function Catogary(props) {
     let userSchema = object({
         name: string().required('Please Enter Name'),
         description: string().required('Please Enter Description'),
-        category_img: mixed().required('Please Enter Picture')
-
+        category_img: mixed().required('Please Enter Picture'),
     })
+
+    console.log(CategoryData.category);
+
 
     return (
         <>
@@ -194,7 +226,8 @@ function Catogary(props) {
                             initialValues={Object.keys(update).length > 0 ? update : {
                                 name: '',
                                 description: '',
-                                category_img: null
+                                category_img: null,
+                                parent_category_id: null
                             }}
                             validationSchema={userSchema}
                             onSubmit={(values, { resetForm }) => {
@@ -207,6 +240,18 @@ function Catogary(props) {
 
                         >
                             <Form id="subscription-form">
+
+                                <Textinput
+                                    name="parent_category_id"
+                                    id="parent_category_id"
+                                    label="- -Select- -"
+                                    style={{ margin: '0', padding: '0' }}
+                                    select
+                                    data={CateDropData}
+                                    
+
+                                />
+
                                 <Textinput
                                     name='name'
                                     id='name'
@@ -235,7 +280,7 @@ function Catogary(props) {
                     </DialogActions>
                 </Dialog>
                 <DataGrid
-                    rows={CategoryData.category}
+                    rows={CategoryData.category || []}
                     columns={columns}
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}

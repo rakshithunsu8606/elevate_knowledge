@@ -57,8 +57,7 @@ function CategoryDisplay(props) {
                             title="green iguana"
                         />
                         
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
+                        <CardContent>                            <Typography gutterBottom variant="h5" component="div">
                                 {v.name}
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>

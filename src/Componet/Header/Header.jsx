@@ -1,10 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavLink } from 'react-router';
 import About from '../About/About';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCategory } from '../../Redux/Slice/CategorySlice';
+import { CheakAuthUser, LogoutUser } from '../../Redux/Slice/auth';
+import { ThemeContext } from '../../Context/ThemeContext';
+import { Switch } from '@mui/material';
 
 function Header(props) {
+    const [checked, setChecked] = React.useState(true);
+
+    const ThemeData = useContext(ThemeContext)
+
+    console.log(ThemeData);
+
+    const isDark = ThemeData.theme === 'light'
+
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+
+        ThemeData.toggle(ThemeData.theme)
+    };
+
+
+
     const dispatch = useDispatch()
 
     const getData = () => {
@@ -19,8 +39,23 @@ function Header(props) {
 
     console.log(Category.category);
 
+    const firstCat = Category.category.filter(v => v.parent_category_id === null)
+
+    console.log(firstCat);
+
+
+    const Auth = useSelector(state => state.Auth)
+
+    console.log(Auth);
+
+    const alert = useSelector(state => state.alert)
+
+    console.log(alert);
+
+
+
     return (
-        <header className="navbar-light navbar-sticky header-static">
+        <header className="navbar-sticky header-static">
             {/* Logo Nav START */}
             <nav className="navbar navbar-expand-xl">
                 <div className="container-fluid px-3 px-xl-5">
@@ -50,15 +85,55 @@ function Header(props) {
 
                                 <ul className="dropdown-menu" aria-labelledby="categoryMenu">
                                     {
-                                        Category.category.map((v) => (
+                                        firstCat.map((v) => {
+                                            const Subcat = Category.category.filter(sv => sv.parent_category_id === v._id)
+                                            console.log(Subcat);
 
-                                            <li><NavLink className="dropdown-item" to={'/Category'}>{v.name}</NavLink> </li>
+                                            return (
+                                                <>
+                                                    <li className={Subcat.length > 0 ? "dropdown-submenu dropend" : ''}>
+                                                        <a className={Subcat.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#">{v.name}</a>
+                                                        {
+                                                            Subcat && (
+                                                                <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                                                    {
+                                                                        Subcat.map((sc) => {
+                                                                            let thCate = Category.category.filter((tc) => tc.parent_category_id === sc._id)
+                                                                            console.log(thCate);
 
-                                        ))
+                                                                            return (
+                                                                                <li className={thCate.length > 0 ? "dropdown-submenu dropend" : ''}>
+                                                                                    <a className={thCate.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#">{sc.name}</a>
+                                                                                    {
+                                                                                        thCate && (
+                                                                                            <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                                                                                {
+                                                                                                    thCate.map((tc) => (
+                                                                                                        <li className={thCate.length > 0 ? "dropdown-submenu dropend" : ''}>
+                                                                                                            {tc.name}
+                                                                                                        </li>
+                                                                                                    ))
+                                                                                                }
+                                                                                            </ul>
+                                                                                        )
+                                                                                    }
+                                                                                </li>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </ul>
+
+                                                            )
+                                                        }
+                                                    </li>
+                                                </>
+                                            )
+
+                                        })
                                     }
 
                                     <li> <NavLink className="dropdown-item bg-primary text-primary bg-opacity-10 rounded-2 mb-0" to={'/display'}>View all categories</NavLink></li>
-                                </ul>
+                                </ul >
 
 
                             </li>
@@ -82,7 +157,7 @@ function Header(props) {
                                     <li> <a className="dropdown-item" href="index-4.html">Home Course</a></li>
                                     <li> <a className="dropdown-item" href="index-5.html">Home University</a></li>
                                     <li> <a className="dropdown-item" href="index-6.html">Home Kindergarten</a></li>
-                                    <li> <a className="dropdown-item" href="index-7.html">Home Landing</a></li>
+                                    <li> <NavLink className="dropdown-item" to={'/HomeLanding'}>Home Landing</NavLink></li>
                                     <li> <a className="dropdown-item" href="index-8.html">Home Tutor</a></li>
                                     <li> <hr className="dropdown-divider" /></li>
                                     <li> <NavLink className="dropdown-item" to={'/Request_demo'}>Request a demo</NavLink></li>
@@ -367,11 +442,11 @@ function Header(props) {
                     </div>
                     {/* Main navbar END */}
                     {/* Profile START */}
-                    <div className="dropdown ms-1 ms-lg-0">
+                    <div className={`dropdown ms-1 ms-lg-0 ${isDark ? "text-white" : ""}`}>
                         <a className="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
                             <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
                         </a>
-                        <ul className="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+                        <ul className={`dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3 ${isDark ? "bg-dark text-white" : "bg-white text-dark"}`} aria-labelledby="profileDropdown">
                             {/* Profile info */}
                             <li className="px-3">
                                 <div className="d-flex align-items-center">
@@ -390,15 +465,31 @@ function Header(props) {
                             <li><a className="dropdown-item" href="#"><i className="bi bi-person fa-fw me-2" />Edit Profile</a></li>
                             <li><a className="dropdown-item" href="#"><i className="bi bi-gear fa-fw me-2" />Account Settings</a></li>
                             <li><a className="dropdown-item" href="#"><i className="bi bi-info-circle fa-fw me-2" />Help</a></li>
-                            <li><NavLink className="dropdown-item bg-danger-soft-hover" to={'/Sign_in'}><i className="bi bi-power fa-fw me-2" />Sign in</NavLink></li>
+                            {
+                                Auth.user ?
+                                    <a href='#' onClick={() => dispatch(LogoutUser(Auth.user._id), CheakAuthUser())} className="dropdown-item bg-danger-soft-hover" >Sign Out</a>
+                                    :
+                                    <li><NavLink className="dropdown-item bg-danger-soft-hover" to={'/Auth'}><i className="bi bi-power fa-fw me-2" />Sign in</NavLink></li>
+                            }
+
+                            {
+                                Auth.user ?
+                                    <a href='#' onClick={() => dispatch(LogoutUser(Auth.user._id), CheakAuthUser())} className="dropdown-item bg-danger-soft-hover" >Sign Out</a>
+                                    :
+                                    <li><NavLink className="dropdown-item bg-danger-soft-hover" to={'/Auth/Instructure'}><i className="bi bi-power fa-fw me-2" />Signin as Instructure</NavLink></li>
+                            }
+
+
                             <li> <hr className="dropdown-divider" /></li>
                             {/* Dark mode switch START */}
                             <li>
                                 <div className="modeswitch-wrap" id="darkModeSwitch">
-                                    <div className="modeswitch-item">
-                                        <div className="modeswitch-icon" />
-                                    </div>
-                                    <span>Dark mode</span>
+                                    <Switch
+                                        checked={checked}
+                                        onChange={handleChange}
+                                        slotProps={{ input: { 'aria-label': 'controlled' } }}
+                                    />
+                                    <span>Dark Mode</span>
                                 </div>
                             </li>
                             {/* Dark mode switch END */}

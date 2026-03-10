@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { ThemeContext } from '../../Context/ThemeContext';
 
 
 function Home(props) {
+    const ThemeData = useContext(ThemeContext)
+
+    console.log(ThemeData);
+
+    const isDark = ThemeData.theme === 'light'
+
     return (
         <main>
             {/* =======================
@@ -144,7 +151,7 @@ Main Banner START */}
                                 </svg>
                             </figure>
                             {/* Title */}
-                            <h1 className="mb-0 display-6">Limitless learning at your
+                            <h1 className={`mb-0 display-6 ${isDark ? "text-white" : ""}`}>Limitless learning at your
                                 <span className="position-relative">fingertips
                                     {/* SVG START */}
                                     <span className="position-absolute top-50 start-50 translate-middle ms-3 z-index-n1">

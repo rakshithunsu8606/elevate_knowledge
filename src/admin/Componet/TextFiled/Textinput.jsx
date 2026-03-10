@@ -1,8 +1,8 @@
-import { TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
 import { useField } from 'formik';
 import React from 'react';
 
-function Textinput({ type = 'text',data=[], ...props }) {
+function Textinput({ type = 'text', data = [], ...props }) {
     const [field, meta] = useField(props);
 
     console.log("field", field);
@@ -24,13 +24,15 @@ function Textinput({ type = 'text',data=[], ...props }) {
 
         >
             {data.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </TextField>    
 
-       
+                <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                </MenuItem>
+
+            ))}
+        </TextField>
+
+
 
     );
 }

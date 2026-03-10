@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Header from '../Componet/Header/Header';
 import { Route, Routes } from 'react-router';
 import Footer from '../Componet/Footer/Footer';
@@ -38,8 +38,7 @@ import Instructor_studentlist from '../Componet/Instructor_studentlist/Instructo
 import Pricing from '../Componet/Pricing/Pricing';
 import Request_acess from '../Componet/Request_acess/Request_acess';
 import Request_demo from '../Componet/Request_demo/Request_demo';
-import Sign_in from '../Componet/Sign_in/Sign_in';
-import Sign_up from '../Componet/Sign_up/Sign_up';
+// import Auth from '../Componet/Auth/Auth';
 import Student_list_course from '../Componet/Student_list_course/Student_list_course';
 import Student_deshborad from '../Componet/Student_deshborad/Student_deshborad';
 import Student_payment from '../Componet/Student_payment/Student_payment';
@@ -50,10 +49,24 @@ import Home from '../Container/Home/Home';
 import Catogary from '../admin/container/Category/Category';
 import CategoryDisplay from '../Componet/Category/CategoryDisplay';
 import Chat from '../Container/Chat';
+import Auth from '../Componet/Auth/Auth';
+import HomeLanding from '../Componet/Alert/Alert';
+import { useDispatch } from 'react-redux';
+import { CheakAuthUser } from '../Redux/Slice/auth';
+import { ThemeContext } from '../Context/ThemeContext';
 
 function UserRoute(props) {
+    const ThemeData = useContext(ThemeContext)
+
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(CheakAuthUser())
+
+    }, [])
     return (
-        <>
+        <div className={ThemeData.theme === 'light' ? 'dark' : 'light'}>
             <Header />
             <Routes>
                 <Route path='/' element={<Home />} />
@@ -95,8 +108,7 @@ function UserRoute(props) {
                 <Route path='/Pricing' element={<Pricing />} />
                 <Route path='/Request_acess' element={<Request_acess />} />
                 <Route path='/Request_demo' element={<Request_demo />} />
-                <Route path='/Sign_in' element={<Sign_in />} />
-                <Route path='/Sign_up' element={<Sign_up />} />
+                <Route path='/auth' element={<Auth />} />
                 <Route path='/Student_list_course' element={<Student_list_course />} />
                 <Route path='/Student_deshborad' element={<Student_deshborad />} />
                 <Route path='/Student_payment' element={<Student_payment />} />
@@ -105,6 +117,8 @@ function UserRoute(props) {
                 <Route path='/Wishlist' element={<Wishlist />} />
                 <Route path='/Catogary' element={<Catogary />} />
                 <Route path='/display' element={<CategoryDisplay />} />
+                <Route path='/Auth/:usertype' element={<Auth />} />
+                <Route path='/HomeLanding' element={<HomeLanding />} />
 
 
 
@@ -113,7 +127,7 @@ function UserRoute(props) {
 
             </Routes>
             <Footer />
-        </>
+        </div>
     );
 }
 
