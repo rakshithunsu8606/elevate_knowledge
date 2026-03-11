@@ -442,11 +442,11 @@ function Header(props) {
                     </div>
                     {/* Main navbar END */}
                     {/* Profile START */}
-                    <div className={`dropdown ms-1 ms-lg-0 ${isDark ? "text-white" : ""}`}>
+                    <div className="dropdown ms-1 ms-lg-0">
                         <a className="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
                             <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
                         </a>
-                        <ul className={`dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3 ${isDark ? "bg-dark text-white" : "bg-white text-dark"}`} aria-labelledby="profileDropdown">
+                        <ul className="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
                             {/* Profile info */}
                             <li className="px-3">
                                 <div className="d-flex align-items-center">
@@ -476,7 +476,7 @@ function Header(props) {
                                 Auth.user ?
                                     <a href='#' onClick={() => dispatch(LogoutUser(Auth.user._id), CheakAuthUser())} className="dropdown-item bg-danger-soft-hover" >Sign Out</a>
                                     :
-                                    <li><NavLink className="dropdown-item bg-danger-soft-hover" to={'/Auth/Instructure'}><i className="bi bi-power fa-fw me-2" />Signin as Instructure</NavLink></li>
+                                    <li><NavLink className=" dropdown-item bg-danger-soft-hover" to={'/Auth/Instructure'}><i className="bi bi-power fa-fw me-2" />Signin as Instructure</NavLink></li>
                             }
 
 

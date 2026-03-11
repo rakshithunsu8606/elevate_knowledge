@@ -151,7 +151,7 @@ Main Banner START */}
                                 </svg>
                             </figure>
                             {/* Title */}
-                            <h1 className={`mb-0 display-6 ${isDark ? "text-white" : ""}`}>Limitless learning at your
+                            <h1 className="mb-0 display-6 ">Limitless learning at your
                                 <span className="position-relative">fingertips
                                     {/* SVG START */}
                                     <span className="position-absolute top-50 start-50 translate-middle ms-3 z-index-n1">
