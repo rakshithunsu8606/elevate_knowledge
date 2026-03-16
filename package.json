@@ -16,6 +16,8 @@
     "@mui/material": "^7.3.6",
     "@mui/x-charts": "^8.27.5",
     "@mui/x-data-grid": "^8.23.0",
+    "@mui/x-data-grid-generator": "^8.27.5",
+    "@mui/x-data-grid-pro": "^8.27.5",
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.2",
     "formik": "^2.4.9",

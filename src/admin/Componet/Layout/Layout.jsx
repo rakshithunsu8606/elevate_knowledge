@@ -24,6 +24,8 @@ import AppsIcon from '@mui/icons-material/Apps';
 import FoundationIcon from '@mui/icons-material/Foundation';
 import PaddingIcon from '@mui/icons-material/Padding';
 import { NavLink } from 'react-router';
+import Switch from '@mui/material/Switch';
+import { ThemeContext } from '../../../Context/ThemeContext';
 
 const drawerWidth = 240;
 
@@ -115,6 +117,20 @@ const ListItems = [
 export default function Layout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [checked, setChecked] = React.useState(true);
+
+    const ThemeData = React.useContext(ThemeContext)
+
+    console.log(ThemeData);
+
+    const isDark = ThemeData.theme === 'light'
+
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+
+        ThemeData.toggle(ThemeData.theme)
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -123,6 +139,8 @@ export default function Layout({ children }) {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -143,9 +161,21 @@ export default function Layout({ children }) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", width: "100%" }}>
+                        <Typography variant="h6" sx={{ flexGrow: 1, gap: 1 }}>
+                            Admin Panel
+                        </Typography>
+
+                        <Box className="modeswitch-wrap" id="darkModeSwitch" sx={{ display: 'flex', justifyContent: 'end' }}>
+                            <Switch
+                                checked={checked}
+                                onChange={handleChange}
+                                slotProps={{ input: { 'aria-label': 'controlled' } }}
+                                color="primary"
+                            />
+                            <Typography sx={{ mt: 1, fontWeight: '500' }}></Typography>
+                        </Box >
+                    </Box>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
