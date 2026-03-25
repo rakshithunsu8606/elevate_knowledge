@@ -31,7 +31,7 @@ function File(props) {
     } else if (typeof field.value === 'object' && field.value) {
         file = URL.createObjectURL(field.value)
     }  
-
+         
 
 
     const { setValue } = helpers;
