@@ -35,7 +35,7 @@ function Catogary(props) {
 
     CategoryData.category.forEach((v) => {
         console.log(v);
-        
+
         CateDropData.push({ value: v._id, label: v.name })
     })
 
@@ -82,7 +82,7 @@ function Catogary(props) {
             console.log("handleSubmit", values);
 
             dispatch(addCategory(values))
-        } 
+        }
 
 
 
@@ -165,7 +165,8 @@ function Catogary(props) {
             field: 'category_img', headerName: 'category_img', width: 130,
             renderCell: (params) => (
 
-                <img src={IMAGE_URL + params.row.category_img} width={'50px'} height={'50px'} />
+                // <img src={IMAGE_URL + params.row.category_img} width={'50px'} height={'50px'} />
+                <img src={params.row.category_img.url} width={'50px'} height={'50px'} />
             )
         },
         {
@@ -248,7 +249,7 @@ function Catogary(props) {
                                     style={{ margin: '0', padding: '0' }}
                                     select
                                     data={CateDropData}
-                                    
+
 
                                 />
 

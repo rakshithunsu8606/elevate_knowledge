@@ -25,12 +25,12 @@ function File(props) {
 
     let file = ''
 
-    if (typeof field.value === 'string') {
+    if (typeof field.value?.url === 'string') {
         console.log("field.value",field.value);
         file = IMAGE_URL + field.value
-    } else if (typeof field.value === 'object' && field.value) {
+    } else if (typeof field.value?.url === 'object' && field.value) {
         file = URL.createObjectURL(field.value)
-    }
+    }  
 
 
 
