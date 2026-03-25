@@ -33,7 +33,7 @@ function Catogary(props) {
 
     console.log(CateDropData);
 
-    CategoryData.category.map((v) => {
+    CategoryData.category?.map((v) => {
         console.log(v);
 
         CateDropData.push({ value: v._id, label: v.name })
