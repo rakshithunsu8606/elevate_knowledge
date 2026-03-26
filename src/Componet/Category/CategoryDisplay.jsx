@@ -44,7 +44,7 @@ function CategoryDisplay(props) {
     // }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <div className='grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8'>
             <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
                 <div className="nav-item w-100">
                     <form className="position-relative">
@@ -55,7 +55,7 @@ function CategoryDisplay(props) {
             </div>
             {
                 Category.category?.map((v) => (
-                    <Card sx={{ maxWidth: 345 }} className='grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8'>
+                    <Card sx={{ maxWidth: 345 }} >
                         <FavoriteIcon
                             onClick={() => handleFav(v)}
                         />
