@@ -22329,6 +22329,10 @@ html[dir=rtl] .choices__input {
   background-color: #1A222A !important;
 }
 
+.dropdown-menu .dropdown-menu {
+  background-color: #1A222A !important;
+}
+
 .dark .dropdown-item,
 .dark h1,.dark h2,.dark h3,.dark h4,.dark h5,.dark h6,
 .dark .h1, .dark .h2, .dark .h3, .dark .h4, .dark .h5, .dark .h6,
