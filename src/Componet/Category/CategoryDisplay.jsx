@@ -52,9 +52,12 @@ function CategoryDisplay(props) {
                             onClick={() => handleFav(v)}
                         />
                         <CardMedia
-                            sx={{ height: 140, objectFit: 'cover' }}
+                            sx={{
+                                height: 140,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
+                            }}
                             image={v.category_img?.url}
-                            title="green iguana"
                         />
 
                         <CardContent>     <Typography gutterBottom variant="h5" component="div">
