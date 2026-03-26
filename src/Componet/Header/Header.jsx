@@ -95,7 +95,7 @@ function Header(props) {
                                                         <a className={Subcat.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#">{v.name}</a>
                                                         {
                                                             Subcat && (
-                                                                <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                                                <ul className="dropdown-menu dropdown-menu-start">
                                                                     {
                                                                         Subcat.map((sc) => {
                                                                             let thCate = Category.category.filter((tc) => tc.parent_category_id === sc._id)
@@ -106,7 +106,7 @@ function Header(props) {
                                                                                     <a className={thCate.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#">{sc.name}</a>
                                                                                     {
                                                                                         thCate && (
-                                                                                            <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
+                                                                                            <ul className="dropdown-menu dropdown-menu-start">
                                                                                                 {
                                                                                                     thCate.map((tc) => (
                                                                                                         <li className={thCate.length > 0 ? "dropdown-submenu dropend" : ''}>
