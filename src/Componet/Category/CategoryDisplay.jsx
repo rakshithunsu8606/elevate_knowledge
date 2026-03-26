@@ -52,7 +52,7 @@ function CategoryDisplay(props) {
                         <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i className="fas fa-search fs-6 " /></button>
                     </form>
                 </div>
-            </div>
+            </div> 
             {
                 Category.category?.map((v) => (
                     <Card sx={{ maxWidth: 345 }} >
