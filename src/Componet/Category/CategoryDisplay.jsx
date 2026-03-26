@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// import { getUser } from '../../Redux/Slice/CategorySlice';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -7,72 +8,85 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+// import { FavoritesIcon } from '../../Redux/Slice/CategoryDisplaySlice';
 import { getAllCategory } from '../../Redux/Slice/CategorySlice';
+import { IMAGE_URL } from '../../../utility/url';
 
-function CategoryDisplay() {
+function CategoryDisplay(props) {
 
-    const dispatch = useDispatch();
+
+    const dispatch = useDispatch()
+
+    const getData = () => {
+
+    }
 
     useEffect(() => {
-        dispatch(getAllCategory());
-    }, [dispatch]);
+        dispatch(getAllCategory())
+    }, [])
 
-    const Category = useSelector(state => state.Category);
+    const Category = useSelector(state => state.Category)
+
+    console.log(Category.category);
+
+
+    // const FavIcon = useSelector(state => state.CategoryDisplay)
+
+    // console.log(FavIcon.favorites);
+
+    // const handleFav = (data) => {
+    //     console.log(data);
+
+    //     console.log("lll");
+
+    //     dispatch(FavoritesIcon(data))
+
+    // }
 
     return (
-        <>
-            {/* 🔍 Search bar (same as yours) */}
-            <div className="nav my-3 px-4">
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
                 <div className="nav-item w-100">
                     <form className="position-relative">
-                        <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" />
-                        <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit">
-                            <i className="fas fa-search fs-6" />
-                        </button>
+                        <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" />
+                        <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i className="fas fa-search fs-6 " /></button>
                     </form>
                 </div>
             </div>
+            {
+                Category.category?.map((v) => (
+                    <Card sx={{ maxWidth: 345 }} >
+                        <FavoriteIcon
+                            onClick={() => handleFav(v)}
+                        />
+                        <CardMedia
+                            sx={{
+                                height: 140,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center'
+                            }}
+                            image={v.category_img?.url}
+                        />
 
-            {/* 🧱 Cards layout */}
-            <div style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '16px',
-                padding: '10px'
-            }}>
-                {
-                    Category.category?.map((v) => (
-                        <Card key={v._id} sx={{ width: '23%' }}>
+                        <CardContent>     <Typography gutterBottom variant="h5" component="div">
+                            {v.name}
+                        </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {v.description}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button size="small">Share</Button>
+                            <Button size="small">Learn More</Button>
+                        </CardActions>
+                    </Card>
+                ))
 
-                            <FavoriteIcon style={{ margin: '10px', cursor: 'pointer' }} />
 
-                            <CardMedia
-                                component="img"
-                                sx={{ height: 140, objectFit: 'cover' }}
-                                image={v.category_img?.url}
-                                alt={v.name}
-                            />
+            }
 
-                            <CardContent>
-                                <Typography gutterBottom variant="h6">
-                                    {v.name}
-                                </Typography>
+        </div>
 
-                                <Typography variant="body2" color="text.secondary">
-                                    {v.description}
-                                </Typography>
-                            </CardContent>
-
-                            <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
-                            </CardActions>
-
-                        </Card>
-                    ))
-                }
-            </div>
-        </>
     );
 }
 
