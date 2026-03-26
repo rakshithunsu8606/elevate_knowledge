@@ -22329,7 +22329,7 @@ html[dir=rtl] .choices__input {
   background-color: #1A222A !important;
 }
 
-.dark,
+.dark .dropdown-item,
 .dark h1,.dark h2,.dark h3,.dark h4,.dark h5,.dark h6,
 .dark .h1, .dark .h2, .dark .h3, .dark .h4, .dark .h5, .dark .h6,
 .dark h1>a, .dark h2>a,.dark h3>a,.dark h4>a,.dark h5>a,.dark h6>a,.dark .h1>a,.dark .h2>a,.dark .h3>a,.dark .h4>a,.dark .h5>a,.dark .h6>a,
