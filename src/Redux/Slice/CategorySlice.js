@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 // import { data } from "react-router";
 import { BASE_URL } from "../../../utility/url";
+import axios from "axios";
 
 const initialState = {
     isLoading: false,
@@ -97,16 +98,17 @@ export const UpdateCategory = createAsyncThunk(
         console.log("UpformData", formData);
 
         try {
-            const response = await fetch(`${BASE_URL}category/updateCategory/${val._id}`, {
-                method: "PUT",
-                body: formData
-            });
+            const response=await axios.put(`${BASE_URL}category/updateCategory/${val._id}`,formData)
+            // const response = await fetch(`${BASE_URL}category/updateCategory/${val._id}`, {
+            //     method: "PUT",
+            //     body: formData
+            // });
 
-            const data = await response.json()
+            // const data = await response.json()
 
-            console.log(data);
+            // console.log(data);
 
-            return data.data;
+            return response.data.data;
         } catch (error) {
             // console.log(error);
         }

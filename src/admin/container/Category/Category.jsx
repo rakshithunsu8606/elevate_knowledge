@@ -154,10 +154,6 @@ function Catogary(props) {
 
 
 
-
-
-
-
     const columns = [
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'description', headerName: 'description', width: 130 },
