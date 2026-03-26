@@ -48,11 +48,11 @@ function CategoryDisplay(props) {
             {
                 Category.category?.map((v) => (
                     <Card sx={{ maxWidth: 345 }} >
-                        {/* <FavoriteIcon
+                        <FavoriteIcon
                             onClick={() => handleFav(v)}
-                        /> */}
+                        />
                         <CardMedia
-                            sx={{ height: 140 }}
+                            sx={{ height: 140, objectFit: 'cover' }}
                             image={v.category_img?.url}
                             title="green iguana"
                         />
