@@ -48,16 +48,16 @@ function CategoryDisplay(props) {
             {
                 Category.category?.map((v) => (
                     <Card sx={{ maxWidth: 345 }} >
-                        <FavoriteIcon
+                        {/* <FavoriteIcon
                             onClick={() => handleFav(v)}
-                        />
+                        /> */}
                         <CardMedia
                             sx={{ height: 140 }}
                             image={v.category_img?.url}
                             title="green iguana"
                         />
 
-                        <CardContent>                            <Typography gutterBottom variant="h5" component="div">
+                        <CardContent>     <Typography gutterBottom variant="h5" component="div">
                             {v.name}
                         </Typography>
                             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
