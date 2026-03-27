@@ -49,7 +49,7 @@ function CategoryDisplay(props) {
         const Search = setSearch(e.target.value)
 
         console.log(Search);
-
+  
     }
 
     return (
