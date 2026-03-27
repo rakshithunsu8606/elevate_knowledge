@@ -62,7 +62,7 @@ function CategoryDisplay(props) {
     console.log("Search:", search);
 
 
-    return (
+    return ( 
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
                 <div className="nav-item w-100">
