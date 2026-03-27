@@ -43,21 +43,31 @@ function CategoryDisplay(props) {
 
     // }
 
-    const handleSearch = (e) => {
-        console.log(e.target.value);
+    // const handleSearch = (e) => {
+    //     console.log(e.target.value);
 
-        const Search = setSearch(e.target.value)
+    //     setSearch(e.target.value)
 
-        // console.log(Search);
-  
-    }
+    //     // console.log(Search);
+
+    // }
+
+    let search = []
+
+    search = Category.category.filter((v) => (
+        v.title.toLowerCase().includes(Search.toLowerCase()) ||
+        v.description.toLowerCase().includes(Search.toLowerCase())
+    ))
+
+    console.log("Search:", search);
+
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
                 <div className="nav-item w-100">
                     <form className="position-relative">
-                        <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" onChange={handleSearch} />
+                        <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" onChange={(e) => { setSearch(e.target.value) }} />
                         <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i className="fas fa-search fs-6 " /></button>
                     </form>
                 </div>
@@ -65,9 +75,7 @@ function CategoryDisplay(props) {
             {
                 Category.category?.map((v) => (
                     <Card sx={{ maxWidth: 345 }} >
-                        <FavoriteIcon
-                            onClick={() => handleFav(v)}
-                        />
+                        <FavoriteIcon />
                         <CardMedia
                             sx={{
                                 height: 140,
