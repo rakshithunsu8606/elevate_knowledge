@@ -54,8 +54,8 @@ function CategoryDisplay(props) {
 
     let search = []
 
-    search = Category.category.filter((v) => (
-        v.title.toLowerCase().includes(Search.toLowerCase()) ||
+    search = Category.category?.filter((v) => (
+        v.name.toLowerCase().includes(Search.toLowerCase()) ||
         v.description.toLowerCase().includes(Search.toLowerCase())
     ))
 
@@ -73,7 +73,7 @@ function CategoryDisplay(props) {
                 </div>
             </div>
             {
-                Category.category?.map((v) => (
+                search?.map((v) => (
                     <Card sx={{ maxWidth: 345 }} >
                         <FavoriteIcon />
                         <CardMedia
