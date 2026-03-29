@@ -1,6 +1,15 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 
 function Course_grid(props) {
+
+    const { data, error, isLoading } = useGetAllCourseQuery();
+
+    console.log("CourseAllData:", data);
+
+
+
     return (
         <main>
             {/* =======================
@@ -68,322 +77,60 @@ Page content START */}
                             {/* Search option END */}
                             {/* Course Grid START */}
                             <div className="row g-4">
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/08.jpg" className="card-img-top" alt="course image" />
-                                        {/* Card body */}
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-purple bg-opacity-10 text-purple">All level</a>
-                                                <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Sketch from A to Z: for app designer</a></h5>
-                                            <p className="mb-2 text-truncate-2">Proposal indulged no do sociable he throwing settling.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />12h 56m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />15 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/02.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-success bg-opacity-10 text-success">Beginner</a>
-                                                <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Graphic Design Masterclass</a></h5>
-                                            <p className="mb-2 text-truncate-2">Rooms oh fully taken by worse do Points afraid but may end Rooms Points afraid but may end Rooms</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />9h 56m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />65 lectures</span>
+                                {
+                                    data?.data?.map((v, i) => (
+                                        <div className="col-sm-6 col-xl-4">
+                                            <div className="card shadow h-100">
+
+                                                {/* Image */}
+                                                <img src={v.course_img?.url} className="card-img-top" alt="course" />
+
+                                                {/* Card body */}
+                                                <div className="card-body pb-0">
+
+                                                    <div className="d-flex justify-content-between mb-2">
+                                                        <a href="#" className="badge bg-purple bg-opacity-10 text-purple"></a>
+                                                        <a href="#" className="h6 fw-light mb-0">
+                                                            <i className="far fa-heart" />
+                                                        </a>
+                                                    </div>
+
+                                                    <h5 className="card-title">
+                                                        <a href="#">{v.name}</a>
+                                                    </h5>
+
+                                                    <p className="mb-2 text-truncate-2">{v.description}</p>
+
+                                                    {/* Rating */}
+                                                    <ul className="list-inline mb-0">
+                                                        <li className="list-inline-item me-0 small">
+                                                            <i className="fas fa-star text-warning" />
+                                                        </li>
+                                                        <li className="list-inline-item ms-2 h6 fw-light mb-0">
+                                                            4.0/5.0
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                {/* Footer */}
+                                                <div className="card-footer pt-0 pb-3">
+                                                    <hr />
+                                                    <div className="d-flex justify-content-between">
+                                                        <span className="h6 fw-light mb-0">
+                                                            <i className="far fa-clock text-danger me-2" />
+                                                            12h 56m
+                                                        </span>
+                                                        <span className="h6 fw-light mb-0">
+                                                            <i className="fas fa-table text-orange me-2" />
+                                                            15 lectures
+                                                        </span>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/03.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-success bg-opacity-10 text-success">Beginner</a>
-                                                <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Create a Design System in Figma</a></h5>
-                                            <p className="mb-2 text-truncate-2">Rooms oh fully taken by worse do. Points afraid but may end afraid but may end.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />5h 56m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />32 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/07.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-success bg-opacity-10 text-success">Beginner</a>
-                                                <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Deep Learning with React-Native </a></h5>
-                                            <p className="mb-2 text-truncate-2">Far advanced settling say finished raillery. Offered chiefly farther.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />18h 56m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />99 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/11.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-purple bg-opacity-10 text-purple">All level</a>
-                                                <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Build Responsive Websites with HTML</a></h5>
-                                            <p className="mb-2 text-truncate-2">Far advanced settling say finished raillery. Offered chiefly farther.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="far fa-star text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.0/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />15h 30m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />68 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/12.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-success bg-opacity-10 text-success">Beginner</a>
-                                                <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Build Websites with CSS</a></h5>
-                                            <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />36h 30m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />72 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/05.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-success bg-opacity-10 text-success">Beginner</a>
-                                                <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">The Complete Web Development in python</a></h5>
-                                            <p className="text-truncate-2 mb-2">Mention Mr manners opinion if garrets enabled.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />10h 00m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />26 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/06.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-info bg-opacity-10 text-info">Intermediate</a>
-                                                <a href="#" className="h6 fw-light mb-0"><i className="far fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Angular – The Complete Guider</a></h5>
-                                            <p className="text-truncate-2 mb-2">Rooms oh fully taken by worse do. Points afraid but may end.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />9h 32m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />42 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
-                                {/* Card item START */}
-                                <div className="col-sm-6 col-xl-4">
-                                    <div className="card shadow h-100">
-                                        {/* Image */}
-                                        <img src="assets/images/courses/4by3/10.jpg" className="card-img-top" alt="course image" />
-                                        <div className="card-body pb-0">
-                                            {/* Badge and favorite */}
-                                            <div className="d-flex justify-content-between mb-2">
-                                                <a href="#" className="badge bg-info bg-opacity-10 text-info">Intermediate</a>
-                                                <a href="#" className="text-danger"><i className="fas fa-heart" /></a>
-                                            </div>
-                                            {/* Title */}
-                                            <h5 className="card-title"><a href="#">Bootstrap 5 From Scratch</a></h5>
-                                            <p className="text-truncate-2 mb-2">Far advanced settling say finished raillery. Offered chiefly farther.</p>
-                                            {/* Rating star */}
-                                            <ul className="list-inline mb-0">
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star text-warning" /></li>
-                                                <li className="list-inline-item me-0 small"><i className="fas fa-star-half-alt text-warning" /></li>
-                                                <li className="list-inline-item ms-2 h6 fw-light mb-0">4.5/5.0</li>
-                                            </ul>
-                                        </div>
-                                        {/* Card footer */}
-                                        <div className="card-footer pt-0 pb-3">
-                                            <hr />
-                                            <div className="d-flex justify-content-between">
-                                                <span className="h6 fw-light mb-0"><i className="far fa-clock text-danger me-2" />25h 56m</span>
-                                                <span className="h6 fw-light mb-0"><i className="fas fa-table text-orange me-2" />38 lectures</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Card item END */}
+                                    ))
+                                }
                             </div>
                             {/* Course Grid END */}
                             {/* Pagination START */}

@@ -18,8 +18,9 @@ import { IconButton, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 // import { DeleteUser, fetchUser, getAllCategory, UpdateUser } from '../../../Redux/Slice/CategorySlice';
-import { addSubCategory, DeleteSubCategory, EditSubCategory, getSubCategory } from '../../../Redux/Slice/SubCategory_Slice';
+// import { addSubCategory, DeleteSubCategory, EditSubCategory, getSubCategory } from '../../../Redux/Slice/SubCategory_Slice';
 import { getAllCategory } from '../../../Redux/Slice/CategorySlice';
+import { useGetAllCourseQuery } from '../../../Redux/api/Course.Api';
 
 
 function Sub_Category(props) {
@@ -36,29 +37,37 @@ function Sub_Category(props) {
         setOpen(false);
     };
 
-    const CategoryData = useSelector(state => state.Category)
-    const Subcategory = useSelector(state => state.SubCategory)
+    // const CategoryData = useSelector(state => state.Category)
+    // const Subcategory = useSelector(state => state.SubCategory)
 
-    console.log(CategoryData.category);
+    // console.log(CategoryData.category);
 
-    const CateDropData = [{ value: '', label: '--Select Category--' }];
+    const { data, error, isLoading } = useGetAllCourseQuery();
 
-    console.log(CateDropData);
+    console.log("CourseAllData:", data);
+    console.log("CourseAllError", error);
 
-    CategoryData.category.map((v) => {
-        CateDropData.push({ value: v.id, label: v.name })
+
+    const CourDropData = [{ value: '', label: '--Select Course--' }];
+
+    console.log(CourDropData);
+
+
+    data?.data?.filter((v) => {
+        CourDropData.push({ value: v.id, label: v.name })
     })
 
-    const getData = () => {
+    // const getData = () => {
 
-        dispatch(getSubCategory())
+    //     dispatch(getSubCategory())
 
-    }
+    // }
 
-    useEffect(() => {
-        getData();
-        dispatch(getAllCategory())
-    }, [])
+    // useEffect(() => {
+    //     getData();
+    //     dispatch(getAllCategory())
+    // }, [])
+
 
 
     const handleSubmit = (values) => {
@@ -75,7 +84,7 @@ function Sub_Category(props) {
         } else {
             dispatch(addSubCategory({ ...values, SubCategory_img: values.SubCategory_img.name }))
         }
- 
+
     }
 
     const handleDelete = (id) => {
@@ -99,27 +108,19 @@ function Sub_Category(props) {
 
     const columns = [
         {
-            field: 'category',
-            headerName: 'Category',
+            field: 'course_id',
+            headerName: 'parentCategory',
             width: 130,
             renderCell: (params) => {
-                const c = CategoryData.category.find((v) => v.id === params.row.category)
+                const courseObj = CategoryData.category?.find(
+                    (v) => v._id === params.row.course_id
+                );
 
-                console.log(c);
-
-                return c?.name
+                return courseObj ? courseObj.name : "null";
             }
-
         },
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'description', headerName: 'description', width: 130 },
-        {
-            field: 'SubCategory_img', headerName: 'SubCategory_img', width: 130,
-            renderCell: (params) => (
-
-                <img src={'/public/assets/images/courses/4by3/' + params.row.SubCategory_img} width={'50px'} height={'50px'} />
-            )
-        },
         {
             field: 'Action', headerName: 'Action', width: 130,
             renderCell: (params) => (
@@ -142,16 +143,14 @@ function Sub_Category(props) {
 
 
     let userSchema = object({
-        category: string().required(),
+        course_id: string().required(),
         name: string().required('Please Enter Name'),
         description: string().required('Please Enter Description'),
-        SubCategory_img: mixed().required('Please Enter Picture')
-
     })
 
     return (
         <>
-            <h1>Sub_Category</h1>
+            <h1>Section</h1>
 
             <React.Fragment>
                 <Button variant="outlined" onClick={handleClickOpen}>
@@ -162,10 +161,9 @@ function Sub_Category(props) {
                     <DialogContent>
                         <Formik
                             initialValues={Object.keys(update).length > 0 ? update : {
-                                category: '',
+                                course_id: '',
                                 name: '',
                                 description: '',
-                                SubCategory_img: null
                             }}
                             validationSchema={userSchema}
                             onSubmit={(values, { resetForm }) => {
@@ -178,22 +176,16 @@ function Sub_Category(props) {
 
                         >
                             <Form id="subscription-form">
+
                                 <Textinput
-                                    name="category"
-                                    id="category"
+                                    name="course_id"
+                                    id="course_id"
+                                    label="- -Select- -"
+                                    style={{ margin: '0', padding: '0' }}
                                     select
-                                    label="Category"
-                                    data={CateDropData}
-                                    defaultValue="EUR"
-                                    slotProps={{
-                                        select: {
-                                            native: true,
-                                        },
-                                    }}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
+                                    data={CourDropData}
                                 />
+
 
                                 <Textinput
                                     name='name'
@@ -206,12 +198,6 @@ function Sub_Category(props) {
                                     id='description'
                                     label='Description'
                                 />
-
-                                <File
-                                    name="SubCategory_img"
-                                />
-
-
                             </Form>
 
                         </Formik>
@@ -225,7 +211,7 @@ function Sub_Category(props) {
                     </DialogActions>
                 </Dialog>
                 <DataGrid
-                    rows={Subcategory.SubCategory}
+                    rows={[]}
                     columns={columns}
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}

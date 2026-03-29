@@ -194,9 +194,12 @@ function Course(props) {
             field: 'course_img', headerName: 'course_img', width: 130,
             renderCell: (params) => (
 
-                <img src={params.row.course_img?.includes("blob") ?
-                    params.row.course_img :
-                    IMAGE_URL + params.row.course_img} width={'50px'} height={'50px'} />
+                // <img src={params.row.course_img?.includes("blob") ?
+                //     params.row.course_img :
+                //     IMAGE_URL + params.row.course_img} width={'50px'} height={'50px'} />
+
+                <img src={params.row.course_img?.url} width={'50px'} height={'50px'} />
+
             )
         },
         {
