@@ -22,7 +22,7 @@ export const addCategory = createAsyncThunk(
         if (values.parent_category_id) {
             formData.append("parent_category_id", values.parent_category_id);
         }
-        
+
 
         console.log("formData", formData);
 
@@ -42,7 +42,7 @@ export const addCategory = createAsyncThunk(
 
 export const getAllCategory = createAsyncThunk(
     'Category/getAllCategory',
-    async () => {
+    async (_, { rejectWithValue }) => {
 
         try {
             const response = await fetch(BASE_URL + 'category/getAllCategory');
@@ -54,8 +54,8 @@ export const getAllCategory = createAsyncThunk(
             return data.data;
             return []
         } catch (error) {
-            console.log(error + message);
-
+            // console.log(error.message);
+            return rejectWithValue(error.message)
         }
     }
 )
@@ -98,7 +98,7 @@ export const UpdateCategory = createAsyncThunk(
         console.log("UpformData", formData);
 
         try {
-            const response=await axios.put(`${BASE_URL}category/updateCategory/${val._id}`,formData)
+            const response = await axios.put(`${BASE_URL}category/updateCategory/${val._id}`, formData)
             // const response = await fetch(`${BASE_URL}category/updateCategory/${val._id}`, {
             //     method: "PUT",
             //     body: formData
@@ -120,8 +120,17 @@ const CategorySlice = createSlice({
     name: 'Category',
     initialState,
     extraReducers: (builder) => {
+        builder.addCase(getAllCategory.pending, (state, action) => {
+            state.isLoading = true
+        })
         builder.addCase(getAllCategory.fulfilled, (state, action) => {
+            state.isLoading = false
             state.category = action.payload
+        })
+        builder.addCase(getAllCategory.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.payload
+            state.category = []
         })
         builder.addCase(addCategory.fulfilled, (state, action) => {
             console.log(action.payload);

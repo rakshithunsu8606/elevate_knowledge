@@ -11,23 +11,25 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 // import { FavoritesIcon } from '../../Redux/Slice/CategoryDisplaySlice';
 import { getAllCategory } from '../../Redux/Slice/CategorySlice';
 import { IMAGE_URL } from '../../../utility/url';
+import WithReduxfetch from '../../Hoc/WithReduxfetch';
 
-function CategoryDisplay(props) {
+function CategoryDisplay({category}) {
+
+    console.log(category);
+    
     const [Search, setSearch] = useState("")
 
-    const dispatch = useDispatch()
+    
 
-    const getData = () => {
+    // const getData = () => {
 
-    }
+    // }
 
-    useEffect(() => {
-        dispatch(getAllCategory())
-    }, [])
+   
 
-    const Category = useSelector(state => state.Category)
+    // const Category = useSelector(state => state.Category)
 
-    console.log(Category.category);
+    // console.log(Category.category);
 
 
     // const FavIcon = useSelector(state => state.CategoryDisplay)
@@ -54,7 +56,7 @@ function CategoryDisplay(props) {
 
     let search = []
 
-    search = Category.category?.filter((v) => (
+    search = category?.filter((v) => (
         v.name.toLowerCase().includes(Search.toLowerCase()) ||
         v.description.toLowerCase().includes(Search.toLowerCase())
     ))
@@ -107,4 +109,4 @@ function CategoryDisplay(props) {
     );
 }
 
-export default CategoryDisplay;
+export default WithReduxfetch(CategoryDisplay,getAllCategory,(state) => state.Category);
