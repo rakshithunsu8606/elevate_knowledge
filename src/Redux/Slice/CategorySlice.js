@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 // import { data } from "react-router";
 import { BASE_URL } from "../../../utility/url";
 import axios from "axios";
+import { axiosinstance } from "../../../utility/Intersapetore";
 
 const initialState = {
     isLoading: false,
@@ -26,17 +27,14 @@ export const addCategory = createAsyncThunk(
 
         console.log("formData", formData);
 
-        const response = await fetch(BASE_URL + 'category/addCategory', {
-            method: "POST",
-            body: formData,
+        const response = await axiosinstance.post('category/addCategory', formData, {
+            headers: { "Content-Type": "multipart/form-data" }
 
         });
 
-        const dataR = await response.json()
 
-        console.log(dataR);
 
-        return dataR.data;
+        return response.data.data;
     },
 )
 
@@ -45,14 +43,12 @@ export const getAllCategory = createAsyncThunk(
     async (_, { rejectWithValue }) => {
 
         try {
-            const response = await fetch(BASE_URL + 'category/getAllCategory');
+            const response = await axiosinstance.get('category/getAllCategory');
 
-            const data = await response.json();
 
-            console.log(data);
 
-            return data.data;
-            return []
+            return response.data.data;
+            // return []
         } catch (error) {
             // console.log(error.message);
             return rejectWithValue(error.message)
@@ -66,15 +62,10 @@ export const DeleteCategory = createAsyncThunk(
         console.log(id);
 
         try {
-            const response = await fetch(`${BASE_URL}category/deleteCategory/${id}`, {
-                method: "DELETE"
-            })
-
-            const rdata = await response.json();
-
-            console.log(rdata);
-
-
+            const response = await axiosinstance.delete(`category/deleteCategory/${id}`)
+          
+            console.log(response);
+            
             return id;
         } catch (error) {
             console.log(error);
@@ -98,7 +89,7 @@ export const UpdateCategory = createAsyncThunk(
         console.log("UpformData", formData);
 
         try {
-            const response = await axios.put(`${BASE_URL}category/updateCategory/${val._id}`, formData)
+            const response = await axiosinstance.put(`category/updateCategory/${val._id}`, formData)
             // const response = await fetch(`${BASE_URL}category/updateCategory/${val._id}`, {
             //     method: "PUT",
             //     body: formData

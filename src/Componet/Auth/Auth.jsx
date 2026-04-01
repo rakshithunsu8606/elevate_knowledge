@@ -12,11 +12,11 @@ function Auth(props) {
 
     const Auth = useSelector(state => state.Auth)
 
-    console.log(Auth);
+    console.log("Auth:",Auth);
 
     const { usertype } = useParams();
 
-    console.log(usertype);
+    console.log("usertype:",usertype);
 
 
     const dispatch = useDispatch();
