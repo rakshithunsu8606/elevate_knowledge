@@ -81,7 +81,10 @@ export const CourseApi = createApi({
                                 category_id: data.get("category_id"),
                                 name: data.get("name"),
                                 description: data.get("description"),
-                                course_img: typeof data.get("course_img") === "string" ? data.get("course_img") : URL.createObjectURL(data.get("course_img"))
+                                course_img: typeof data.get("course_img") === "string" ? data.get("course_img") : URL.createObjectURL(data.get("course_img")),
+                                price:data.get("price"),
+                                week:data.get("week"),
+                                instructure_id:data.get("instructure_id")
                             }
                         }
 

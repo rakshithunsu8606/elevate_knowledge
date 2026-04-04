@@ -25,18 +25,35 @@ function File(props) {
 
     let file = ''
 
-    if (typeof field.value?.url === 'string') {
-        console.log("field.value",field.value);
-        file = field.value?.url
-    } else if (typeof field.value === 'object' && field.value) {
-        file = URL.createObjectURL(field.value)
-    }  
-         
+    let files;
+
+    if (field?.value) {
+        files = Array.from(field?.value);
+    }
+
+
+    console.log("files:", files);
+
+    const fileArr = files?.map((v) => {
+        console.log(v);
+
+        if (typeof v === 'string') {
+            // console.log("field.value", field.value);
+            return (file = v.name)
+        } else if (typeof v === 'object' && v !== null) {
+            return (file = URL.createObjectURL(v))
+        }
+    })
+
+    console.log("fileArr:", fileArr);
+
+
+
 
 
     const { setValue } = helpers;
 
-    console.log("field", field);
+    console.log("field", field.value);
     console.log("meta", meta);
     console.log("Props", props);
 
@@ -55,10 +72,20 @@ function File(props) {
                     {...props}
                     type="file"
                     name='category_img'
-                    onChange={(event) => setValue(event.target.files[0])}
+                    multiple
+                    onChange={(event) => {
+                        const filess = Array.from(event.target.files);
+                        setValue(filess);
+                        event.target.value = null;
+                    }}
                 />
             </Button>
-            <img src={file} width={'50px'} height={'50px'} />
+            {
+                fileArr?.map((v) => (
+                    <img src={v} width={'50px'} height={'50px'} />
+                ))
+            }
+            {/* <img src={file} width={'50px'} height={'50px'} /> */}
             {
                 meta.error && meta.touched ?
                     <p style={{ color: 'red' }}>{meta.error}</p> : ''

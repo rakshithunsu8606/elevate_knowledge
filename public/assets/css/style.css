@@ -22315,7 +22315,8 @@ html[dir=rtl] .choices__input {
 
 /*User CSS*/
 
-.dark {
+.dark,
+.dark .bg-light {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
@@ -22325,13 +22326,14 @@ html[dir=rtl] .choices__input {
   color: #000000 !important;
 }
 
-.dark .dropdown-menu {
+.dark .dropdown-menu,
+.dark .bg-body {
   background-color: #1A222A !important;
 }
 
-.dark .dropdown-menu .dropdown-menu {
+/* .dark .dropdown-menu .dropdown-menu {
   background-color: #1A222A !important;
-}
+} */
 
 .navbar .dropdown-menu {
   background-color: #1A222A !important;

@@ -6,6 +6,7 @@ import { getAllCategory } from '../../Redux/Slice/CategorySlice';
 import { CheakAuthUser, LogoutUser } from '../../Redux/Slice/auth';
 import { ThemeContext } from '../../Context/ThemeContext';
 import { Switch } from '@mui/material';
+import Course from '../../admin/container/Course/Course';
 
 function Header(props) {
     const [checked, setChecked] = React.useState(true);
@@ -494,11 +495,15 @@ function Header(props) {
                             </li>
                             {/* Dark mode switch END */}
                         </ul>
+
+
                     </div>
                     {/* Profile START */}
                 </div>
             </nav>
             {/* Logo Nav END */}
+
+            {/* <Course id={Auth} /> */}
         </header >
 
     );

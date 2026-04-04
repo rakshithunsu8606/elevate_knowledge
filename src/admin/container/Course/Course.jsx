@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import File from '../../Componet/FileUpload/File';
 import { Form, Formik } from 'formik';
 import Textinput from '../../Componet/TextFiled/Textinput';
-import { boolean, mixed, object, string } from 'yup';
+import { boolean, mixed, number, object, string } from 'yup';
 import { DataGrid } from '@mui/x-data-grid';
 // import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,9 +21,13 @@ import { IMAGE_URL } from '../../../../utility/url';
 import { getAllCategory } from '../../../Redux/Slice/CategorySlice';
 import { useActiveCourseMutation, useAddCourseMutation, useDeleteCourseMutation, useGetAllCourseQuery, useUpdateCourseMutation } from '../../../Redux/api/Course.Api';
 import SwitchInput from '../../Componet/SwitchInput/SwitchInput';
+import { CheakAuthUser, Registration } from '../../../Redux/Slice/auth';
 // import SwitchInput from '../../Componet/SwitchInput/SwitchInput';
 
 function Course(props) {
+
+    // console.log("props:",props);
+
     const [open, setOpen] = React.useState(false);
     // const [data, setData] = useState([])
     const [update, setUpdate] = useState({})
@@ -33,11 +37,16 @@ function Course(props) {
 
     useEffect(() => {
         dispatch(getAllCategory());
+        dispatch(CheakAuthUser())
     }, [])
 
     const CategoryData = useSelector(state => state.Category)
 
     console.log(CategoryData.category);
+
+    const Auth = useSelector(state => state.Auth)
+
+    console.log("Auth:", Auth);
 
     const CateDropData = [{ value: '', label: '--Select Category--' }];
 
@@ -78,14 +87,24 @@ function Course(props) {
 
 
     const handleSubmit = async (values) => {
-        console.log(values);
+        console.log("valuesaaa", values);
         const formData = new FormData();
 
         formData.append('category_id', values.category_id);
         formData.append("name", values.name);
         formData.append("description", values.description);
-        formData.append("course_img", values.course_img);
+        // formData.append("course_img", values.course_img);
+        formData.append("price", values.price)
+        formData.append("week", values.week)
+        formData.append("course_video", values.course_video)
+        formData.append("instructure_id", Auth.user._id)
 
+        const course_imgs = values.course_img.forEach(v => {
+            formData.append('course_img', v);
+        });
+
+        console.log("course_imgs:",course_imgs);
+        
 
         // console.log({ ...values, Profile_pic: values.Profile_pic.name });
 
@@ -191,6 +210,17 @@ function Course(props) {
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'description', headerName: 'description', width: 130 },
         {
+            field: 'instructure_id',
+            headerName: 'Instructure_id',
+            width: 130,
+        },
+        {
+            field: 'price', headerName: 'Price', width: 130,
+        },
+        {
+            field: 'week', headerName: 'Week', width: 130
+        },
+        {
             field: 'course_img', headerName: 'course_img', width: 130,
             renderCell: (params) => (
 
@@ -202,18 +232,20 @@ function Course(props) {
 
             )
         },
-        {
-            field: 'category_id',
-            headerName: 'parentCategory',
-            width: 130,
-            renderCell: (params) => {
-                const categoryObj = CategoryData.category?.find(
-                    (v) => v._id === params.row.category_id
-                );
+        // {
+        //     field: 'course_video',
+        //     headerName: 'Course_Video',
+        //     width: 130,
+        //     renderCell: (params) => (
 
-                return categoryObj ? categoryObj.name : "null";
-            }
-        },
+        //         // <img src={params.row.course_img?.includes("blob") ?
+        //         //     params.row.course_img :
+        //         //     IMAGE_URL + params.row.course_img} width={'50px'} height={'50px'} />
+
+        //         <img src={params.row.course_video?.url} width={'50px'} height={'50px'} />
+
+        //     )
+        // },
         {
             field: 'Action', headerName: 'Action', width: 130,
             renderCell: (params) => (
@@ -251,6 +283,10 @@ function Course(props) {
         name: string().required('Please Enter Name'),
         description: string().required('Please Enter Description'),
         course_img: mixed().required('Please Enter Picture'),
+        price: number().required('Please Enter The Price'),
+        week: string().required('Please Enter The Week'),
+        // course_video: mixed().required('Please Enter Video')
+
         // switch: boolean().oneOf([true], "Please Switch On")
     })
 
@@ -275,11 +311,14 @@ function Course(props) {
                                 description: '',
                                 course_img: null,
                                 category_id: '',
+                                price: '',
+                                week: '',
+                                // course_video: null
                                 // switch: false,
                             }}
                             validationSchema={userSchema}
                             onSubmit={(values, { resetForm }) => {
-                                console.log(values);
+                                console.log("valuesaaaax", values);
                                 handleSubmit(values)
 
                                 resetForm()
@@ -296,8 +335,6 @@ function Course(props) {
                                     style={{ margin: '0', padding: '0' }}
                                     select
                                     data={CateDropData}
-
-
                                 />
 
                                 <Textinput
@@ -312,9 +349,25 @@ function Course(props) {
                                     label='Description'
                                 />
 
+                                <Textinput
+                                    name='price'
+                                    id='price'
+                                    label='Price'
+                                />
+
+                                <Textinput
+                                    name='week'
+                                    id='week'
+                                    label='Week'
+                                />
+
                                 <File
                                     name="course_img"
                                 />
+
+                                {/* <File
+                                    name="course_video"
+                                /> */}
 
                                 {/* <SwitchInput
                                     name="switch"
@@ -322,16 +375,17 @@ function Course(props) {
                                     label="Switch"
                                 /> */}
 
+                                <DialogActions>
+                                    <Button onClick={handleClose}>Cancel</Button>
+                                    <Button type="submit" form="subscription-form">
+                                        Subscribe
+                                    </Button>
+                                </DialogActions>
 
                             </Form>
                         </Formik>
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit" form="subscription-form">
-                            Subscribe
-                        </Button>
-                    </DialogActions>
+
                 </Dialog>
                 <DataGrid
                     rows={data?.data}

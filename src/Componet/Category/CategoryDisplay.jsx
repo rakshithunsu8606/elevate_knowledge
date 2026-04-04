@@ -12,24 +12,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { getAllCategory } from '../../Redux/Slice/CategorySlice';
 import { IMAGE_URL } from '../../../utility/url';
 import WithReduxfetch from '../../Hoc/WithReduxfetch';
+import useSearch from '../../hook/UseSearch';
 
-function CategoryDisplay({category}) {
+function CategoryDisplay({ category }) {
 
     console.log(category);
-    
-    const [Search, setSearch] = useState("")
 
-    
+    // const [Search, setSearch] = useState("")
 
-    // const getData = () => {
-
-    // }
-
-   
-
-    // const Category = useSelector(state => state.Category)
-
-    // console.log(Category.category);
 
 
     // const FavIcon = useSelector(state => state.CategoryDisplay)
@@ -54,28 +44,23 @@ function CategoryDisplay({category}) {
 
     // }
 
-    let search = []
-
-    search = category?.filter((v) => (
-        v.name.toLowerCase().includes(Search.toLowerCase()) ||
-        v.description.toLowerCase().includes(Search.toLowerCase())
-    ))
-
-    console.log("Search:", search);
+    const { Search, setSearch, sData } = useSearch(category, ["name", "description"])
 
 
-    return ( 
+
+
+    return (
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
                 <div className="nav-item w-100">
                     <form className="position-relative">
-                        <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" onChange={(e) => { setSearch(e.target.value) }} />
+                        <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" onChange={(e) => setSearch(e.target.value)} />
                         <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i className="fas fa-search fs-6 " /></button>
                     </form>
                 </div>
             </div>
             {
-                search?.map((v) => (
+                sData?.map((v) => (
                     <Card sx={{ maxWidth: 345 }} >
                         <FavoriteIcon />
                         <CardMedia
@@ -109,4 +94,4 @@ function CategoryDisplay({category}) {
     );
 }
 
-export default WithReduxfetch(CategoryDisplay,getAllCategory,(state) => state.Category);
+export default WithReduxfetch(CategoryDisplay, getAllCategory, (state) => state.Category);
