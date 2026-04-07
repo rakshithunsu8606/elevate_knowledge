@@ -20,7 +20,7 @@ const VisuallyHiddenInput = styled('input')({
 
 
 
-function File(props) {
+function File({ type, ...props }) {
     const [field, meta, helpers] = useField(props);
 
     let file = ''
@@ -37,12 +37,18 @@ function File(props) {
     const fileArr = files?.map((v) => {
         console.log(v);
 
-        if (typeof v === 'string') {
-            // console.log("field.value", field.value);
-            return (file = v.name)
-        } else if (typeof v === 'object' && v !== null) {
-            return (file = URL.createObjectURL(v))
+        if (v?.url) {
+            return v?.url;
+        } else {
+            return URL.createObjectURL(v)
         }
+
+        // if (typeof v === 'string') {
+        //     // console.log("field.value", field.value);
+        //     return (file = v.name)
+        // } else if (typeof v === 'object' && v !== null) {
+        //     return (file = URL.createObjectURL(v))
+        // }
     })
 
     console.log("fileArr:", fileArr);
@@ -76,20 +82,29 @@ function File(props) {
                     onChange={(event) => {
                         const filess = Array.from(event.target.files);
                         setValue(filess);
-                        event.target.value = null;
+                        // event.target.value = null;
                     }}
                 />
             </Button>
+
             {
-                fileArr?.map((v) => (
-                    <img src={v} width={'50px'} height={'50px'} />
-                ))
+                type === "img" ?
+                    (fileArr?.map((v) => (
+                        <img src={v} width={'50px'} height={'50px'} />
+                    ))) : (fileArr?.map((v) => (
+                        <video src={v} width={'50px'} height={'50px'} />
+                    )))
+
             }
+
+
             {/* <img src={file} width={'50px'} height={'50px'} /> */}
             {
                 meta.error && meta.touched ?
                     <p style={{ color: 'red' }}>{meta.error}</p> : ''
             }
+
+
         </>
     );
 }

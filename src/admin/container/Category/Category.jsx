@@ -162,6 +162,8 @@ function Catogary(props) {
             renderCell: (params) => (
 
                 // <img src={IMAGE_URL + params.row.category_img} width={'50px'} height={'50px'} />
+
+                
                 <img src={params.row.category_img.url} width={'50px'} height={'50px'} />
             )
         },

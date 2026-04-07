@@ -71,7 +71,7 @@ export const CourseApi = createApi({
                         console.log(draft.data);
 
                         // Object.assign(draft, patch)
-                        const index = draft.data.findIndex(v => v._id === data.get("_id"))
+                        const index = draft?.data?.findIndex(v => v._id === data?.get("_id"))
 
                         console.log(index);
 
@@ -81,10 +81,10 @@ export const CourseApi = createApi({
                                 category_id: data.get("category_id"),
                                 name: data.get("name"),
                                 description: data.get("description"),
-                                course_img: typeof data.get("course_img") === "string" ? data.get("course_img") : URL.createObjectURL(data.get("course_img")),
-                                price:data.get("price"),
-                                week:data.get("week"),
-                                instructure_id:data.get("instructure_id")
+                                course_img: typeof data?.get("course_img") === "string" ? data?.get("course_img") : URL.createObjectURL(data?.get("course_img")),
+                                // price:data.get("price"),
+                                // week:data.get("week"),
+                                // instructure_id:data.get("instructure_id")
                             }
                         }
 
@@ -116,7 +116,7 @@ export const CourseApi = createApi({
                 const patchResult = dispatch(
                     CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
                         // Object.assign(draft, patch)
-                        const index = draft.data.findIndex(v => v._id === id)
+                        const index = draft?.data?.findIndex(v => v._id === id)
 
                         console.log(index);
 

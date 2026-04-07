@@ -83,7 +83,12 @@ Page content START */}
                                             <div className="card shadow h-100">
 
                                                 {/* Image */}
-                                                <img src={v.course_img?.url} className="card-img-top" alt="course" />
+                                                
+                                                {
+                                                    v.course_img.map((v) => (
+                                                        <img src={v?.url} className="card-img-top" alt="course" />
+                                                    ))
+                                                }
 
                                                 {/* Card body */}
                                                 <div className="card-body pb-0">

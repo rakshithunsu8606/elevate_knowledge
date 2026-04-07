@@ -96,15 +96,15 @@ function Course(props) {
         // formData.append("course_img", values.course_img);
         formData.append("price", values.price)
         formData.append("week", values.week)
-        formData.append("course_video", values.course_video)
+        // formData.append("course_video", values.course_video)
         formData.append("instructure_id", Auth.user._id)
 
         const course_imgs = values.course_img.forEach(v => {
             formData.append('course_img', v);
         });
 
-        console.log("course_imgs:",course_imgs);
-        
+        // console.log("course_imgs:",course_imgs);
+
 
         // console.log({ ...values, Profile_pic: values.Profile_pic.name });
 
@@ -185,7 +185,7 @@ function Course(props) {
     }
 
     const handleEdit = async (val) => {
-        console.log(val);
+        console.log("val",val);
 
         // dispatch(UpdateUser(val))
 
@@ -228,7 +228,16 @@ function Course(props) {
                 //     params.row.course_img :
                 //     IMAGE_URL + params.row.course_img} width={'50px'} height={'50px'} />
 
-                <img src={params.row.course_img?.url} width={'50px'} height={'50px'} />
+                <div>
+                    {
+                        params.row.course_img?.map((v) => (
+                            <img src={v.url} width={'50px'} height={'50px'} />
+                        ))
+                    }
+                </div>
+
+                // <img src={params.row.course_img?.url} width={'50px'} height={'50px'} />
+
 
             )
         },
@@ -363,6 +372,7 @@ function Course(props) {
 
                                 <File
                                     name="course_img"
+                                    type="img"
                                 />
 
                                 {/* <File
