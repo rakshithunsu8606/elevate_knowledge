@@ -19,6 +19,8 @@ export const CourseApi = createApi({
 
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
                 const tempid = crypto.randomUUID();
+                
+                const ImageData = data.getAll('course_img');
 
                 const patchResult = dispatch(
                     CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
@@ -26,6 +28,10 @@ export const CourseApi = createApi({
                         draft.data.push({ ...data, _id: tempid })
 
                         console.log("draft.data", draft.data);
+
+                        const img = data.getAll('course_img')
+
+                        console.log("imgggg", img)
 
                     }),
                 )
@@ -73,6 +79,8 @@ export const CourseApi = createApi({
                     CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
                         console.log("draaaf", draft.data);
 
+                        console.log("data", data);
+
                         const Img = data?.getAll('course_img')
 
                         console.log("Img", Img);
@@ -80,18 +88,19 @@ export const CourseApi = createApi({
                         // Object.assign(draft, patch)
 
                         let x = [];
-                        Img.map((v) => {
-                            // console.log("typeeeeeeeeee", typeof v, v, JSON.stringify(v), v instanceof File),
 
-                            if (typeof v instanceof File) {
-                                x.push({ url: URL.createObjectURL(v) })
+                        for (let v of Img) {
+                            if (v instanceof File) {
+                                // console.log("vvvvzzzz", v);
+                                x.push({ url: URL.createObjectURL(v) });
                             } else {
-                                x.push(v.url)
+                                console.log("vvvv", v);
+
+                                x.push({ url: v });
                             }
+                        }
 
-
-                        })
-                        console.log("wweeeeeeee", x);
+                        console.log("wow", x);
 
                         const index = draft?.data?.findIndex(v => v._id === data?.get("_id"))
 
@@ -101,7 +110,7 @@ export const CourseApi = createApi({
 
 
                         if (index !== -1) {
-                            console.log("draft.data", data.get("instructure_id"));
+                            console.log("draft.data");
                             draft.data[index] = {
 
                                 _id: data.get("_id"),
@@ -123,7 +132,9 @@ export const CourseApi = createApi({
                 )
                 try {
                     await queryFulfilled
-                } catch {
+                } catch (err) {
+                    console.error("err", err);
+
                     patchResult.undo()
 
                     /**

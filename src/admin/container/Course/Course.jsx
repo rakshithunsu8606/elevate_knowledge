@@ -99,11 +99,15 @@ function Course(props) {
         // formData.append("course_video", values.course_video)
         formData.append("instructure_id", Auth.user._id)
 
-        const course_imgs = values.course_img.forEach((v) => {
+        values.course_img.forEach((v) => {
             if (v instanceof File) {
                 formData.append("course_img", v);
+                console.log('true');
+
             } else {
                 formData.append('course_img', v.url)
+                console.log('false');
+
             }
         });
 
@@ -111,6 +115,7 @@ function Course(props) {
 
 
         // console.log({ ...values, Profile_pic: values.Profile_pic.name });
+
 
         if (Object.keys(update).length > 0) {
             formData.append("_id", values._id);
@@ -121,12 +126,12 @@ function Course(props) {
 
             await updataCourse(formData)
 
-            // if (typeof values.course_img === 'object') {
-
-            //     updataCourse(formData)
-            // } else {
-            //     updataCourse(formData)
-            // }
+            if (typeof values.course_img === 'object') {
+                updataCourse(formData)
+                for (let [key, value] of formData.entries()) { console.log(key, value); }
+            } else {
+                updataCourse(formData)
+            }
         } else {
             console.log("handleSubmit", values);
 
@@ -238,6 +243,8 @@ function Course(props) {
                 <div>
                     {
                         params.row.course_img?.map((v) => (
+                            // console.log("vv",v),
+
                             <img src={v.url} width={'50px'} height={'50px'} />
                         ))
                     }

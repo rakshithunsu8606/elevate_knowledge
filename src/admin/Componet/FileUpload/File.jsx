@@ -22,6 +22,7 @@ const VisuallyHiddenInput = styled('input')({
 
 function File({ type, ...props }) {
     const [field, meta, helpers] = useField(props);
+    const { setValue } = helpers;
 
     let file = ''
 
@@ -57,13 +58,13 @@ function File({ type, ...props }) {
 
 
 
-    const { setValue } = helpers;
+
 
     console.log("field", field.value);
     console.log("meta", meta);
     console.log("Props", props);
 
-    console.log(file);
+    // console.log(file);
     return (
         <>
             <Button
@@ -71,29 +72,30 @@ function File({ type, ...props }) {
                 role={undefined}
                 variant="contained"
                 tabIndex={-1}
+                {...props}
                 startIcon={<CloudUploadIcon />}
             >
                 Upload files
                 <VisuallyHiddenInput
-                    {...props}
                     type="file"
-                    name='category_img'
-                    multiple
                     onChange={(event) => {
-                        const filess = Array.from(event.target.files);
-                        setValue(filess);
-                        // event.target.value = null;
-                    }}
+                        const files = Array.from(event.target.files || []);
+                        setValue(files);
+                        event.target.value = null;
+
+                    }
+
+                    }
+                    multiple
+                // onBlur={handleBlur}
                 />
             </Button>
 
             {
-                type === "img" ?
-                    (fileArr?.map((v) => (
-                        <img src={v} width={'50px'} height={'50px'} />
-                    ))) : (fileArr?.map((v) => (
-                        <video src={v} width={'50px'} height={'50px'} />
-                    )))
+
+                fileArr?.map((v) => (
+                    <img src={v} width={'50px'} height={'50px'} />
+                ))
 
             }
 
