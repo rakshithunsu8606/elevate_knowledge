@@ -4,6 +4,7 @@ import SubCategory_Slice from './Slice/SubCategory_Slice'
 import authSlice from './Slice/auth'
 import alertSlice from './Slice/alert.Slice'
 import { CourseApi } from './api/Course.Api'
+import { SectionApi } from './api/Section.Api'
 
 // import CategoryDisplaySlice from './Slice/CategoryDisplaySlice'
 
@@ -15,10 +16,11 @@ export const Confstore = () => {
             SubCategory: SubCategory_Slice,
             Auth: authSlice,
             alert: alertSlice,
-            [CourseApi.reducerPath]: CourseApi.reducer
+            [CourseApi.reducerPath]: CourseApi.reducer,
+            [SectionApi.reducerPath]: SectionApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(CourseApi.middleware),
+            getDefaultMiddleware().concat([CourseApi.middleware, SectionApi.middleware]),
     })
 
     return store

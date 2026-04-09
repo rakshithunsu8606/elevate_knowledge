@@ -19,6 +19,7 @@ export const CourseApi = createApi({
 
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
                 const tempid = crypto.randomUUID();
+
                 const patchResult = dispatch(
                     CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
                         // Object.assign(draft, patch)
@@ -66,29 +67,57 @@ export const CourseApi = createApi({
                 body: data
             }),
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
+
                 const patchResult = dispatch(
+
                     CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
-                        console.log(draft.data);
+                        console.log("draaaf", draft.data);
+
+                        const Img = data?.getAll('course_img')
+
+                        console.log("Img", Img);
 
                         // Object.assign(draft, patch)
+
+                        let x = [];
+                        Img.map((v) => {
+                            // console.log("typeeeeeeeeee", typeof v, v, JSON.stringify(v), v instanceof File),
+
+                            if (typeof v instanceof File) {
+                                x.push({ url: URL.createObjectURL(v) })
+                            } else {
+                                x.push(v.url)
+                            }
+
+
+                        })
+                        console.log("wweeeeeeee", x);
+
                         const index = draft?.data?.findIndex(v => v._id === data?.get("_id"))
 
                         console.log(index);
 
+
+
+
                         if (index !== -1) {
+                            console.log("draft.data", data.get("instructure_id"));
                             draft.data[index] = {
+
                                 _id: data.get("_id"),
                                 category_id: data.get("category_id"),
                                 name: data.get("name"),
                                 description: data.get("description"),
-                                course_img: typeof data?.get("course_img") === "string" ? data?.get("course_img") : URL.createObjectURL(data?.get("course_img")),
-                                // price:data.get("price"),
-                                // week:data.get("week"),
-                                // instructure_id:data.get("instructure_id")
+                                price: data.get("price"),
+                                week: data.get("week"),
+                                instructure_id: data.get("instructure_id"),
+                                course_img: x
+
+
                             }
                         }
 
-                        console.log("draft.data", draft.data);
+
 
                     }),
                 )

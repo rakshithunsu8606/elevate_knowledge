@@ -21,6 +21,7 @@ import EditIcon from '@mui/icons-material/Edit';
 // import { addSubCategory, DeleteSubCategory, EditSubCategory, getSubCategory } from '../../../Redux/Slice/SubCategory_Slice';
 import { getAllCategory } from '../../../Redux/Slice/CategorySlice';
 import { useGetAllCourseQuery } from '../../../Redux/api/Course.Api';
+import { useAddSectionMutation, useDeleteSectionMutation, useGetAllSectionQuery, useUpdateSectionMutation } from '../../../Redux/api/Section.Api';
 
 
 function Sub_Category(props) {
@@ -42,10 +43,10 @@ function Sub_Category(props) {
 
     // console.log(CategoryData.category);
 
-    const { data, error, isLoading } = useGetAllCourseQuery();
+    const { data } = useGetAllCourseQuery();
 
     console.log("CourseAllData:", data);
-    console.log("CourseAllError", error);
+    // console.log("CourseAllError", error);
 
 
     const CourDropData = [{ value: '', label: '--Select Course--' }];
@@ -54,55 +55,121 @@ function Sub_Category(props) {
 
 
     data?.data?.filter((v) => {
-        CourDropData.push({ value: v.id, label: v.name })
+        CourDropData.push({ value: v._id, label: v.name })
     })
 
-    // const getData = () => {
 
-    //     dispatch(getSubCategory())
+    const { data:Section } = useGetAllSectionQuery();
 
-    // }
+    console.log("AlldataSection", Section);
 
-    // useEffect(() => {
-    //     getData();
-    //     dispatch(getAllCategory())
-    // }, [])
+    const [addSection] = useAddSectionMutation()
+
+    const [updataSection] = useUpdateSectionMutation()
+
+    const [deleteSection] = useDeleteSectionMutation()
 
 
+    const handleSubmit = async (values) => {
+        console.log("valuesaaa", values);
+        const formData = new FormData();
 
-    const handleSubmit = (values) => {
-        console.log(values);
-
-        console.log({ ...values, SubCategory_img: values.SubCategory_img.name });
+        formData.append('course_id', values.course_id);
+        formData.append("name", values.name);
+        formData.append("description", values.description);
 
         if (Object.keys(update).length > 0) {
-            if (typeof values.SubCategory_img === 'object') {
-                dispatch(EditSubCategory({ ...values, SubCategory_img: values.SubCategory_img.name }))
-            } else {
-                dispatch(EditSubCategory(values))
-            }
+            formData.append("_id", values._id);
+
+            updataSection(values)
+
+            // if (typeof values.course_img === 'object') {
+
+            //     updataSection(formData)
+            // } else {
+            //     updataSection(formData)
+            // }
         } else {
-            dispatch(addSubCategory({ ...values, SubCategory_img: values.SubCategory_img.name }))
+            console.log("handleSubmit", values);
+
+            addSection(formData)
         }
 
+
+
+        // if (Object.keys(update).length > 0) {
+        //     try {
+        //         const response = await fetch(`http://localhost:3000/category/${data.id}`, {
+        //             method: "PUT",
+        //             body: JSON.stringify(values),
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //         });
+
+        //         const data = await response.json()
+
+        //         console.log(data);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // } else {
+        //     try {
+        //         const response = await fetch('http://localhost:3000/category', {
+        //             method: "POST",
+        //             body: JSON.stringify(values),
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //         });
+
+        //         const data1 = await response.json()
+
+        //         console.log(data);
+
+        //         const index = data.findIndex((v) => v.id === data.id)
+
+        //         console.log(index);
+
+        //         const Up = [...data]
+
+        //         Up[index]=data1
+
+        //         setData(data1)
+
+        //     } catch (error) {
+        //         console.log(error);
+
+        //     }
+
+        // }
+
     }
 
-    const handleDelete = (id) => {
+
+    const handleDelete = async (id) => {
         console.log(id);
 
-        dispatch(DeleteSubCategory(id))
+        deleteSection(id)
 
+        // dispatch(DeleteCategory(id))
     }
 
-    const handleEdit = (data) => {
-        console.log(data);
+    const handleEdit = async (val) => {
+        console.log("val", val);
 
-        setUpdate(data)
+        // dispatch(UpdateUser(val))
 
         handleClickOpen();
 
-
+        setUpdate(val)
     }
+
+    // const handlechange = (value) => {
+    //     console.log(value);
+
+    //     activeCourse(value)
+    // }
 
 
 
@@ -211,7 +278,7 @@ function Sub_Category(props) {
                     </DialogActions>
                 </Dialog>
                 <DataGrid
-                    rows={[]}
+                    rows={Section}
                     columns={columns}
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}

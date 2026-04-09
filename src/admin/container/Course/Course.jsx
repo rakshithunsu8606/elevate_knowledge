@@ -62,7 +62,7 @@ function Course(props) {
 
     const { data, error, isLoading } = useGetAllCourseQuery();
 
-    console.log(data);
+    console.log("Alldata", data);
 
     const [addCourse] = useAddCourseMutation()
 
@@ -99,8 +99,12 @@ function Course(props) {
         // formData.append("course_video", values.course_video)
         formData.append("instructure_id", Auth.user._id)
 
-        const course_imgs = values.course_img.forEach(v => {
-            formData.append('course_img', v);
+        const course_imgs = values.course_img.forEach((v) => {
+            if (v instanceof File) {
+                formData.append("course_img", v);
+            } else {
+                formData.append('course_img', v.url)
+            }
         });
 
         // console.log("course_imgs:",course_imgs);
@@ -111,20 +115,23 @@ function Course(props) {
         if (Object.keys(update).length > 0) {
             formData.append("_id", values._id);
 
-            updataCourse(values)
+            console.log("formdataaaa", formData);
 
-            if (typeof values.course_img === 'object') {
+            console.log("formdataa", Object.fromEntries(formData.entries()));
 
-                updataCourse(formData)
-            } else {
-                updataCourse(formData)
-            }
+            await updataCourse(formData)
+
+            // if (typeof values.course_img === 'object') {
+
+            //     updataCourse(formData)
+            // } else {
+            //     updataCourse(formData)
+            // }
         } else {
             console.log("handleSubmit", values);
 
-            addCourse(formData)
+            await addCourse(formData)
         }
-
 
 
         // if (Object.keys(update).length > 0) {
@@ -185,7 +192,7 @@ function Course(props) {
     }
 
     const handleEdit = async (val) => {
-        console.log("val",val);
+        console.log("val", val);
 
         // dispatch(UpdateUser(val))
 

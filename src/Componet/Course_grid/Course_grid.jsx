@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
+import Carousel from 'react-material-ui-carousel';
 
 function Course_grid(props) {
 
@@ -83,12 +84,13 @@ Page content START */}
                                             <div className="card shadow h-100">
 
                                                 {/* Image */}
-                                                
-                                                {
-                                                    v.course_img.map((v) => (
-                                                        <img src={v?.url} className="card-img-top" alt="course" />
-                                                    ))
-                                                }
+                                                <Carousel>
+                                                    {
+                                                        v.course_img.map((v) => (
+                                                            <img src={v?.url} className="card-img-top" alt="course" />
+                                                        ))
+                                                    }
+                                                </Carousel>
 
                                                 {/* Card body */}
                                                 <div className="card-body pb-0">
