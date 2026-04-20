@@ -2,14 +2,35 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import Carousel from 'react-material-ui-carousel';
+import { useNavigate, useParams } from 'react-router';
 
 function Course_grid(props) {
+    const navigate = useNavigate()
+
+    const { id } = useParams()
+
+    console.log(id);
 
     const { data, error, isLoading } = useGetAllCourseQuery();
 
     console.log("CourseAllData:", data);
 
+    let courseData = data?.data
 
+    let mainCategory;
+
+    if (id) {
+        mainCategory = courseData?.filter((v) => v.category_id === id)
+
+        console.log(mainCategory);
+    } else {
+        mainCategory = courseData
+    }
+
+    const handleClick = (id) => {
+        console.log(id);
+        navigate(`/Course_details/${id}`)
+    }
 
     return (
         <main>
@@ -79,8 +100,8 @@ Page content START */}
                             {/* Course Grid START */}
                             <div className="row g-4">
                                 {
-                                    data?.data?.map((v, i) => (
-                                        <div className="col-sm-6 col-xl-4">
+                                    mainCategory?.map((v, i) => (
+                                        <div className="col-sm-6 col-xl-4" onClick={() => handleClick(v._id)}>
                                             <div className="card shadow h-100">
 
                                                 {/* Image */}

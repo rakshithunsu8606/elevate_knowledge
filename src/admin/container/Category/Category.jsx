@@ -64,76 +64,7 @@ function Catogary(props) {
 
 
 
-    const handleSubmit = async (values) => {
-        console.log(values);
 
-
-
-        // console.log({ ...values, Profile_pic: values.Profile_pic.name });
-
-        if (Object.keys(update).length > 0) {
-
-            if (typeof values.category_img === 'object') {
-                dispatch(UpdateCategory(values))
-            } else {
-                dispatch(UpdateCategory(values))
-            }
-        } else {
-            console.log("handleSubmit", values);
-
-            dispatch(addCategory(values))
-        }
-
-
-
-        // if (Object.keys(update).length > 0) {
-        //     try {
-        //         const response = await fetch(`http://localhost:3000/category/${data.id}`, {
-        //             method: "PUT",
-        //             body: JSON.stringify(values),
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-
-        //         const data = await response.json()
-
-        //         console.log(data);
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // } else {
-        //     try {
-        //         const response = await fetch('http://localhost:3000/category', {
-        //             method: "POST",
-        //             body: JSON.stringify(values),
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-
-        //         const data1 = await response.json()
-
-        //         console.log(data);
-
-        //         const index = data.findIndex((v) => v.id === data.id)
-
-        //         console.log(index);
-
-        //         const Up = [...data]
-
-        //         Up[index]=data1
-
-        //         setData(data1)
-
-        //     } catch (error) {
-        //         console.log(error);
-
-        //     }
-
-        // }
-
-    }
 
     const handleDelete = async (id) => {
         console.log(id);
@@ -152,6 +83,33 @@ function Catogary(props) {
         setUpdate(val)
     }
 
+    const handleSubmit = async (values) => {
+        console.log(values);
+
+
+
+        // console.log({ ...values, Profile_pic: values.Profile_pic.name });
+
+        if (Object.keys(update).length > 0) {
+            dispatch(UpdateCategory(values))
+
+            // if (typeof values.category_img === 'object') {
+            //     dispatch(UpdateCategory(values))
+            // } else {
+            //     dispatch(UpdateCategory(values))
+            // }
+        } else {
+            console.log("handleSubmit", values);
+
+            dispatch(addCategory(values))
+        }
+
+
+
+
+
+    }
+
 
 
     const columns = [
@@ -160,12 +118,18 @@ function Catogary(props) {
         {
             field: 'category_img', headerName: 'category_img', width: 130,
             renderCell: (params) => (
+                console.log(params.row.category_img),
 
-                // <img src={IMAGE_URL + params.row.category_img} width={'50px'} height={'50px'} />
+                <div>
+                    {
+                        params.row.category_img?.map((v) => (
+                            // console.log("vv",v),
 
-            
-                
-                <img src={params.row.category_img.url} width={'50px'} height={'50px'} />
+                            <img src={v.url} width={'50px'} height={'50px'} />
+                        ))
+                    }
+                </div>
+                // <img src={params.row.category_img?.url} width={'50px'} height={'50px'} />
             )
         },
         {

@@ -13,8 +13,14 @@ import { getAllCategory } from '../../Redux/Slice/CategorySlice';
 import { IMAGE_URL } from '../../../utility/url';
 import WithReduxfetch from '../../Hoc/WithReduxfetch';
 import useSearch from '../../hook/UseSearch';
+import { NavLink, useParams } from 'react-router';
 
 function CategoryDisplay({ category }) {
+
+    const { id } = useParams()
+
+    console.log(id);
+
 
     console.log(category);
 
@@ -46,8 +52,31 @@ function CategoryDisplay({ category }) {
 
     const { Search, setSearch, sData } = useSearch(category, ["name", "description"])
 
+    console.log("sData", sData);
 
 
+
+    const handleClick = (id) => {
+        console.log(id);
+
+        const selectedCategory = sData.filter((v) => v.parent_category_id === id)
+
+        console.log(selectedCategory);
+    }
+
+    let mainCategory;
+
+    if (!id) {
+        mainCategory = sData.filter((v) => v.parent_category_id === null)
+
+        // console.log(mainCategory);
+    } else {
+        mainCategory = sData.filter((v) => v.parent_category_id === id)
+    }
+
+    const handelCourse = (id) => {
+        return sData.some((v) => v.parent_category_id === id)
+    }
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
@@ -60,33 +89,43 @@ function CategoryDisplay({ category }) {
                 </div>
             </div>
             {
-                sData?.map((v) => (
-                    <Card sx={{ maxWidth: 345 }} >
-                        <FavoriteIcon />
-                        <CardMedia
-                            sx={{
-                                height: 140,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                            }}
-                            image={v.category_img?.url}
-                        />
+                mainCategory?.map((v) => (
+                    <NavLink
+                        to={handelCourse(v._id) ? `/display/${v._id}` : `/Course_grid/${v._id}`}
+                    >
+                        <Card sx={{ maxWidth: 345 }} onClick={() => handleClick(v._id)}>
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                                {v.category_img.map((v) => (
+                                    <img
+                                        src={v?.url}
+                                        alt="course"
+                                        style={{
+                                            height: '140px',
+                                            width: '100%',
+                                            objectFit: 'cover',
+                                            borderRadius: '6px'
+                                        }}
+                                    />
+                                ))}
+                            </div>
 
-                        <CardContent>     <Typography gutterBottom variant="h5" component="div">
-                            {v.name}
-                        </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                {v.description}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" style={{ color: 'black' }}>
+                                    {v.name}
+                                </Typography>
+
+                                <Typography variant="body2">
+                                    {v.description}
+                                </Typography>
+                            </CardContent>
+
+                            <CardActions>
+                                <Button size="small">Share</Button>
+                                <Button size="small">Learn More</Button>
+                            </CardActions>
+                        </Card>
+                    </NavLink>
                 ))
-
-
             }
 
         </div>

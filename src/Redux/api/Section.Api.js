@@ -8,13 +8,13 @@ export const SectionApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (build) => ({
         getAllSection: build.query({
-            query: () => '/section/getAllSection',
+            query: () => 'section/getAllSection',
 
             providesTags: ['Section']
         }),
         addSection: build.mutation({
             query: (data) => ({
-                url: '/section/addSection',
+                url: 'section/addSection',
                 method: 'POST',
                 body: data
             }),
@@ -62,63 +62,17 @@ export const SectionApi = createApi({
             invalidatesTags: ['Section']
         }),
         updateSection: build.mutation({
-            // const tempimg=data,
             query: (data) => ({
-                url: `/section/updatesection/${data.get("_id")}`,
+                url: `section/updatesection/${data._id}`,
                 method: 'PUT',
                 body: data
             }),
-            // async onQueryStarted(data, { dispatch, queryFulfilled }) {
-            //     const patchResult = dispatch(
 
-            //         CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
-            //             console.log(draft.data);
-
-            //             const Img = data?.getAll('course_img')
-
-            //             console.log(Img);
-
-            //             // Object.assign(draft, patch)
-            //             const index = draft?.data?.findIndex(v => v._id === data?.get("_id"))
-
-            //             console.log(index);
-
-            //             if (index !== -1) {
-            //                 draft.data[index] = {
-            //                     _id: data.get("_id"),
-            //                     category_id: data.get("category_id"),
-            //                     name: data.get("name"),
-            //                     description: data.get("description"),
-            //                     price: data.get("price"),
-            //                     week: data.get("week"),
-            //                     instructure_id: data.get("instructure_id"),
-            //                     course_img: Img.length > 0 ? Img.map((v) => ({
-            //                         url: URL.createObjectURL(v)
-            //                     })) : draft.data[index].course_img
-            //                 }
-            //             }
-
-            //             console.log("draft.data", draft.data);
-
-            //         }),
-            //     )
-            //     try {
-            //         await queryFulfilled
-            //     } catch {
-            //         patchResult.undo()
-
-            //         /**
-            //          * Alternatively, on failure you can invalidate the corresponding cache tags
-            //          * to trigger a re-fetch:
-            //          * dispatch(api.util.invalidateTags(['Post']))
-            //          */
-            //     }
-            // }
             invalidatesTags: ['Section']
         }),
         deleteSection: build.mutation({
             query: (id) => ({
-                url: `/section/deletesection/${id}`,
+                url: `section/deletesection/${id}`,
                 method: 'DELETE',
                 body: id
             }),

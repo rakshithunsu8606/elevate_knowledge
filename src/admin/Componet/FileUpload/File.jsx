@@ -69,11 +69,6 @@ function File({ type, ...props }) {
         <>
             <Button
                 component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                {...props}
-                startIcon={<CloudUploadIcon />}
             >
                 Upload files
                 <VisuallyHiddenInput

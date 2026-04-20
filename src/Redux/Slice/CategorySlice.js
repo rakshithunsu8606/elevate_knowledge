@@ -18,7 +18,7 @@ export const addCategory = createAsyncThunk(
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("description", values.description);
-        formData.append("category_img", values.category_img);
+        formData.append("category_img", values.category_img[0]);
 
         if (values.parent_category_id) {
             formData.append("parent_category_id", values.parent_category_id);
@@ -32,6 +32,7 @@ export const addCategory = createAsyncThunk(
 
         });
 
+        console.log(response);
 
 
         return response.data.data;
@@ -63,9 +64,9 @@ export const DeleteCategory = createAsyncThunk(
 
         try {
             const response = await axiosinstance.delete(`category/deleteCategory/${id}`)
-          
+
             console.log(response);
-            
+
             return id;
         } catch (error) {
             console.log(error);
@@ -84,7 +85,7 @@ export const UpdateCategory = createAsyncThunk(
         const formData = new FormData();
         formData.append("name", val.name);
         formData.append("description", val.description);
-        formData.append("category_img", val.category_img);
+        formData.append("category_img", val.category_img[0]);
 
         console.log("UpformData", formData);
 

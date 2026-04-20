@@ -28,6 +28,7 @@ import { ThemeContext } from '../../../Context/ThemeContext';
 import SunnyIcon from '@mui/icons-material/Sunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import { useContext } from 'react';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const drawerWidth = 240;
 
@@ -112,8 +113,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const ListItems = [
     { label: 'Dashboard', icon: <PaddingIcon />, to: '/admin/Dashboard' },
     { label: 'Category', icon: <CategoryIcon />, to: '/admin/Category' },
-    { label: 'Sub Category', icon: <AppsIcon />, to: '/admin/Sub_Category' },
-    { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' }
+    { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
+    { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' },
+    { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' }
 ]
 
 export default function Layout({ children }) {

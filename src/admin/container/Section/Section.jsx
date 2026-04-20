@@ -24,7 +24,7 @@ import { useGetAllCourseQuery } from '../../../Redux/api/Course.Api';
 import { useAddSectionMutation, useDeleteSectionMutation, useGetAllSectionQuery, useUpdateSectionMutation } from '../../../Redux/api/Section.Api';
 
 
-function Sub_Category(props) {
+function Section(props) {
     const [open, setOpen] = useState(false);
     const [update, setUpdate] = useState({})
 
@@ -59,7 +59,7 @@ function Sub_Category(props) {
     })
 
 
-    const { data:Section } = useGetAllSectionQuery();
+    const { data: Section } = useGetAllSectionQuery();
 
     console.log("AlldataSection", Section);
 
@@ -70,82 +70,21 @@ function Sub_Category(props) {
     const [deleteSection] = useDeleteSectionMutation()
 
 
+
     const handleSubmit = async (values) => {
         console.log("valuesaaa", values);
-        const formData = new FormData();
 
-        formData.append('course_id', values.course_id);
-        formData.append("name", values.name);
-        formData.append("description", values.description);
 
         if (Object.keys(update).length > 0) {
-            formData.append("_id", values._id);
+            console.log(values);
 
-            updataSection(values)
-
-            // if (typeof values.course_img === 'object') {
-
-            //     updataSection(formData)
-            // } else {
-            //     updataSection(formData)
-            // }
+            await updataSection({ ...values, _id: update._id })
         } else {
-            console.log("handleSubmit", values);
-
-            addSection(formData)
+            await addSection(values)
         }
 
 
-
-        // if (Object.keys(update).length > 0) {
-        //     try {
-        //         const response = await fetch(`http://localhost:3000/category/${data.id}`, {
-        //             method: "PUT",
-        //             body: JSON.stringify(values),
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-
-        //         const data = await response.json()
-
-        //         console.log(data);
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // } else {
-        //     try {
-        //         const response = await fetch('http://localhost:3000/category', {
-        //             method: "POST",
-        //             body: JSON.stringify(values),
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-
-        //         const data1 = await response.json()
-
-        //         console.log(data);
-
-        //         const index = data.findIndex((v) => v.id === data.id)
-
-        //         console.log(index);
-
-        //         const Up = [...data]
-
-        //         Up[index]=data1
-
-        //         setData(data1)
-
-        //     } catch (error) {
-        //         console.log(error);
-
-        //     }
-
-        // }
-
     }
-
 
     const handleDelete = async (id) => {
         console.log(id);
@@ -165,6 +104,8 @@ function Sub_Category(props) {
         setUpdate(val)
     }
 
+
+
     // const handlechange = (value) => {
     //     console.log(value);
 
@@ -179,7 +120,7 @@ function Sub_Category(props) {
             headerName: 'parentCategory',
             width: 130,
             renderCell: (params) => {
-                const courseObj = CategoryData.category?.find(
+                const courseObj = data?.data?.find(
                     (v) => v._id === params.row.course_id
                 );
 
@@ -193,7 +134,7 @@ function Sub_Category(props) {
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
                     <IconButton aria-label="delete">
-                        <DeleteIcon style={{ color: 'red' }} onClick={() => handleDelete(params.row.id)} />
+                        <DeleteIcon style={{ color: 'red' }} onClick={() => handleDelete(params.row._id)} />
                     </IconButton>
                     <IconButton aria-label="delete">
                         <EditIcon style={{ color: 'blue' }} onClick={() => handleEdit(params.row)} />
@@ -278,7 +219,8 @@ function Sub_Category(props) {
                     </DialogActions>
                 </Dialog>
                 <DataGrid
-                    rows={Section}
+                    getRowId={(row) => row._id}
+                    rows={Section?.data || []}
                     columns={columns}
                     initialState={{ pagination: { paginationModel } }}
                     pageSizeOptions={[5, 10]}
@@ -290,4 +232,4 @@ function Sub_Category(props) {
     );
 }
 
-export default Sub_Category;
+export default Section;

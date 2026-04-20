@@ -79,66 +79,59 @@ function Header(props) {
                         {/* Nav category menu START */}
                         <ul className="navbar-nav navbar-nav-scroll me-auto">
                             {/* Nav item 1 Demos */}
-
-                            <li className="nav-item dropdown dropdown-menu-shadow-stacked">
-
-                                <a className="nav-link bg-primary bg-opacity-10 rounded-3 text-primary px-3 py-3 py-xl-0" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" /><span>Category</span></a>
-
-                                <ul className="dropdown-menu" aria-labelledby="categoryMenu">
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle active" href="#" id="categoryMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="bi bi-ui-radios-grid me-2" /><span>Category</span></a>
+                                <ul className=" dropdown-menu" aria-labelledby="categoryMenu">
                                     {
-                                        firstCat.map((v) => {
-                                            const Subcat = Category.category.filter(sv => sv.parent_category_id === v._id)
-                                            console.log(Subcat);
-
+                                        firstCat?.map((v) => {
+                                            let secondCat = Category.category.filter((v1) => v1.parent_category_id === v._id)
                                             return (
-                                                <>
-                                                    <li className={Subcat.length > 0 ? "dropdown-submenu dropend" : ''}>
-                                                        <a className={Subcat.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#">{v.name}</a>
-                                                        {
-                                                            Subcat && (
-                                                                <ul className="dropdown-menu dropdown-menu-start">
-                                                                    {
-                                                                        Subcat.map((sc) => {
-                                                                            let thCate = Category.category.filter((tc) => tc.parent_category_id === sc._id)
-                                                                            console.log(thCate);
+                                                <li className={secondCat.length > 0 ? "dropdown-submenu dropend" : ''}>
+                                                    <a className={secondCat.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#"><NavLink to={secondCat.length > 0 ? `/display/${v._id}` : `/Course_grid/${v._id}`}>{v.name}</NavLink></a>
+                                                    {/* Sub Category List */}
+                                                    {
+                                                        secondCat && (
+                                                            <ul className="dropdown-menu" data-bs-popper="none">
+                                                                {secondCat.map((v3) => {
+                                                                    let thirdCat = Category.category.filter((v4) => v4.parent_category_id === v3._id)
+                                                                    return (
+                                                                        <li className={thirdCat.length > 0 ? "dropdown-submenu dropend" : ''}>
+                                                                            <a className={thirdCat.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} to={`/category/${v3._id}`} ><NavLink to={thirdCat.length > 0 ? `/display/${v3._id}` : `/Course_grid/${v3._id}`}>{v3.name}</NavLink></a>
+                                                                            {
+                                                                                thirdCat && (
+                                                                                    <ul className="dropdown-menu" data-bs-popper="none">
+                                                                                        {
+                                                                                            thirdCat.map((v5) => (
+                                                                                                <li>
+                                                                                                    <a className="dropdown-item" to={`/category/${v5._id}`} ><NavLink to={ `/Course_grid/${v5._id}`}>{v5.name}</NavLink></a>
+                                                                                                </li>
+                                                                                            )
+                                                                                            )
+                                                                                        }
+                                                                                    </ul>
+                                                                                )
+                                                                            }
+                                                                        </li>
+                                                                    )
 
-                                                                            return (
-                                                                                <li className={thCate.length > 0 ? "dropdown-submenu dropend" : ''}>
-                                                                                    <a className={thCate.length > 0 ? "dropdown-item dropdown-toggle" : "dropdown-item"} href="#">{sc.name}</a>
-                                                                                    {
-                                                                                        thCate && (
-                                                                                            <ul className="dropdown-menu dropdown-menu-start">
-                                                                                                {
-                                                                                                    thCate.map((tc) => (
-                                                                                                        <li className={thCate.length > 0 ? "dropdown-submenu dropend" : ''}>
-                                                                                                            {tc.name}
-                                                                                                        </li>
-                                                                                                    ))
-                                                                                                }
-                                                                                            </ul>
-                                                                                        )
-                                                                                    }
-                                                                                </li>
-                                                                            )
-                                                                        })
-                                                                    }
-                                                                </ul>
+                                                                })}
+                                                            </ul>
+                                                        )
+                                                    }
 
-                                                            )
-                                                        }
-                                                    </li>
-                                                </>
+                                                </li>
+
                                             )
-
                                         })
                                     }
 
-                                    <li> <NavLink className="dropdown-item bg-primary text-primary bg-opacity-10 rounded-2 mb-0" to={'/display'}>View all categories</NavLink></li>
-                                </ul >
+                                    <li> <hr className="dropdown-divider" /></li>
+                                    <li><NavLink className="dropdown-item bg-primary text-primary bg-opacity-10 rounded-2 mb-0" to={'/display'} >View all categories</NavLink>
+                                    </li>
 
 
+                                </ul>
                             </li>
-
                         </ul>
                         {/* Nav category menu END */}
                         {/* Nav Main menu START */}

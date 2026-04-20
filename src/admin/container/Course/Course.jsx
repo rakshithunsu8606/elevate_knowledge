@@ -86,107 +86,7 @@ function Course(props) {
 
 
 
-    const handleSubmit = async (values) => {
-        console.log("valuesaaa", values);
-        const formData = new FormData();
 
-        formData.append('category_id', values.category_id);
-        formData.append("name", values.name);
-        formData.append("description", values.description);
-        // formData.append("course_img", values.course_img);
-        formData.append("price", values.price)
-        formData.append("week", values.week)
-        // formData.append("course_video", values.course_video)
-        formData.append("instructure_id", Auth.user._id)
-
-        values.course_img.forEach((v) => {
-            if (v instanceof File) {
-                formData.append("course_img", v);
-                console.log('true');
-
-            } else {
-                formData.append('course_img', v.url)
-                console.log('false');
-
-            }
-        });
-
-        // console.log("course_imgs:",course_imgs);
-
-
-        // console.log({ ...values, Profile_pic: values.Profile_pic.name });
-
-
-        if (Object.keys(update).length > 0) {
-            formData.append("_id", values._id);
-
-            console.log("formdataaaa", formData);
-
-            console.log("formdataa", Object.fromEntries(formData.entries()));
-
-            await updataCourse(formData)
-
-            if (typeof values.course_img === 'object') {
-                updataCourse(formData)
-                for (let [key, value] of formData.entries()) { console.log(key, value); }
-            } else {
-                updataCourse(formData)
-            }
-        } else {
-            console.log("handleSubmit", values);
-
-            await addCourse(formData)
-        }
-
-
-        // if (Object.keys(update).length > 0) {
-        //     try {
-        //         const response = await fetch(`http://localhost:3000/category/${data.id}`, {
-        //             method: "PUT",
-        //             body: JSON.stringify(values),
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-
-        //         const data = await response.json()
-
-        //         console.log(data);
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // } else {
-        //     try {
-        //         const response = await fetch('http://localhost:3000/category', {
-        //             method: "POST",
-        //             body: JSON.stringify(values),
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //         });
-
-        //         const data1 = await response.json()
-
-        //         console.log(data);
-
-        //         const index = data.findIndex((v) => v.id === data.id)
-
-        //         console.log(index);
-
-        //         const Up = [...data]
-
-        //         Up[index]=data1
-
-        //         setData(data1)
-
-        //     } catch (error) {
-        //         console.log(error);
-
-        //     }
-
-        // }
-
-    }
 
     const handleDelete = async (id) => {
         console.log(id);
@@ -314,6 +214,106 @@ function Course(props) {
     })
 
     console.log(CategoryData.category);
+
+    const handleSubmit = async (values) => {
+        console.log("valuesaaa", values);
+        const formData = new FormData();
+
+        formData.append('category_id', values.category_id);
+        formData.append("name", values.name);
+        formData.append("description", values.description);
+        // formData.append("course_img", values.course_img);
+        formData.append("price", values.price)
+        formData.append("week", values.week)
+        // formData.append("course_video", values.course_video)
+        formData.append("instructure_id", Auth.user._id)
+
+        if (values.course_img && values.course_img.length > 0) {
+            values.course_img.forEach((v) => {
+                if (v instanceof window.File) {
+                    formData.append("course_img", v);
+                } else if (v.url) {
+                    formData.append("course_img", v.url);
+                }
+            });
+        }
+
+        // console.log("course_imgs:",course_imgs);
+
+
+        // console.log({ ...values, Profile_pic: values.Profile_pic.name });
+
+
+        if (Object.keys(update).length > 0) {
+            formData.append("_id", values._id);
+
+            console.log("formdataaaa", formData);
+
+            console.log("formdataa", Object.fromEntries(formData.entries()));
+
+            // await updataCourse(formData)
+
+            if (typeof values.course_img === 'object') {
+                updataCourse(formData)
+                // for (let [key, value] of formData.entries()) { console.log(key, value); }
+            } else {
+                updataCourse(formData)
+            }
+        } else {
+            console.log("handleSubmit", values);
+
+            await addCourse(formData)
+        }
+
+
+        // if (Object.keys(update).length > 0) {
+        //     try {
+        //         const response = await fetch(`http://localhost:3000/category/${data.id}`, {
+        //             method: "PUT",
+        //             body: JSON.stringify(values),
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //         });
+
+        //         const data = await response.json()
+
+        //         console.log(data);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // } else {
+        //     try {
+        //         const response = await fetch('http://localhost:3000/category', {
+        //             method: "POST",
+        //             body: JSON.stringify(values),
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //         });
+
+        //         const data1 = await response.json()
+
+        //         console.log(data);
+
+        //         const index = data.findIndex((v) => v.id === data.id)
+
+        //         console.log(index);
+
+        //         const Up = [...data]
+
+        //         Up[index]=data1
+
+        //         setData(data1)
+
+        //     } catch (error) {
+        //         console.log(error);
+
+        //     }
+
+        // }
+
+    }
 
 
     return (

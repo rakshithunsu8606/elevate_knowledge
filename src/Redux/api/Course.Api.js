@@ -18,34 +18,42 @@ export const CourseApi = createApi({
             }),
 
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
-                const tempid = crypto.randomUUID();
-                
+                console.log("data", data);
+                let temp_id = crypto.randomUUID()
+
                 const ImageData = data.getAll('course_img');
 
                 const patchResult = dispatch(
-                    CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
-                        // Object.assign(draft, patch)
-                        draft.data.push({ ...data, _id: tempid })
+                    dispatch(
+                        CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
+                            console.log("draft.data", draft.data)
+                            draft.data.push({
+                                _id: temp_id,
+                                name: data.get('name'),
+                                description: data.get('description'),
+                                category_id: data.get('category_id'),
+                                price: data.get('price'),
+                                week: data.get('week'),
+                                instructure_id: data.get("instructure_id"),
+                                course_img: ImageData?.map(v => ({
+                                    url: URL.createObjectURL(v)
+                                })),
+                                // Preview_url: data.get('Preview_url')
 
-                        console.log("draft.data", draft.data);
+                            })
 
-                        const img = data.getAll('course_img')
-
-                        console.log("imgggg", img)
-
-                    }),
+                        }),
+                    )
                 )
                 try {
-                    // await queryFulfilled
                     const { data } = await queryFulfilled
-
                     console.log("data", data);
 
                     dispatch(
                         CourseApi.util.updateQueryData('getAllCourse', undefined, (draft) => {
-                            // Object.assign(draft, patch)
-                            const index = draft.data.findIndex((v) => v._id === tempid)
+                            console.log("draft.data", draft.data)
 
+                            let index = draft.data.findIndex((v) => v._id === temp_id);
                             console.log(index);
 
                             draft.data[index] = data.data
@@ -56,13 +64,9 @@ export const CourseApi = createApi({
                 } catch {
                     patchResult.undo()
 
-                    /**
-                     * Alternatively, on failure you can invalidate the corresponding cache tags
-                     * to trigger a re-fetch:
-                     * dispatch(api.util.invalidateTags(['Post']))
-                     */
+
                 }
-            }
+            },
             // invalidatesTags: ['Course']
         }),
         updateCourse: build.mutation({

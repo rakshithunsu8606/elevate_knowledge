@@ -83,10 +83,16 @@ function UserRoute(props) {
                 <Route path='/Coming_Soon' element={<Coming_Soon />} />
                 <Route path='/Contact_us' element={<Contact_us />} />
                 <Route path='/Course_add' element={<Course_add />} />
+
                 <Route path='/Course_details' element={<Course_details />} />
+                <Route path='/Course_details/:id' element={<Course_details />} />
+                
                 <Route path='/Course_detail_adv' element={<Course_detail_adv />} />
                 <Route path='/Course_detail_min' element={<Course_detail_min />} />
+
                 <Route path='/Course_grid' element={<Course_grid />} />
+                <Route path='/Course_grid/:id' element={<Course_grid />} />
+
                 <Route path='/Course_grid_2' element={<Course_grid_2 />} />
                 <Route path='/Course_list' element={<Course_list />} />
                 <Route path='/Course_list_2' element={<Course_list_2 />} />
@@ -116,7 +122,10 @@ function UserRoute(props) {
                 <Route path='/University' element={<University />} />
                 <Route path='/Wishlist' element={<Wishlist />} />
                 <Route path='/Catogary' element={<Catogary />} />
+
                 <Route path='/display' element={<CategoryDisplay />} />
+                <Route path='/display/:id' element={<CategoryDisplay />} />
+                
                 <Route path='/Auth/:usertype' element={<Auth />} />
                 <Route path='/HomeLanding' element={<HomeLanding />} />
 
