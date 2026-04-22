@@ -23,6 +23,9 @@ function QuizContent() {
 
     console.log("AlldataQuiz", QuizContent?.data);
 
+    
+    
+
     const [addQuizContent] = useAddQuizContentMutation()
 
     const [updataQuizContent] = useUpdateQuizContentMutation()
@@ -41,39 +44,8 @@ function QuizContent() {
         answer: string().required('Select Answer'),
     });
 
-    const handleSubmit = async (values) => {
-        console.log(values);
 
-        if (Object.keys(updatedata).length > 0) {
-            await updataQuizContent({
-                _id: updatedata._id,
-                quiz_id: id,
-                question: values.question,
-                option: [
-                    values.option1,
-                    values.option2,
-                    values.option3,
-                    values.option4
-                ],
-                answer: values.answer
-            })
-            // setUpdateData({});
 
-        } else {
-            await addQuizContent({
-                quiz_id: id,
-                question: values.question,
-                option: [
-                    values.option1,
-                    values.option2,
-                    values.option3,
-                    values.option4
-                ],
-                answer: values.answer
-            });
-        }
-
-    };
 
     const AllQuizContent_Data = QuizContent?.data?.filter((v) => v.quiz_id === id)
 
@@ -90,19 +62,59 @@ function QuizContent() {
 
         console.log(val);
 
-        setUpdateData(val);
+        setUpdateData({
+            _id: val._id,
+            question: val.question,
+            option1: val.option?.[0] || "",
+            option2: val.option?.[1] || "",
+            option3: val.option?.[2] || "",
+            option4: val.option?.[3] || "",
+            answer: val.answer || "",
+            mark: val.mark || ""
+        });
 
     }
+
+    const handleSubmit = async (values) => {
+        console.log(values);
+
+        if (Object.keys(updatedata).length > 0) {
+            await updataQuizContent({
+                _id: updatedata._id,
+                quiz_id: id,
+                question: values.question,
+                option: [
+                    values.option1,
+                    values.option2,
+                    values.option3,
+                    values.option4
+                ],
+                answer: values.answer,
+                mark: values.mark
+            })
+            setUpdateData({});
+
+        } else {
+            await addQuizContent({
+                quiz_id: id,
+                question: values.question,
+                option: [
+                    values.option1,
+                    values.option2,
+                    values.option3,
+                    values.option4
+                ],
+                answer: values.answer,
+                mark: values.mark
+            });
+        }
+
+    };
 
     return (
         <div>
             <h2>Quiz Content</h2>
 
-            <Stack direction="row" spacing={2} mt={2}>
-                <Button type="submit" variant="contained">
-                    Add Question
-                </Button>
-            </Stack>
             <Formik
                 enableReinitialize
                 initialValues={Object.keys(updatedata).length > 0 ? updatedata : {
@@ -112,6 +124,7 @@ function QuizContent() {
                     option3: '',
                     option4: '',
                     answer: '',
+                    mark: '',
                 }}
                 validationSchema={QuestionSchema}
                 onSubmit={(values, { resetForm }) => {
@@ -131,7 +144,7 @@ function QuizContent() {
                     <Textinput name="option3" label="Option 3" />
                     <Textinput name="option4" label="Option 4" />
 
-                    <Textinput
+                    {/* <Textinput
                         name="answer"
                         label="Select Correct Answer"
                         select
@@ -143,7 +156,11 @@ function QuizContent() {
                             { value: 'option3', label: 'Option 3' },
                             { value: 'option4', label: 'Option 4' },
                         ]}
-                    />
+                    /> */}
+
+                    <Textinput name="answer" label="Answer" />
+                    <Textinput name="mark" label="Marks" />
+
 
                     <Stack direction="row" spacing={2} mt={2}>
                         <Button type="submit" variant="contained">
@@ -177,6 +194,7 @@ function QuizContent() {
                         </ul>
 
                         <p><strong>Answer:</strong> {v.answer}</p>
+                        <p><strong>Marks:</strong> {v.mark}</p>
 
                         <Stack direction="row" spacing={2} mt={1}>
                             <IconButton onClick={() => handlEdit(v)} >
@@ -201,131 +219,3 @@ function QuizContent() {
 export default QuizContent;
 
 
-// import React, { useState } from "react";
-// import { Button, Stack, TextField } from "@mui/material";
-
-// function QuizContent() {
-//     const [questions, setQuestions] = useState([
-//         { question: "", options: [""] }
-//     ]);
-
-//     const addQue = () => {
-//         setQuestions([...questions, { question: "", options: [""], answer: "" }]);
-//     };
-
-//     const removeQue = (index) => {
-//         const updated = [...questions];
-//         updated.splice(index, 1);
-//         setQuestions(updated);
-//     };
-
-//     const addOpt = (i) => {
-//         const updated = [...questions];
-//         updated[i].options.push("");
-//         setQuestions(updated);
-//     };
-
-//     const removeOpt = (i) => {
-//         const updated = [...questions];
-//         updated[i].options.splice(i, 1);
-//         setQuestions(updated);
-//     }
-
-//     const handleQuestionChange = (i, value) => {
-//         const updated = [...questions];
-//         updated[i].question = value;
-//         setQuestions(updated);
-//     };
-
-//     const handleOptionChange = (i, j, value) => {
-//         const updated = [...questions];
-//         updated[i].options[j] = value;
-//         setQuestions(updated);
-//     };
-
-//     const handleAnswerChange = (i, value) => {
-//         const updated = [...questions];
-//         updated[i].answer = value;
-//         setQuestions(updated);
-//     }
-
-//     const handleSubmit = async (values) => {
-//         console.log(values);
-
-//         // if (Object.keys(updatedata).length > 0) {
-//         //     await updataQuizContent()
-//         //     // setUpdateData({});
-
-//         // } else {
-//         //     await addQuizContent();
-//         // }
-
-//     };
-
-
-
-
-//     return (
-//         <form onClick={(e) => handleSubmit(questions)}>
-//             {questions.map((v, i) => (
-//                 <div key={i} style={{ marginBottom: "20px" }}>
-//                     <TextField
-//                         label="Question"
-//                         value={v.question}
-//                         onChange={(e) =>
-//                             handleQuestionChange(i, e.target.value)
-//                         }
-//                         fullWidth
-//                     />
-
-//                     {v.options.map((opt, j) => (
-//                         <TextField
-//                             key={j}
-//                             label={`Option ${j + 1}`}
-//                             value={opt}
-//                             onChange={(e) =>
-//                                 handleOptionChange(i, j, e.target.value)
-//                             }
-//                             fullWidth
-//                             style={{ marginTop: "10px" }}
-//                         />
-//                     ))}
-
-//                     <Button onClick={() => addOpt(i)}>
-//                         Add Option
-//                     </Button>
-//                     <Button onClick={() => removeOpt(i)}>
-//                         Remove Option
-//                     </Button>
-
-//                     <TextField
-//                         label="Answer"
-//                         value={v.answer}
-//                         onChange={(e) =>
-//                             handleAnswerChange(i, e.target.value)
-//                         }
-//                         fullWidth
-//                     />
-
-
-//                 </div>
-//             ))}
-
-//             <Button variant="contained" onClick={addQue}>
-//                 Add Question
-//             </Button>
-
-//             <Button variant="contained" onClick={removeQue}>
-//                 Remove Question
-//             </Button>
-
-//             <Stack direction="row" spacing={2} mt={2}>
-//                 <Button type="submit" variant="contained">
-//                     Save Question
-//                 </Button>
-//             </Stack>
-//         </form>
-//     );
-// }
-
-// export default QuizContent;

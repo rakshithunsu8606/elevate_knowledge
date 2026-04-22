@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { useParams } from 'react-router';
+import { NavLink, useParams } from 'react-router';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import Carousel from 'react-material-ui-carousel';
 import { useGetAllSectionQuery } from '../../Redux/api/Section.Api';
@@ -59,17 +59,6 @@ Page intro START */}
 
                                     ))}
                                 </Carousel>
-
-                                {/* <div className="text-warning mb-2">
-                                    ⭐⭐⭐⭐⭐ <span className="text-white ms-2">4.5/5.0</span>
-                                </div>
-
-                                <div className="d-flex justify-content-center gap-2">
-                                    <div className="bg-primary p-2 rounded">🔵</div>
-                                    <div className="bg-danger p-2 rounded">🟥</div>
-                                    <div className="bg-info p-2 rounded">🔷</div>
-                                    <div className="bg-success p-2 rounded">🟢</div>
-                                </div> */}
                             </div>
                         </div>
 
@@ -193,6 +182,22 @@ Page content START */}
                                                                     </div>
                                                                     <p className="mb-0">11m 20s</p>
                                                                 </div>
+                                                                <hr /> {/* Divider */}
+                                                            </div>
+                                                            <div className="accordion-body">
+                                                                <NavLink to={`/Quiz/${v._id}`}>
+                                                                    {/* Course lecture */}
+                                                                    <div className="d-flex justify-content-between align-items-center">
+                                                                        <div className="position-relative d-flex align-items-center">
+                                                                            <a href="#" className="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                                                                                <i className="fas fa-play me-0" />
+                                                                            </a>
+                                                                            <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">Quiz</span>
+                                                                        </div>
+
+                                                                        <p className="mb-0">11m 20s</p>
+                                                                    </div>
+                                                                </NavLink>
                                                                 <hr /> {/* Divider */}
                                                             </div>
                                                             {/* Accordion body END */}

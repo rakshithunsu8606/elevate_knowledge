@@ -10,13 +10,16 @@ import { useGetAllSectionQuery } from '../../../Redux/api/Section.Api';
 import { useAddQuizMutation, useDeleteQuizMutation, useGetAllQuizQuery, useUpdateQuizMutation } from '../../../Redux/api/Quiz.Api';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { NavLink } from 'react-router';
+import { NavLink, useParams } from 'react-router';
+import { useGetAllQuizContentQuery } from '../../../Redux/api/QuizContent.Api';
 
 function Quiz(props) {
     const [open, setOpen] = useState(false);
     const [update, setUpdate] = useState({});
     const [course, setCourse] = useState('');
     // const [field, setFieldValue] = useState("course_id")
+
+   
 
     console.log(course);
 
@@ -63,7 +66,7 @@ function Quiz(props) {
 
     const { data: Quiz } = useGetAllQuizQuery();
 
-    console.log("AlldataQuiz", Quiz);
+    console.log("AlldataQuiz", Quiz?.data);
 
     const [addQuiz] = useAddQuizMutation()
 
@@ -72,10 +75,11 @@ function Quiz(props) {
     const [deleteQuiz] = useDeleteQuizMutation()
 
 
+    const { data: QuizContent } = useGetAllQuizContentQuery();
 
+    console.log("AlldataQuizzz", QuizContent?.data);
 
-
-
+    
 
 
 
@@ -112,6 +116,27 @@ function Quiz(props) {
 
                 return SectionObj ? SectionObj.name : "null";
             }
+        },
+        {
+            field: 'mark',
+            headerName: 'Mark',
+            width: 130,
+            renderCell: (params) => {
+                const Mark = QuizContent?.data?.filter(
+                    (v) => v.quiz_id === params?.row?._id
+                );
+
+                console.log(Mark);
+
+                const total = Mark?.reduce((acc, v) => acc + v.mark, 0)
+
+                console.log(total);
+
+
+                return total || null
+
+            }
+
         },
         { field: 'name', headerName: 'name', width: 130 },
         // { field: 'question', headerName: 'Question', width: 130 },
@@ -210,6 +235,7 @@ function Quiz(props) {
                             course_id: '',
                             Section_id: '',
                             name: '',
+                            mark: null
                             // question: '',
                             // option: '',
                             // answer: '',

@@ -145,7 +145,7 @@ function Header(props) {
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demos</a>
                                 <ul className="dropdown-menu" aria-labelledby="demoMenu">
-                                    <li> <a className="dropdown-item active" href="index.html">Home Default</a></li>
+                                    <li> <NavLink className="dropdown-item active" to={'/home'}>Home Default</NavLink></li>
                                     <li> <a className="dropdown-item" href="index-2.html">Home Education</a></li>
                                     <li> <a className="dropdown-item" href="index-3.html">Home Academy</a></li>
                                     <li> <a className="dropdown-item" href="index-4.html">Home Course</a></li>

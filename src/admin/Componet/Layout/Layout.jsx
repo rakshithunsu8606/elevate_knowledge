@@ -29,6 +29,7 @@ import SunnyIcon from '@mui/icons-material/Sunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import { useContext } from 'react';
 import QuizIcon from '@mui/icons-material/Quiz';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 
 const drawerWidth = 240;
 
@@ -115,7 +116,8 @@ const ListItems = [
     { label: 'Category', icon: <CategoryIcon />, to: '/admin/Category' },
     { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
     { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' },
-    { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' }
+    { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' },
+    { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' }
 ]
 
 export default function Layout({ children }) {

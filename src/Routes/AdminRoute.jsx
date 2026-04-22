@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { ThemeContext } from '../Context/ThemeContext';
 import Quiz from '../admin/container/Quiz/Quiz';
 import QuizContent from '../admin/container/Quiz/QuizContent';
+import Content from '../admin/container/Content/COntent';
 
 function AdminRoute(props) {
     const ThemeMy = useContext(ThemeContext)
@@ -42,6 +43,7 @@ function AdminRoute(props) {
                     <Route path='/Course' element={<Course />} />
                     <Route path='/Quiz' element={<Quiz/>}/>
                     <Route path='/QuizContent/:id' element={<QuizContent/>}/>
+                    <Route path='/Content' element={<Content />} />
                 </Routes>
             </Layout>
         </ThemeProvider>

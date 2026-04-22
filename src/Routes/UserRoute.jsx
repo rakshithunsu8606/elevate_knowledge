@@ -54,6 +54,7 @@ import HomeLanding from '../Componet/Alert/Alert';
 import { useDispatch } from 'react-redux';
 import { CheakAuthUser } from '../Redux/Slice/auth';
 import { ThemeContext } from '../Context/ThemeContext';
+import Home_Default from '../Componet/Home Default/Home_Default';
 
 function UserRoute(props) {
     const ThemeData = useContext(ThemeContext)
@@ -71,6 +72,8 @@ function UserRoute(props) {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/about' element={<About />} />
+                <Route path='/Quiz' element={<Home_Default />} />
+                <Route path='/Quiz/:id' element={<Home_Default />} />
                 <Route path='/chat' element={<Chat />} />
                 <Route path='/about/:id' element={<About />} />
                 <Route path='/Become_Insdtructor' element={<Become_Instructor />} />
@@ -86,7 +89,7 @@ function UserRoute(props) {
 
                 <Route path='/Course_details' element={<Course_details />} />
                 <Route path='/Course_details/:id' element={<Course_details />} />
-                
+
                 <Route path='/Course_detail_adv' element={<Course_detail_adv />} />
                 <Route path='/Course_detail_min' element={<Course_detail_min />} />
 
@@ -125,7 +128,7 @@ function UserRoute(props) {
 
                 <Route path='/display' element={<CategoryDisplay />} />
                 <Route path='/display/:id' element={<CategoryDisplay />} />
-                
+
                 <Route path='/Auth/:usertype' element={<Auth />} />
                 <Route path='/HomeLanding' element={<HomeLanding />} />
 

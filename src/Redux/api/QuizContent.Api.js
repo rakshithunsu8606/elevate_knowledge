@@ -23,7 +23,7 @@ export const QuizContentApi = createApi({
         }),
         updateQuizContent: build.mutation({
             query: (data) => ({
-                url: `quiz_content/updateQuiz_Content${data._id}`,
+                url: `quiz_content/updateQuiz_Content/${data._id}`,
                 method: 'PUT',
                 body: data
             }),
