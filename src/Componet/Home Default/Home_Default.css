@@ -72,6 +72,17 @@
     background: #3b5bdb;
 }
 
+.correct {
+    background: #dffff2;
+    border-color: #00d397;
+}
+
+.wrong {
+    background: #ffebeb;
+    border-color: #ff4a4a;
+}
+
+
 .index {
     margin-top: 15px;
     color: #777;
@@ -82,12 +93,12 @@
     margin-right: 2rem;
 }
 
-.options {
+/* .options {
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 8px;
     background: #f1f1f1 !important;
-    color: #000 !important;   /* 👈 MOST IMPORTANT */
+    color: #000 !important;
     font-size: 16px;
 }
 
@@ -101,7 +112,4 @@
     background: #f8d7da !important;
     border: 2px solid red !important;
     color: red !important;
-}
-
-
-
+} */

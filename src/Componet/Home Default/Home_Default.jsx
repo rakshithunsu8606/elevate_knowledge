@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../Componet/Home Default/Home_Default.css'
 import { useGetAllQuizQuery } from '../../Redux/api/Quiz.Api';
 import { useGetAllQuizContentQuery } from '../../Redux/api/QuizContent.Api';
+import { useParams } from 'react-router';
 
 
 function Quiz(props) {
@@ -9,21 +10,35 @@ function Quiz(props) {
     const [index, setIndex] = useState(0);
     const [current, setCurrent] = useState({});
     const [score, setScore] = useState(0)
-    const [answer, setAnswer] = useState(false)
+    const [answer, setAnswer] = useState({})
+    const [result, setResult] = useState(false)
+
+    const param = useParams();
+
 
     const { data: Quiz } = useGetAllQuizQuery();
 
-    console.log("AlldataQuizzzz",Quiz);
+    console.log("AlldataQuizzzz", Quiz);
 
     const { data: QuizContent } = useGetAllQuizContentQuery();
 
     console.log("AlldataQuiz", QuizContent?.data);
 
-    const data = QuizContent?.data || [];
+    const findID = Quiz?.data?.find((v) => v.Section_id === param.id);
+
+    console.log(findID);
+
+    const finalQuestion = QuizContent?.data?.filter(
+        (v) => v?.quiz_id === findID?._id
+    );
+
+    const data = finalQuestion || [];
     const question = data[index];
 
     console.log(data);
     console.log(question);
+
+
 
 
     const handleNext = () => {
@@ -38,22 +53,34 @@ function Quiz(props) {
         }
     }
 
-    const handleOption = (v, id) => {
+    const handleOption = (e, v) => {
         console.log(v);
+        console.log(e);
+
 
         let qId = question._id
 
-        if (answer) return;
+        console.log(qId);
+
+        if (answer[qId]) return;
 
         setAnswer((prev) => ({
             ...prev,
             [qId]: true
         }))
 
-        const correctAnswer = data?.find((v) => v._id === id);
 
-        if (correctAnswer.answer === v) {
+        if (question.answer === v) {
             setScore(v => v + 1);
+        }
+
+        if (index < data.length - 1) {
+            setIndex(index + 1)
+        }
+
+        if (index === data.length - 1) {
+            setResult(true);
+            return 0;
         }
     }
 
@@ -63,22 +90,70 @@ function Quiz(props) {
         <div className='contanier'>
             <h1>Quiz App</h1>
             <hr />
-            <h2>{question?.question}</h2>
+            {/* <span>Your Score {score} out of {data.length}</span> */}
+            {result ? <>
+                <h2>You Scored {score} out of {data?.length}</h2>
 
-            <ul>
-                {question?.option?.map((v, i) => (
-                    <li key={i} onClick={() => handleOption(v, question._id)}>
-                        {v}
-                    </li>
-                ))}
-            </ul>
+                <div
+                    className='profile-Body'
+                    style={{
+                        marginBottom: "25px",
+                        padding: "15px",
+                        borderRadius: "10px",
+                        boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+                    }}
+                >
+                    {
+                        data?.map((v,i) => (
+                            <>
+                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '15px', color: 'black' }}>
+                                    <span style={{ marginRight: '10px' }}>
+                                        Q{i + 1}
+                                    </span>
+                                    {v?.question}
+                                </p>
 
-            <button onClick={handlePrev}>Prev</button>
-            <button onClick={handleNext}>Next</button>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: '10px',
+                                    paddingLeft: '10px'
+                                }}>
+                                    <ul>
+                                        {v?.option?.map((v, i) => (
+                                            <li>
+                                                {v}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </>
+                        ))
 
-            <div className='index'>
-                {index + 1} of {question?.length} question
-            </div>
+                    }
+
+                </div>
+
+            </> :
+                <>
+                    <h2>{question?.question}</h2>
+
+                    <ul>
+                        {question?.option?.map((v, i) => (
+                            <li onClick={(e) => handleOption(e, v)}>
+                                {v}
+                            </li>
+                        ))}
+                    </ul>
+
+                    <button onClick={handlePrev}>Prev</button>
+                    <button onClick={handleNext}>Next</button>
+
+                    <div className='index'>
+                        {index + 1} of {data?.length} question
+                    </div></>}
+
+
         </div>
     );
 }
