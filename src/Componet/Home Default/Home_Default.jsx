@@ -66,7 +66,7 @@ function Quiz(props) {
 
         setAnswer((prev) => ({
             ...prev,
-            [qId]: true
+            [qId]: v
         }))
 
 
@@ -104,31 +104,47 @@ function Quiz(props) {
                     }}
                 >
                     {
-                        data?.map((v,i) => (
-                            <>
-                                <p style={{ fontSize: '18px', fontWeight: '600', marginBottom: '15px', color: 'black' }}>
-                                    <span style={{ marginRight: '10px' }}>
-                                        Q{i + 1}
-                                    </span>
-                                    {v?.question}
-                                </p>
+                        data?.map((v, i) => {
+                            const userAnswer = answer[v._id];
+                            const correctAnswer = v.answer;
+                            return (
+                                <>
 
-                                <div style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: '10px',
-                                    paddingLeft: '10px'
-                                }}>
-                                    <ul>
-                                        {v?.option?.map((v, i) => (
-                                            <li>
-                                                {v}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </>
-                        ))
+                                    <p className="question-text">
+                                        <span>Q{i + 1}.</span> {v?.question}
+                                    </p>
+
+                                    <div style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: '1fr 1fr',
+                                        gap: '10px',
+                                        paddingLeft: '10px'
+                                    }}>
+                                        <ul style={{
+                                            width:'24rem'
+                                        }}> 
+                                            {v?.option?.map((v, i) => {
+                                                const Right = v === correctAnswer;
+                                                const isSelected = v === userAnswer;
+
+                                                return (
+                                                    <div
+                                                        key={i}
+                                                        className={`
+                                                    profile-card options
+                                                ${Right ? "correct" : ""}
+                                                ${isSelected && !Right ? "wrong" : ""}
+                                            `}
+                                                    >
+                                                        {String.fromCharCode(65 + i)}. {v}
+                                                    </div>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                </>
+                            )
+                        })
 
                     }
 
