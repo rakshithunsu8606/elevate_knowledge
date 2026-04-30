@@ -47,7 +47,7 @@ function Header(props) {
 
     const Auth = useSelector(state => state.Auth)
 
-    console.log(Auth);
+    console.log("Header",Auth);
 
     const alert = useSelector(state => state.alert)
 

@@ -10,6 +10,7 @@ import { useAddContentMutation, useDeleteContentMutation, useGetAllContentQuery,
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 function Content(props) {
     const [open, setOpen] = useState(false);
@@ -125,15 +126,12 @@ function Content(props) {
                                     <video key={i} src={v.url} controls width="50" height="50" />
                                 );
                             }
-                            else if (v.type === 'pdf') {
+                            else {
                                 return (
-                                    <a key={i} href={v.url} target="_blank" rel="noopener noreferrer">
-                                        📄 PDF
+                                    <a href={v.url} target="_blank" >
+                                        View PDF
                                     </a>
                                 );
-                            }
-                            else {
-                                return null;
                             }
                         })}
                     </div>

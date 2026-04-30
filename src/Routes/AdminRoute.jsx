@@ -11,6 +11,7 @@ import { ThemeContext } from '../Context/ThemeContext';
 import Quiz from '../admin/container/Quiz/Quiz';
 import QuizContent from '../admin/container/Quiz/QuizContent';
 import Content from '../admin/container/Content/COntent';
+import PrivateRoute from './PrivateRoute';
 
 function AdminRoute(props) {
     const ThemeMy = useContext(ThemeContext)
@@ -34,6 +35,7 @@ function AdminRoute(props) {
 
     return (
         <ThemeProvider theme={theme}>
+
             <Layout>
                 <Routes>
                     <Route path='/Dashboard' element={<DeshBoard />} />
@@ -41,8 +43,8 @@ function AdminRoute(props) {
                     <Route path='/Section' element={<Section />} />
                     <Route path='/Section/:id' element={<Section />} />
                     <Route path='/Course' element={<Course />} />
-                    <Route path='/Quiz' element={<Quiz/>}/>
-                    <Route path='/QuizContent/:id' element={<QuizContent/>}/>
+                    <Route path='/Quiz' element={<Quiz />} />
+                    <Route path='/QuizContent/:id' element={<QuizContent />} />
                     <Route path='/Content' element={<Content />} />
                 </Routes>
             </Layout>

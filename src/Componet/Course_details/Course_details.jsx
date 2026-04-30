@@ -45,6 +45,9 @@ function Course_details(props) {
 
     console.log(Match_Con);
 
+    const sortedContent = Match_Con?.sort((a, b) => a.order - b.order)
+
+    console.log(sortedContent);
 
     return (
         <main>
@@ -175,6 +178,11 @@ Page content START */}
 
                                                     console.log(Match_Con);
 
+                                                    const sort = Match_Con?.sort((a, b) => a.order - b.order)
+
+                                                    console.log(sort);
+
+
                                                     return (
                                                         <div className="accordion-item mb-3">
                                                             <h6 className="accordion-header font-base" id={"heading-" + i}>
@@ -188,7 +196,7 @@ Page content START */}
                                                                 <div className="accordion-body mt-3">
                                                                     {/* Course lecture */}
                                                                     {
-                                                                        Match_Con?.map((v2) => {
+                                                                        sort?.map((v2) => {
                                                                             return (
                                                                                 <NavLink to={`/Course_video_palyer/${v2._id}`}>
                                                                                     <div className="d-flex justify-content-between align-items-center">
@@ -200,11 +208,11 @@ Page content START */}
                                                                                         </div>
                                                                                         <p className="mb-0">11m 20s</p>
                                                                                     </div>
-                                                                                    <hr /> 
+                                                                                    <hr />
                                                                                 </NavLink>
                                                                             )
                                                                         })
-                                                                        
+
                                                                     }
                                                                     <hr /> {/* Divider */}
                                                                 </div>

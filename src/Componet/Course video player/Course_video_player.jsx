@@ -16,6 +16,10 @@ function Course_video_player(props) {
 
     console.log(Video_display);
 
+    // const sort=Video_display.sort((a,b)=>a.order-b.order)
+
+    // console.log(sort);
+
 
     return (
         <main>
@@ -25,19 +29,45 @@ function Course_video_player(props) {
                         <div className="overflow-hidden fullscreen-video w-100">
                             {/* Full screen video START */}
                             <div className="video-player rounded-3">
-                                
+
                                 {
                                     Video_display?.map((v) => {
-                                        console.log(v.video[0]);
-                                        let x = v.video[0]
+                                        console.log(v.video[0].type);
+                                        let file = v.video[0]
 
-                                        console.log(x);
-                                        
-                                        return (
-                                            <video  controls autoPlay className="w-100">
-                                                <source src={x.url} type="video/mp4" />
-                                            </video>
-                                        )
+                                        console.log(file);
+
+                                        if (file.type === "image") {
+                                            return (
+                                                <img
+                                                    src={file.url}
+                                                    alt="content"
+                                                    className="w-80 h-50 rounded-3"
+                                                />
+                                            );
+                                        } else if (file.type === "video") {
+                                            return (
+                                                <video controls autoPlay className="w-100">
+                                                    <source src={file.url} type="video/mp4" />
+                                                </video>
+                                            )
+                                        } else if (v.type === 'application/pdf' || v.type === 'raw' || v.type === 'pdf') {
+                                            return (
+                                                <a href={v.url} target='_blank'
+                                                    src={file.url}
+                                                    title="PDF Viewer"
+                                                    width="100%"
+                                                    height="600px">
+                                                    View Pdf
+                                                </a>
+                                            )
+                                        }
+
+                                        // return (
+                                        //     <video  controls autoPlay className="w-100">
+                                        //         <source src={file.url} type="video/mp4" />
+                                        //     </video>
+                                        // )
                                     })
                                 }
                             </div>

@@ -103,7 +103,7 @@ function File({ type, ...props }) {
                         return (
                             <video src={v.url} width={'50px'} height={'50px'} />
                         )
-                    } else if (v.type === 'application/pdf') {
+                    } else if (v.type === 'application/pdf' || v.type === 'raw' || v.type === 'pdf') {
                         return (
                             <a href={v.url} target='_blank'>
                                 View Pdf
