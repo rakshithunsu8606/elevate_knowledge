@@ -100,6 +100,8 @@ function UserRoute(props) {
                 <Route path='/Course_list' element={<Course_list />} />
                 <Route path='/Course_list_2' element={<Course_list_2 />} />
                 <Route path='/Course_video_palyer' element={<Course_video_player />} />
+                <Route path='/Course_video_palyer/:id' element={<Course_video_player />} />
+
                 <Route path='/Empty_cart' element={<Empty_cart />} />
                 <Route path='*' element={<Error />} />
                 <Route path='/Falg' element={<Flag />} />

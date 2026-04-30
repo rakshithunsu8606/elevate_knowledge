@@ -160,7 +160,7 @@ function Quiz(props) {
                                 {v}
                             </li>
                         ))}
-                    </ul>
+                    </ul>                        
 
                     <button onClick={handlePrev}>Prev</button>
                     <button onClick={handleNext}>Next</button>

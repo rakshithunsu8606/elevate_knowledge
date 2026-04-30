@@ -12,6 +12,7 @@ import { NavLink, useParams } from 'react-router';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import Carousel from 'react-material-ui-carousel';
 import { useGetAllSectionQuery } from '../../Redux/api/Section.Api';
+import { useGetAllContentQuery } from '../../Redux/api/Content.Api';
 
 function Course_details(props) {
 
@@ -35,6 +36,14 @@ function Course_details(props) {
     const Sectionss = Section?.data?.filter((v) => v.course_id === id)
 
     console.log(Sectionss);
+
+    const { data: Content } = useGetAllContentQuery();
+
+    console.log(Content?.data);
+
+    const Match_Con = Content?.data.filter((v) => v.Section_id === id)
+
+    console.log(Match_Con);
 
 
     return (
@@ -159,51 +168,69 @@ Page content START */}
                                         <div className="accordion accordion-icon accordion-bg-light" id="accordionExample2">
                                             {/* Item */}
                                             {
-                                                Sectionss?.map((v, i) => (
-                                                    console.log(i),
+                                                Sectionss?.map((v, i) => {
+                                                    console.log(v)
 
-                                                    <div className="accordion-item mb-3">
-                                                        <h6 className="accordion-header font-base" id={"heading-" + i}>
-                                                            <button className="accordion-button fw-bold collapsed rounded d-sm-flex d-inline-block" type="button" key={i} data-bs-toggle="collapse" data-bs-target={"#collapse-" + i} aria-expanded="false" aria-controls={"collapse-" + i}>
-                                                                {v.name}
-                                                                <span className="small ms-0 ms-sm-2">(4 Lectures)</span>
-                                                            </button>
-                                                        </h6>
-                                                        <div id={"collapse-" + i} className="accordion-collapse collapse" aria-labelledby={"heading-" + i} data-bs-parent="#accordionExample2">
-                                                            {/* Accordion body START */}
-                                                            <div className="accordion-body mt-3">
-                                                                {/* Course lecture */}
-                                                                <div className="d-flex justify-content-between align-items-center">
-                                                                    <div className="position-relative d-flex align-items-center">
-                                                                        <a href="#" className="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-                                                                            <i className="fas fa-play me-0" />
-                                                                        </a>
-                                                                        <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">{v.description}</span>
-                                                                    </div>
-                                                                    <p className="mb-0">11m 20s</p>
-                                                                </div>
-                                                                <hr /> {/* Divider */}
-                                                            </div>
-                                                            <div className="accordion-body">
-                                                                <NavLink to={`/Quiz/${v._id}`}>
+                                                    let Match_Con = Content?.data.filter((v1) => v1.Section_id === v._id)
+
+                                                    console.log(Match_Con);
+
+                                                    return (
+                                                        <div className="accordion-item mb-3">
+                                                            <h6 className="accordion-header font-base" id={"heading-" + i}>
+                                                                <button className="accordion-button fw-bold collapsed rounded d-sm-flex d-inline-block" type="button" key={i} data-bs-toggle="collapse" data-bs-target={"#collapse-" + i} aria-expanded="false" aria-controls={"collapse-" + i}>
+                                                                    {v.name}
+                                                                    <span className="small ms-0 ms-sm-2">(4 Lectures)</span>
+                                                                </button>
+                                                            </h6>
+                                                            <div id={"collapse-" + i} className="accordion-collapse collapse" aria-labelledby={"heading-" + i} data-bs-parent="#accordionExample2">
+                                                                {/* Accordion body START */}
+                                                                <div className="accordion-body mt-3">
                                                                     {/* Course lecture */}
-                                                                    <div className="d-flex justify-content-between align-items-center">
-                                                                        <div className="position-relative d-flex align-items-center">
-                                                                            <a href="#" className="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-                                                                                <i className="fas fa-play me-0" />
-                                                                            </a>
-                                                                            <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">Quiz</span>
-                                                                        </div>
+                                                                    {
+                                                                        Match_Con?.map((v2) => {
+                                                                            return (
+                                                                                <NavLink to={`/Course_video_palyer/${v2._id}`}>
+                                                                                    <div className="d-flex justify-content-between align-items-center">
+                                                                                        <div className="position-relative d-flex align-items-center">
+                                                                                            <a href="#" className="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                                                                                                <i className="fas fa-play me-0" />
+                                                                                            </a>
+                                                                                            <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">{v2.name}</span>
+                                                                                        </div>
+                                                                                        <p className="mb-0">11m 20s</p>
+                                                                                    </div>
+                                                                                    <hr /> 
+                                                                                </NavLink>
+                                                                            )
+                                                                        })
+                                                                        
+                                                                    }
+                                                                    <hr /> {/* Divider */}
+                                                                </div>
+                                                                <div className="accordion-body">
+                                                                    <NavLink to={`/Quiz/${v._id}`}>
+                                                                        {/* Course lecture */}
+                                                                        <div className="d-flex justify-content-between align-items-center">
+                                                                            <div className="position-relative d-flex align-items-center">
+                                                                                <a href="#" className="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                                                                                    <i className="fas fa-play me-0" />
+                                                                                </a>
+                                                                                <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">Quiz</span>
+                                                                            </div>
 
-                                                                        <p className="mb-0">11m 20s</p>
-                                                                    </div>
-                                                                </NavLink>
-                                                                <hr /> {/* Divider */}
+                                                                            <p className="mb-0">11m 20s</p>
+                                                                        </div>
+                                                                    </NavLink>
+                                                                    <hr /> {/* Divider */}
+                                                                </div>
+                                                                {/* Accordion body END */}
                                                             </div>
-                                                            {/* Accordion body END */}
                                                         </div>
-                                                    </div>
-                                                ))
+                                                    )
+
+
+                                                })
                                             }
 
                                         </div>

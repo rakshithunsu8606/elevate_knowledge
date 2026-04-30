@@ -39,9 +39,15 @@ function File({ type, ...props }) {
         console.log(v);
 
         if (v?.url) {
-            return v?.url;
+            return {
+                url: v?.url,
+                type: v?.type
+            };
         } else {
-            return URL.createObjectURL(v)
+            return {
+                url: URL.createObjectURL(v),
+                type: v?.type
+            }
         }
 
         // if (typeof v === 'string') {
@@ -64,7 +70,7 @@ function File({ type, ...props }) {
     console.log("meta", meta);
     console.log("Props", props);
 
-    // console.log(file);
+    console.log(files);
     return (
         <>
             <Button
@@ -88,9 +94,23 @@ function File({ type, ...props }) {
 
             {
 
-                fileArr?.map((v) => (
-                    <img src={v} width={'50px'} height={'50px'} />
-                ))
+                fileArr?.map((v) => {
+                    if (v.type === 'image' || v.type === "image/jpeg") {
+                        return (
+                            <img src={v.url} width={'50px'} height={'50px'} />
+                        )
+                    } else if (v.type === 'video' || v.type === "video/mp4") {
+                        return (
+                            <video src={v.url} width={'50px'} height={'50px'} />
+                        )
+                    } else if (v.type === 'application/pdf') {
+                        return (
+                            <a href={v.url} target='_blank'>
+                                View Pdf
+                            </a>
+                        )
+                    }
+                })
 
             }
 

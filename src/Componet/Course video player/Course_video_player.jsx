@@ -1,6 +1,22 @@
 import React from 'react';
+import { useParams } from 'react-router';
+import { useGetAllContentQuery } from '../../Redux/api/Content.Api';
 
 function Course_video_player(props) {
+
+    const { id } = useParams()
+
+    console.log(id);
+
+    const { data: Content } = useGetAllContentQuery();
+
+    console.log(Content?.data);
+
+    const Video_display = Content?.data?.filter((v) => v?._id === id);
+
+    console.log(Video_display);
+
+
     return (
         <main>
             <section className="py-0 bg-dark position-relative">
@@ -9,14 +25,21 @@ function Course_video_player(props) {
                         <div className="overflow-hidden fullscreen-video w-100">
                             {/* Full screen video START */}
                             <div className="video-player rounded-3">
-                                <video controls crossOrigin="anonymous" playsInline poster="assets/images/videos/poster.jpg">
-                                    <source src="assets/images/videos/360p.mp4" type="video/mp4" size={360} />
-                                    <source src="assets/images/videos/720p.mp4" type="video/mp4" size={720} />
-                                    <source src="assets/images/videos/1080p.mp4" type="video/mp4" size={1080} />
-                                    {/* Caption files */}
-                                    <track kind="captions" label="English" srcLang="en" src="assets/images/videos/en.vtt.txt" default />
-                                    <track kind="captions" label="French" srcLang="fr" src="assets/images/videos/fr.vtt.txt" />
-                                </video>
+                                
+                                {
+                                    Video_display?.map((v) => {
+                                        console.log(v.video[0]);
+                                        let x = v.video[0]
+
+                                        console.log(x);
+                                        
+                                        return (
+                                            <video  controls autoPlay className="w-100">
+                                                <source src={x.url} type="video/mp4" />
+                                            </video>
+                                        )
+                                    })
+                                }
                             </div>
                             {/* Full screen video END */}
                             {/* Plyr resources and browser polyfills are specified in the pen settings */}

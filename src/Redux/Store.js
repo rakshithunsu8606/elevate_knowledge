@@ -7,6 +7,7 @@ import { CourseApi } from './api/Course.Api'
 import { SectionApi } from './api/Section.Api'
 import { QuizApi } from './api/Quiz.Api'
 import { QuizContentApi } from './api/QuizContent.Api'
+import { ContentApi } from './api/Content.Api'
 
 // import CategoryDisplaySlice from './Slice/CategoryDisplaySlice'
 
@@ -21,10 +22,16 @@ export const Confstore = () => {
             [CourseApi.reducerPath]: CourseApi.reducer,
             [SectionApi.reducerPath]: SectionApi.reducer,
             [QuizApi.reducerPath]:QuizApi.reducer,
-            [QuizContentApi.reducerPath]:QuizContentApi.reducer
+            [QuizContentApi.reducerPath]:QuizContentApi.reducer,
+            [ContentApi.reducerPath]:ContentApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat([CourseApi.middleware, SectionApi.middleware, QuizApi.middleware, QuizContentApi.middleware]),
+            getDefaultMiddleware().concat([CourseApi.middleware, 
+                                        SectionApi.middleware, 
+                                        QuizApi.middleware, 
+                                        QuizContentApi.middleware,
+                                        ContentApi.middleware
+                                    ]),
     })
 
     return store
