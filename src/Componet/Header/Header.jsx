@@ -47,7 +47,9 @@ function Header(props) {
 
     const Auth = useSelector(state => state.Auth)
 
-    console.log("Header",Auth);
+    console.log("Header", Auth);
+
+    localStorage.setItem("user", JSON.stringify(Auth.user));
 
     const alert = useSelector(state => state.alert)
 
@@ -103,7 +105,7 @@ function Header(props) {
                                                                                         {
                                                                                             thirdCat.map((v5) => (
                                                                                                 <li>
-                                                                                                    <a className="dropdown-item" to={`/category/${v5._id}`} ><NavLink to={ `/Course_grid/${v5._id}`}>{v5.name}</NavLink></a>
+                                                                                                    <a className="dropdown-item" to={`/category/${v5._id}`} ><NavLink to={`/Course_grid/${v5._id}`}>{v5.name}</NavLink></a>
                                                                                                 </li>
                                                                                             )
                                                                                             )
@@ -470,8 +472,36 @@ function Header(props) {
                                 Auth.user ?
                                     <a href='#' onClick={() => dispatch(LogoutUser(Auth.user._id), CheakAuthUser())} className="dropdown-item bg-danger-soft-hover" >Sign Out</a>
                                     :
-                                    <li><NavLink className=" dropdown-item bg-danger-soft-hover" to={'/Auth/Instructure'}><i className="bi bi-power fa-fw me-2" />Signin as Instructure</NavLink></li>
+                                    <li><NavLink className=" dropdown-item bg-danger-soft-hover" to={'/Auth/Instructor'}><i className="bi bi-power fa-fw me-2" />Signin as Instructure</NavLink></li>
                             }
+
+                            {/* {
+                                Auth.user ? (
+                                    <a
+                                        href="#"
+                                        onClick={() => {
+                                            dispatch(LogoutUser(Auth.user._id));
+                                            dispatch(CheakAuthUser());
+                                        }}
+                                        className="dropdown-item bg-danger-soft-hover"
+                                    >
+                                        Sign Out
+                                    </a>
+                                ) : (
+                                    <>
+                                        <li>
+                                            <NavLink className="dropdown-item" to="/Auth/user">
+                                                Sign in as User
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink className="dropdown-item" to="/Auth/Instructor">
+                                                Sign in as Instructor
+                                            </NavLink>
+                                        </li>
+                                    </>
+                                )
+                            } */}
 
 
                             <li> <hr className="dropdown-divider" /></li>

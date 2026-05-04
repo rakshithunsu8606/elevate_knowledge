@@ -12,12 +12,17 @@ import Quiz from '../admin/container/Quiz/Quiz';
 import QuizContent from '../admin/container/Quiz/QuizContent';
 import Content from '../admin/container/Content/COntent';
 import PrivateRoute from './PrivateRoute';
+import { useSelector } from 'react-redux';
 
 function AdminRoute(props) {
     const ThemeMy = useContext(ThemeContext)
 
     console.log(ThemeMy);
 
+
+    const Auth = useSelector(state => state.Auth)
+
+    console.log("Authhhh:", Auth);
 
     const theme = createTheme({
         palette: {
@@ -36,7 +41,7 @@ function AdminRoute(props) {
     return (
         <ThemeProvider theme={theme}>
 
-            <Layout>
+            <Layout auth={Auth}>
                 <Routes>
                     <Route path='/Dashboard' element={<DeshBoard />} />
                     <Route path='/Category' element={<Category />} />

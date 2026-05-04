@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router';
 import AdminRoute from './Routes/AdminRoute';
 import UserRoute from './Routes/UserRoute';
 import PrivateRoute from './Routes/PrivateRoute';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { Confstore } from './Redux/Store';
 import { SnackbarProvider } from 'notistack';
 import Alert from './Componet/Alert/Alert';
@@ -17,11 +17,12 @@ function App(props) {
     <SnackbarProvider>
       <ThemeProvider>
         <Provider store={store}>
+          
           <Alert />
           <Routes>
             <Route path='/*' element={<UserRoute />} />
 
-            <Route element={<PrivateRoute />}>
+            <Route element={<PrivateRoute allowedRole="Instructure" />}>
               <Route path='/admin/*' element={<AdminRoute />} />
             </Route>
           </Routes>

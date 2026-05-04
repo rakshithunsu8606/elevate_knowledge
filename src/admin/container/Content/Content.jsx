@@ -115,20 +115,20 @@ function Content(props) {
             renderCell: (params) => {
                 return (
                     <div style={{ display: 'flex', gap: '5px' }}>
-                        {params.row.video?.map((v, i) => {
-                            if (v.type === 'image') {
+                        {params?.row?.video?.map((v, i) => {
+                            if (v.type === "video") {
                                 return (
-                                    <img key={i} src={v.url} width="50" height="50" />
+                                    <video key={i} src={v.url} controls width={"118px"} height={"60px"} />
                                 );
                             }
-                            else if (v.type === 'video') {
+                            else if (v.type === "image") {
                                 return (
-                                    <video key={i} src={v.url} controls width="50" height="50" />
+                                    <img key={i} src={v.url} alt="" width={"80px"} height={"50px"} />
                                 );
                             }
-                            else {
+                            else if (v.type === "raw") {
                                 return (
-                                    <a href={v.url} target="_blank" >
+                                    <a key={i} href={v.url} target="_blank" rel="noreferrer">
                                         View PDF
                                     </a>
                                 );

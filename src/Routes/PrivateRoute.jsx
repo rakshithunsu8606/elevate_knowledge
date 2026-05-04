@@ -1,21 +1,95 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router';
+// import React, { useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { Navigate, Outlet } from 'react-router';
+// import { CheakAuthUser } from '../Redux/Slice/auth';
 
-function PrivateRoute(props) {
-    const auth = true
+// function PrivateRoute(props) {
+//     // console.log(auth);
 
-    const Auth = useSelector(state => state.Auth)
-
-    console.log("Auth:", Auth);
-
+//     // const auth = true
 
 
-    return (
 
-        auth ? <Outlet /> : <Navigate to={'/signIn'} />
+//     const dispatch = useDispatch()
 
-    );
+//     useEffect(() => {
+//         dispatch(CheakAuthUser())
+
+//     }, [])
+
+//     const Auth = useSelector(state => state.Auth)
+
+//     console.log("Authhhh:", Auth);
+
+//     const aauth = Auth?.user
+
+//     const Instructure = Auth?.user?.role
+
+//     console.log(Instructure);
+
+//     if (aauth) {
+//         if (Instructure === "Instructure") {
+//             return <Outlet />
+//         } else if (Instructure === "user") {
+//             return <Navigate to={'/'} />
+//         }
+//     } else {
+//         return <Navigate to={'/Auth'} /> 
+//     }
+
+//     // if (Instructure === "Instructure") {
+//     //     return <Outlet />
+//     // } else if (Instructure === "user") {
+//     //     return <Navigate to={'/'} />
+//     // }
+
+
+
+//     // return (
+
+//     //     Instructure === "Instructure" ? <Outlet /> : <Navigate to={'/auth'} />
+
+//     // );
+// }
+
+// export default PrivateRoute;
+
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom';
+import { CheakAuthUser } from '../Redux/Slice/auth';
+
+function PrivateRoute() {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(CheakAuthUser());
+    }, []);
+
+    const Auth = useSelector(state => state.Auth);
+    const isLoading = Auth?.isLoading;
+
+    
+    const data = localStorage.getItem("user");
+    const storeuser = data ? JSON.parse(data) : null;
+
+    
+    const user = Auth?.user || storeuser;
+
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    if (user) {
+        if (user.role === "Instructor") {
+            return <Outlet />;
+        } else {
+            return <Navigate to="/" />;
+        }
+    } else {
+        return <Navigate to="/Auth/user" />;
+    }
 }
 
 export default PrivateRoute;

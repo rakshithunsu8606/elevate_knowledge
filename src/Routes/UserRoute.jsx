@@ -51,13 +51,19 @@ import CategoryDisplay from '../Componet/Category/CategoryDisplay';
 import Chat from '../Container/Chat';
 import Auth from '../Componet/Auth/Auth';
 import HomeLanding from '../Componet/Alert/Alert';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CheakAuthUser } from '../Redux/Slice/auth';
 import { ThemeContext } from '../Context/ThemeContext';
 import Home_Default from '../Componet/Home Default/Home_Default';
+import PrivateRoute from './PrivateRoute';
 
 function UserRoute(props) {
     const ThemeData = useContext(ThemeContext)
+
+
+    const aaauth = useSelector(state => state.Auth)
+
+    console.log("Auth:", aaauth);
 
 
     const dispatch = useDispatch()
@@ -107,10 +113,11 @@ function UserRoute(props) {
                 <Route path='/Falg' element={<Flag />} />
                 <Route path='/Forgot' element={<Forgot />} />
                 <Route path='/Instructor_create_Course' element={<Instructor_create_Course />} />
-                <Route path='/Instructor_dashBorad' element={<Instructor_dashBorad />} />
                 <Route path='/Instructor_earning' element={<Instructor_earning />} />
                 <Route path='/Instructor_list' element={<Instructor_list />} />
                 <Route path='/Instructor_manage_course' element={<Instructor_manage_course />} />
+                <Route path='/Instructor_manage_course/:id' element={<Instructor_manage_course />} />
+
                 <Route path='/Instructor_order' element={<Instructor_order />} />
                 <Route path='/Instructor_payout' element={<Instructor_payout />} />
                 <Route path='/Instructor_review' element={<Instructor_review />} />
@@ -121,7 +128,6 @@ function UserRoute(props) {
                 <Route path='/Request_demo' element={<Request_demo />} />
                 <Route path='/auth' element={<Auth />} />
                 <Route path='/Student_list_course' element={<Student_list_course />} />
-                <Route path='/Student_deshborad' element={<Student_deshborad />} />
                 <Route path='/Student_payment' element={<Student_payment />} />
                 <Route path='/Student_subscription' element={<Student_subscription />} />
                 <Route path='/University' element={<University />} />
@@ -135,8 +141,8 @@ function UserRoute(props) {
                 <Route path='/HomeLanding' element={<HomeLanding />} />
 
 
-
-
+                <Route path='/Instructor_dashBorad' element={<Instructor_dashBorad />} />
+                <Route path='/Student_deshborad' element={<Student_deshborad />} />
 
 
             </Routes>

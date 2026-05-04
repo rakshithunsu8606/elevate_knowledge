@@ -1,6 +1,13 @@
 import React from 'react';
+import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
+import { useParams } from 'react-router';
 
 function Instructor_create_Course(props) {
+
+    
+
+
+
     return (
         <main>
             {/* =======================

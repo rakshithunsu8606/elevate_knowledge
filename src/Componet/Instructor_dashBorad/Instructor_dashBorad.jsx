@@ -1,6 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router';
 
 function Instructor_dashBorad(props) {
+
+    const Auth = useSelector(state => state.Auth)
+
+    console.log("Authhhh:", Auth);
+
+    const Instructure = Auth?.user
+
+    console.log(Instructure);
+    
     return (
         <main>
             {/* =======================
@@ -35,7 +46,7 @@ Page Banner START */}
                                         </div>
                                         {/* Button */}
                                         <div className="d-flex align-items-center mt-2 mt-md-0">
-                                            <a href="instructor-create-course.html" className="btn btn-success mb-0">Create a course</a>
+                                            <NavLink to={'/admin/Course'} className="btn btn-success mb-0">Create a course</NavLink>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +89,7 @@ Page content START */}
                                             {/* Dashboard menu */}
                                             <div className="list-group list-group-dark list-group-borderless">
                                                 <a className="list-group-item active" href="instructor-dashboard.html"><i className="bi bi-ui-checks-grid fa-fw me-2" />Dashboard</a>
-                                                <a className="list-group-item" href="instructor-manage-course.html"><i className="bi bi-basket fa-fw me-2" />My Courses</a>
+                                                <NavLink className="list-group-item" to={`/Instructor_manage_course/${Instructure?._id}`}><i className="bi bi-basket fa-fw me-2" />My Courses</NavLink>
                                                 <a className="list-group-item" href="instructor-earning.html"><i className="bi bi-graph-up fa-fw me-2" />Earnings</a>
                                                 <a className="list-group-item" href="instructor-studentlist.html"><i className="bi bi-people fa-fw me-2" />Students</a>
                                                 <a className="list-group-item" href="instructor-order.html"><i className="bi bi-folder-check fa-fw me-2" />Orders</a>

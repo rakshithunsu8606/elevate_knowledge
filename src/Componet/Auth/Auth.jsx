@@ -12,12 +12,13 @@ function Auth(props) {
 
     const Auth = useSelector(state => state.Auth)
 
-    console.log("Auth:",Auth);
+    console.log("Auth:", Auth);
+
+   
 
     const { usertype } = useParams();
 
-    console.log("usertype:",usertype);
-
+    console.log(usertype);
 
     const dispatch = useDispatch();
 
@@ -132,8 +133,10 @@ function Auth(props) {
 
                 console.log(res, Auth);
 
-                if (res.type === 'auth/LoginyUser/fulfilled' && res.payload.role === 'Instructure') {
-                    auth('/Instructor_dashBorad')
+                console.log("ROLE:", res?.payload?.role);
+
+                if (res.type === 'auth/LoginyUser/fulfilled' && res.payload.role === 'Instructor') {
+                    auth('/Instructor_dashBorad');
                 } else if (res.type === 'auth/LoginyUser/fulfilled' && res.payload.role === 'user') {
                     auth('/')
                 }

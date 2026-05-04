@@ -232,6 +232,8 @@ const auth = createSlice({
             state.error = action.payload
         })
         builder.addCase(LoginyUser.fulfilled, (state, action) => {
+            console.log(action.payload);
+            
             state.isLoading = false
             state.user = action.payload
             state.error = null
