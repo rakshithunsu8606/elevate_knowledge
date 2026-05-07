@@ -130,8 +130,8 @@ export default function Layout({ children }) {
     let ListItems
     if (Auth?.user?.role === "Instructor") {
         ListItems = [
-            { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
             { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' },
+            { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
             { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' },
             { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' }
         ]
@@ -139,8 +139,8 @@ export default function Layout({ children }) {
         ListItems = [
             { label: 'Dashboard', icon: <PaddingIcon />, to: '/admin/Dashboard' },
             { label: 'Category', icon: <CategoryIcon />, to: '/admin/Category' },
-            { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
             { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' },
+            { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
             { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' },
             { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' }
         ]

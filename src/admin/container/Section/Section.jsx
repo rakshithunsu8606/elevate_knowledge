@@ -69,6 +69,10 @@ function Section(props) {
 
     const [deleteSection] = useDeleteSectionMutation()
 
+    const Auth = useSelector(state => state.Auth)
+
+    console.log(Auth);
+
 
 
     const handleSubmit = async (values) => {
@@ -80,7 +84,10 @@ function Section(props) {
 
             await updataSection({ ...values, _id: update._id })
         } else {
-            await addSection(values)
+            await addSection({
+                ...values,
+                instructure_id: Auth?.user?._id
+            })
         }
 
 
@@ -130,6 +137,11 @@ function Section(props) {
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'description', headerName: 'description', width: 130 },
         {
+            field: 'instructure_id',
+            headerName: 'Instructure_id',
+            width: 130,
+        },
+        {
             field: 'Action', headerName: 'Action', width: 130,
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
@@ -142,6 +154,7 @@ function Section(props) {
                 </Stack>
             )
         },
+
 
 
     ];

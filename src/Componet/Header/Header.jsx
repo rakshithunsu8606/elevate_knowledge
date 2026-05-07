@@ -63,7 +63,7 @@ function Header(props) {
             <nav className="navbar navbar-expand-xl">
                 <div className="container-fluid px-3 px-xl-5">
                     {/* Logo START */}
-                    <a className="navbar-brand" href="index.html">
+                    <a className="navbar-brand" href="/">
                         <img className="light-mode-item navbar-brand-item" src="assets/images/logo.svg" alt="logo" />
                         <img className="dark-mode-item navbar-brand-item" src="assets/images/logo-light.svg" alt="logo" />
                     </a>
@@ -139,12 +139,12 @@ function Header(props) {
                         {/* Nav Main menu START */}
                         <ul className="navbar-nav navbar-nav-scroll me-auto">
                             <li class="nav-item dropdown">
-                                <NavLink className="nav-link" to={'./about'}>
+                                <NavLink className="nav-link" to={'/about'}>
                                     About
                                 </NavLink>
                             </li>
                             {/* Nav item 1 Demos */}
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle active" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demos</a>
                                 <ul className="dropdown-menu" aria-labelledby="demoMenu">
                                     <li> <NavLink className="dropdown-item active" to={'/home'}>Home Default</NavLink></li>
@@ -164,7 +164,6 @@ function Header(props) {
                                     <li className="dropdown-submenu dropend">
                                         <a className="dropdown-item dropdown-toggle" href="#">Dropdown levels</a>
                                         <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
-                                            {/* dropdown submenu open right */}
                                             <li className="dropdown-submenu dropend">
                                                 <a className="dropdown-item dropdown-toggle" href="#">Dropdown (end)</a>
                                                 <ul className="dropdown-menu" data-bs-popper="none">
@@ -173,7 +172,6 @@ function Header(props) {
                                                 </ul>
                                             </li>
                                             <li> <a className="dropdown-item" href="#">Dropdown item</a> </li>
-                                            {/* dropdown submenu open left */}
                                             <li className="dropdown-submenu dropstart">
                                                 <a className="dropdown-item dropdown-toggle" href="#">Dropdown (start)</a>
                                                 <ul className="dropdown-menu dropdown-menu-end" data-bs-popper="none">
@@ -185,13 +183,15 @@ function Header(props) {
                                         </ul>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                             {/* Nav item 2 Pages */}
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
-                                <ul className="dropdown-menu" aria-labelledby="pagesMenu">
-                                    {/* Dropdown submenu */}
-                                    <li className="dropdown-submenu dropend">
+                                <NavLink className="nav-link" to={'/Course_grid'}>
+                                    Course
+                                </NavLink>
+
+                                {/* <ul className="dropdown-menu" aria-labelledby="pagesMenu">
+                                   <li className="dropdown-submenu dropend">
                                         <a className="dropdown-item dropdown-toggle" href="#">Course</a>
                                         <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
                                             <li> <NavLink className="dropdown-item" to={'/Course_grid'}>Course Grid Classic</NavLink></li>
@@ -206,7 +206,6 @@ function Header(props) {
                                             <li> <NavLink className="dropdown-item" to={'/Course_video_palyer'}>Course Full Screen Video</NavLink></li>
                                         </ul>
                                     </li>
-                                    {/* Dropdown submenu */}
                                     <li className="dropdown-submenu dropend">
                                         <a className="dropdown-item dropdown-toggle" href="#">About</a>
                                         <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
@@ -221,7 +220,6 @@ function Header(props) {
                                     <li> <NavLink className="dropdown-item" to={'/Instructor_list'}>Instructor List</NavLink></li>
                                     <li> <NavLink className="dropdown-item" to={'/Instructor_single'}>Instructor Single</NavLink></li>
                                     <li> <NavLink className="dropdown-item" to={'/Become_Insdtructor'}>Become an Instructor</NavLink></li>
-                                    {/* Dropdown submenu */}
                                     <li className="dropdown-submenu dropend">
                                         <a className="dropdown-item dropdown-toggle" href="#">Authentication</a>
                                         <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
@@ -237,13 +235,18 @@ function Header(props) {
                                     <li> <NavLink className="dropdown-item" to={'/Checkout'}>Checkout</NavLink></li>
                                     <li> <NavLink className="dropdown-item" to={'/Empty_cart'}>Empty Cart</NavLink></li>
                                     <li> <NavLink className="dropdown-item" to={'/Wishlist'}>Wishlist</NavLink></li>
-                                </ul>
+                                </ul> */}
+                            </li>
+
+                            <li className="nav-item dropdown">
+                                <NavLink className="nav-link" to={'/University'}>
+                                    Admission
+                                </NavLink>
                             </li>
                             {/* Nav item 3 Account */}
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="accounntMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accounts</a>
                                 <ul className="dropdown-menu" aria-labelledby="accounntMenu">
-                                    {/* Dropdown submenu */}
                                     <li className="dropdown-submenu dropend">
                                         <a className="dropdown-item dropdown-toggle" href="#"><i className="fas fa-user-tie fa-fw me-1" />Instructor</a>
                                         <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
@@ -258,7 +261,6 @@ function Header(props) {
                                             <li> <NavLink className="dropdown-item" to={'/Instructor_payout'}><i className="fas fa-wallet fa-fw me-1" />Payout</NavLink> </li>
                                         </ul>
                                     </li>
-                                    {/* Dropdown submenu */}
                                     <li className="dropdown-submenu dropend">
                                         <a className="dropdown-item dropdown-toggle" href="#"><i className="fas fa-user-graduate fa-fw me-1" />Student</a>
                                         <ul className="dropdown-menu dropdown-menu-start" data-bs-popper="none">
@@ -275,13 +277,14 @@ function Header(props) {
                                     <li> <a className="dropdown-item" href="instructor-setting.html"><i className="fas fa-fw fa-cog me-1" />Settings</a> </li>
                                     <li> <a className="dropdown-item" href="instructor-delete-account.html"><i className="fas fa-fw fa-trash-alt me-1" />Delete Profile</a> </li>
                                 </ul>
-                            </li>
+                            </li> */}
                             {/* Nav item 4 Megamenu*/}
                             <li className="nav-item dropdown dropdown-fullwidth">
-                                <a className="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Megamenu</a>
-                                <div className="dropdown-menu dropdown-menu-end pb-0" data-bs-popper="none">
+                                <NavLink className="nav-link" to={'/Contact_us'}>
+                                    Contact Us
+                                </NavLink>
+                                {/* <div className="dropdown-menu dropdown-menu-end pb-0" data-bs-popper="none">
                                     <div className="row p-4 g-4">
-                                        {/* Dropdown column item */}
                                         <div className="col-xl-6 col-xxl-3">
                                             <h6 className="mb-0">Get started</h6>
                                             <hr />
@@ -299,31 +302,25 @@ function Header(props) {
                                                 <li> <a className="dropdown-item" href="#">Business marketing</a> </li>
                                             </ul>
                                         </div>
-                                        {/* Dropdown column item */}
                                         <div className="col-xl-6 col-xxl-3">
                                             <h6 className="mb-0">Degree</h6>
                                             <hr />
-                                            {/* Dropdown item */}
                                             <div className="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
                                                 <a className="stretched-link h6 mb-0" href="#">Contact management</a>
                                                 <p className="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
                                             </div>
-                                            {/* Dropdown item */}
                                             <div className="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
                                                 <a className="stretched-link h6 mb-0" href="#">Sales pipeline</a>
                                                 <p className="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
                                             </div>
-                                            {/* Dropdown item */}
                                             <div className="mb-2 position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
                                                 <a className="stretched-link h6 mb-0" href="#">Security &amp; Permission</a>
                                                 <p className="mb-0 small text-truncate-2">Speedily say has suitable disposal add boy. On forth doubt miles of child.</p>
                                             </div>
                                         </div>
-                                        {/* Dropdown column item */}
                                         <div className="col-xl-6 col-xxl-3">
                                             <h6 className="mb-0">Certificate</h6>
                                             <hr />
-                                            {/* Dropdown item */}
                                             <div className="d-flex mb-4 position-relative">
                                                 <h2 className="mb-0"><i className="fab fa-fw fa-google text-google-icon" /></h2>
                                                 <div className="ms-2">
@@ -331,7 +328,6 @@ function Header(props) {
                                                     <p className="mb-0 small">No prerequisites</p>
                                                 </div>
                                             </div>
-                                            {/* Dropdown item */}
                                             <div className="d-flex mb-4 position-relative">
                                                 <h2 className="mb-0"><i className="fab fa-fw fa-linkedin-in text-linkedin" /></h2>
                                                 <div className="ms-2">
@@ -339,7 +335,6 @@ function Header(props) {
                                                     <p className="mb-0 small">No prerequisites</p>
                                                 </div>
                                             </div>
-                                            {/* Dropdown item */}
                                             <div className="d-flex mb-4 position-relative">
                                                 <h2 className="mb-0"><i className="fab fa-fw fa-facebook text-facebook" /></h2>
                                                 <div className="ms-2">
@@ -347,7 +342,6 @@ function Header(props) {
                                                     <p className="mb-0 small">Expert advice</p>
                                                 </div>
                                             </div>
-                                            {/* Dropdown item */}
                                             <div className="d-flex mb-4 position-relative">
                                                 <h2 className="mb-0"><i className="fas fa-fw fa-basketball-ball text-dribbble" /></h2>
                                                 <div className="ms-2">
@@ -356,37 +350,29 @@ function Header(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Dropdown column item */}
                                         <div className="col-xl-6 col-xxl-3">
                                             <h6 className="mb-0">Download Eduport</h6>
                                             <hr />
-                                            {/* Image */}
                                             <img src="assets/images/element/14.svg" alt />
-                                            {/* Download button */}
                                             <div className="row g-2 justify-content-center mt-3">
-                                                {/* Google play store button */}
                                                 <div className="col-6 col-sm-4 col-xxl-6">
                                                     <a href="#"> <img src="assets/images/client/google-play.svg" className="btn-transition" alt="google-store" /> </a>
                                                 </div>
-                                                {/* App store button */}
                                                 <div className="col-6 col-sm-4 col-xxl-6">
                                                     <a href="#"> <img src="assets/images/client/app-store.svg" className="btn-transition" alt="app-store" /> </a>
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Action box */}
                                         <div className="col-12">
                                             <div className="alert alert-success alert-dismissible fade show mt-2 mb-0 rounded-3" role="alert">
-                                                {/* Avatar */}
                                                 <div className="avatar avatar-xs me-2">
                                                     <img className="avatar-img rounded-circle" src="assets/images/avatar/09.jpg" alt="avatar" />
                                                 </div>
-                                                {/* Info */}
                                                 The personality development class starts at 2:00 pm, click to <a href="#" className="alert-link">Join Now</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                             </li>
                             {/* Nav item 5 link*/}
                             <li className="nav-item dropdown">
@@ -426,100 +412,96 @@ function Header(props) {
                         </ul>
                         {/* Nav Main menu END */}
                         {/* Nav Search START */}
-                        <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
+                        {/* <div className="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
                             <div className="nav-item w-100">
                                 <form className="position-relative">
                                     <input className="form-control pe-5 bg-transparent" type="search" placeholder="Search" aria-label="Search" />
                                     <button className="btn bg-transparent px-2 py-0 position-absolute top-50 end-0 translate-middle-y" type="submit"><i className="fas fa-search fs-6 " /></button>
                                 </form>
                             </div>
-                        </div>
+                        </div> */}
                         {/* Nav Search END */}
                     </div>
                     {/* Main navbar END */}
                     {/* Profile START */}
-                    <div className="dropdown ms-1 ms-lg-0">
-                        <a className="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img className="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar" />
+                    <li>
+                        
+                    </li>
+                    <div className="dropdown ms-1 ms-lg-0 d-flex align-items-center">
+
+                        {/* Cart Icon */}
+                        <NavLink to={'/Cart'} className="text-white me-3 fs-3">
+                            <i className="bi bi-cart3"></i>
+                        </NavLink>
+
+                        {/* Profile Dropdown */}
+                        <a
+                            className="avatar avatar-sm p-0"
+                            href="#"
+                            id="profileDropdown"
+                            role="button"
+                            data-bs-auto-close="outside"
+                            data-bs-display="static"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            <img
+                                className="avatar-img rounded-circle"
+                                src="assets/images/avatar/01.jpg"
+                                alt="avatar"
+                            />
                         </a>
-                        <ul className="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
-                            {/* Profile info */}
-                            <li className="px-3">
-                                <div className="d-flex align-items-center">
-                                    {/* Avatar */}
-                                    <div className="avatar me-3">
-                                        <img className="avatar-img rounded-circle shadow" src="assets/images/avatar/01.jpg" alt="avatar" />
-                                    </div>
-                                    <div>
-                                        <a className="h6" href="#">Lori Ferguson</a>
-                                        <p className="small m-0">example@gmail.com</p>
-                                    </div>
-                                </div>
-                                <hr />
-                            </li>
-                            {/* Links */}
-                            <li><a className="dropdown-item" href="#"><i className="bi bi-person fa-fw me-2" />Edit Profile</a></li>
-                            <li><a className="dropdown-item" href="#"><i className="bi bi-gear fa-fw me-2" />Account Settings</a></li>
-                            <li><a className="dropdown-item" href="#"><i className="bi bi-info-circle fa-fw me-2" />Help</a></li>
-                            {
-                                Auth.user ?
-                                    <a href='#' onClick={() => dispatch(LogoutUser(Auth.user._id), CheakAuthUser())} className="dropdown-item bg-danger-soft-hover" >Sign Out</a>
-                                    :
-                                    <li><NavLink className="dropdown-item bg-danger-soft-hover" to={'/Auth'}><i className="bi bi-power fa-fw me-2" />Sign in</NavLink></li>
-                            }
 
+                        <ul
+                            className="dropdown-menu dropdown-menu-end shadow pt-2"
+                            aria-labelledby="profileDropdown"
+                        >
                             {
-                                Auth.user ?
-                                    <a href='#' onClick={() => dispatch(LogoutUser(Auth.user._id), CheakAuthUser())} className="dropdown-item bg-danger-soft-hover" >Sign Out</a>
-                                    :
-                                    <li><NavLink className=" dropdown-item bg-danger-soft-hover" to={'/Auth/Instructor'}><i className="bi bi-power fa-fw me-2" />Signin as Instructure</NavLink></li>
-                            }
-
-                            {/* {
                                 Auth.user ? (
-                                    <a
-                                        href="#"
-                                        onClick={() => {
-                                            dispatch(LogoutUser(Auth.user._id));
-                                            dispatch(CheakAuthUser());
-                                        }}
-                                        className="dropdown-item bg-danger-soft-hover"
-                                    >
-                                        Sign Out
-                                    </a>
+                                    <li>
+                                        <a
+                                            href="#"
+                                            onClick={() => {
+                                                dispatch(LogoutUser(Auth.user._id));
+                                                dispatch(CheakAuthUser());
+                                            }}
+                                            className="dropdown-item text-danger"
+                                        >
+                                            Sign Out
+                                        </a>
+                                    </li>
                                 ) : (
                                     <>
                                         <li>
                                             <NavLink className="dropdown-item" to="/Auth/user">
-                                                Sign in as User
+                                                Sign In as User
                                             </NavLink>
                                         </li>
+
                                         <li>
                                             <NavLink className="dropdown-item" to="/Auth/Instructor">
-                                                Sign in as Instructor
+                                                Sign In as Instructor
                                             </NavLink>
                                         </li>
                                     </>
                                 )
-                            } */}
+                            }
 
+                            <li><hr className="dropdown-divider" /></li>
 
-                            <li> <hr className="dropdown-divider" /></li>
-                            {/* Dark mode switch START */}
-                            <li>
-                                <div className="modeswitch-wrap" id="darkModeSwitch">
+                            {/* Dark Mode */}
+                            <li className="px-3 pb-2">
+                                <div className="d-flex align-items-center justify-content-between">
+                                    <span>Dark Mode</span>
+
                                     <Switch
                                         checked={checked}
                                         onChange={handleChange}
                                         slotProps={{ input: { 'aria-label': 'controlled' } }}
                                     />
-                                    <span>Dark Mode</span>
                                 </div>
                             </li>
-                            {/* Dark mode switch END */}
                         </ul>
-
-
                     </div>
                     {/* Profile START */}
                 </div>

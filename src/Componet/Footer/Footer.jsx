@@ -10,7 +10,7 @@ function Footer(props) {
                     {/* Widget 1 START */}
                     <div className="col-lg-3">
                         {/* logo */}
-                        <a className="me-0" href="index.html">
+                        <a className="me-0" href="/">
                             <img className="light-mode-item h-40px" src="assets/images/logo.svg" alt="logo" />
                             <img className="dark-mode-item h-40px" src="assets/images/logo-light.svg" alt="logo" />
                         </a>

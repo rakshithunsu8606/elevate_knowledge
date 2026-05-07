@@ -1,6 +1,30 @@
 import React from 'react';
+import { useGetAllCartQuery } from '../../Redux/api/Cart.Api';
+import Carousel from 'react-material-ui-carousel';
+import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
+import { useSelector } from 'react-redux';
 
 function Cart(props) {
+
+    const Auth = useSelector(state => state.Auth);
+
+    console.log(Auth);
+
+    const { data: Cart } = useGetAllCartQuery();
+
+    console.log(Cart?.data);
+
+    const cartUser = Cart?.data?.filter((v) => v?.user_id === Auth?.user?._id)
+
+    console.log(cartUser);
+
+    const { data, error, isLoading } = useGetAllCourseQuery()
+
+    console.log(data?.data);
+
+
+
+
     return (
         <main>
             {/* =======================
@@ -51,30 +75,57 @@ Page content START */}
                                         {/* Table body START */}
                                         <tbody className="border-top-0">
                                             {/* Table item */}
-                                            <tr>
-                                                {/* Course item */}
-                                                <td>
-                                                    <div className="d-lg-flex align-items-center">
-                                                        {/* Image */}
-                                                        <div className="w-100px w-md-80px mb-2 mb-md-0">
-                                                            <img src="assets/images/courses/4by3/08.jpg" className="rounded" alt />
-                                                        </div>
-                                                        {/* Title */}
-                                                        <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
-                                                            <a href="#">Building Scalable APIs with GraphQL</a>
-                                                        </h6>
-                                                    </div>
-                                                </td>
-                                                {/* Amount item */}
-                                                <td>
-                                                    <h5 className="text-success mb-0">$350</h5>
-                                                </td>
-                                                {/* Action item */}
-                                                <td>
-                                                    <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
-                                                    <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
-                                                </td>
-                                            </tr>
+                                            {
+                                                cartUser?.items?.map((v) => {
+
+                                                    console.log(v);
+
+
+                                                    let courseData = data?.data?.filter((v1) => v1._id === v.course_id)
+
+                                                    console.log(courseData);
+
+                                                    courseData?.map((v2) => {
+                                                        return (
+                                                            <tr>
+                                                                {/* Course item */}
+                                                                <td>
+                                                                    <div className="d-lg-flex align-items-center">
+                                                                        {/* Image */}
+                                                                        <div className="w-100px w-md-80px mb-2 mb-md-0">
+                                                                            {
+                                                                                <Carousel>
+                                                                                    {
+                                                                                        v2.course_img.map((v3) => (
+                                                                                            <img src={v3.url} className="rounded" />
+                                                                                        ))
+                                                                                    }
+                                                                                </Carousel>
+                                                                            }
+                                                                        </div>
+                                                                        {/* Title */}
+                                                                        <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
+                                                                            <a href="#">Building Scalable APIs with GraphQL</a>
+                                                                        </h6>
+                                                                    </div>
+                                                                </td>
+                                                                {/* Amount item */}
+                                                                <td>
+                                                                    <h5 className="text-success mb-0">$350</h5>
+                                                                </td>
+                                                                {/* Action item */}
+                                                                <td>
+                                                                    <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
+                                                                    <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })
+
+
+                                                })
+                                            }
+
                                             {/* Table item */}
                                             <tr>
                                                 {/* Course item */}

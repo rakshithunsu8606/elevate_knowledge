@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
@@ -6,14 +6,53 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { ThemeContext } from '../../Context/ThemeContext';
+import { getAllCategory } from '../../Redux/Slice/CategorySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 
 
 function Home(props) {
+    const [Course, setCourse] = useState(null);
+
     const ThemeData = useContext(ThemeContext)
 
     console.log(ThemeData);
 
     const isDark = ThemeData.theme === 'light'
+
+
+    const dispatch = useDispatch()
+
+    const getData = () => {
+
+    }
+
+    useEffect(() => {
+        dispatch(getAllCategory())
+    }, [])
+
+    const Category = useSelector(state => state.Category)
+
+    console.log(Category.category);
+
+    const firstCat = Category.category.filter(v => v.parent_category_id === null)
+
+    console.log(firstCat);
+
+    const five = firstCat.slice(0, 5)
+
+    console.log(five);
+
+    const { data, error, isLoading } = useGetAllCourseQuery()
+
+    console.log(data?.data);
+
+    const Cat_Course = data?.data?.filter((v) => v?.category_id === Course)
+
+    console.log(Cat_Course);
+
+
+
 
     return (
         <main>
@@ -350,26 +389,14 @@ Popular course START */}
                     </div>
                     {/* Tabs START */}
                     <ul className="nav nav-pills nav-pills-bg-soft justify-content-sm-center mb-4 px-3" id="course-pills-tab" role="tablist">
-                        {/* Tab item */}
-                        <li className="nav-item me-2 me-sm-5">
-                            <button className="nav-link mb-2 mb-md-0 active" id="course-pills-tab-1" data-bs-toggle="pill" data-bs-target="#course-pills-tabs-1" type="button" role="tab" aria-controls="course-pills-tabs-1" aria-selected="false">Web Design</button>
-                        </li>
-                        {/* Tab item */}
-                        <li className="nav-item me-2 me-sm-5">
-                            <button className="nav-link mb-2 mb-md-0" id="course-pills-tab-2" data-bs-toggle="pill" data-bs-target="#course-pills-tabs-2" type="button" role="tab" aria-controls="course-pills-tabs-2" aria-selected="false">Development</button>
-                        </li>
-                        {/* Tab item */}
-                        <li className="nav-item me-2 me-sm-5">
-                            <button className="nav-link mb-2 mb-md-0" id="course-pills-tab-3" data-bs-toggle="pill" data-bs-target="#course-pills-tabs-3" type="button" role="tab" aria-controls="course-pills-tabs-3" aria-selected="false">Graphic Design</button>
-                        </li>
-                        {/* Tab item */}
-                        <li className="nav-item me-2 me-sm-5">
-                            <button className="nav-link mb-2 mb-md-0" id="course-pills-tab-4" data-bs-toggle="pill" data-bs-target="#course-pills-tabs-4" type="button" role="tab" aria-controls="course-pills-tabs-4" aria-selected="false">Marketing</button>
-                        </li>
-                        {/* Tab item */}
-                        <li className="nav-item me-2 me-sm-5">
-                            <button className="nav-link mb-2 mb-md-0" id="course-pills-tab-5" data-bs-toggle="pill" data-bs-target="#course-pills-tabs-5" type="button" role="tab" aria-controls="course-pills-tabs-5" aria-selected="false">Finance</button>
-                        </li>
+                        {
+                            five?.map((v) => (
+                                <li className="nav-item me-2 me-sm-5">
+                                    <button className="nav-link mb-2 mb-md-0" id="course-pills-tab-1" data-bs-toggle="pill" data-bs-target="#course-pills-tabs-1" type="button" role="tab" aria-controls="course-pills-tabs-1" aria-selected="false" onClick={() => setCourse(v._id)}>{v.name}</button>
+                                </li>
+                            ))
+                        }
+
                     </ul>
                     {/* Tabs END */}
                     {/* Tabs content START */}

@@ -68,21 +68,23 @@ function PrivateRoute() {
     }, []);
 
     const Auth = useSelector(state => state.Auth);
-    const isLoading = Auth?.isLoading;
 
-    
+    console.log(Auth);
+
     const data = localStorage.getItem("user");
+
     const storeuser = data ? JSON.parse(data) : null;
 
+    console.log(storeuser);
+
+    const users = Auth.user || storeuser;
+
+    console.log(users);
     
-    const user = Auth?.user || storeuser;
 
-    if (isLoading) {
-        return <p>Loading...</p>;
-    }
 
-    if (user) {
-        if (user.role === "Instructor") {
+    if (users) {
+        if (users.role === "Instructor") {
             return <Outlet />;
         } else {
             return <Navigate to="/" />;

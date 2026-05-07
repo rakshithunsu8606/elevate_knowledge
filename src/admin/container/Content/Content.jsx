@@ -11,6 +11,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import { useSelector } from 'react-redux';
 
 function Content(props) {
     const [open, setOpen] = useState(false);
@@ -68,7 +69,9 @@ function Content(props) {
 
     const [deleteContent] = useDeleteContentMutation()
 
+    const Auth = useSelector(state => state.Auth)
 
+    console.log(Auth);
 
 
 
@@ -108,6 +111,11 @@ function Content(props) {
         },
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'order', headerName: 'Order', width: 130 },
+        {
+            field: 'instructure_id',
+            headerName: 'Instructure_id',
+            width: 130,
+        },
         {
             field: 'video',
             headerName: 'Video',
@@ -187,6 +195,7 @@ function Content(props) {
         formData.append("Section_id", values.Section_id)
         formData.append("name", values.name);
         formData.append("order", values.order)
+        formData.append("instructure_id",Auth?.user?._id)
 
         console.log("formdataa", Object.fromEntries(formData.entries()));
 
@@ -235,7 +244,8 @@ function Content(props) {
                             Section_id: '',
                             name: '',
                             order: '',
-                            video: []
+                            video: [],
+                            instructure_id: '    '
                         }}
                         validationSchema={ContentSchema}
                         onSubmit={(values, { resetForm }) => {

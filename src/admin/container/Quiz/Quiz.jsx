@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useGetAllCourseQuery } from '../../../Redux/api/Course.Api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { object, string } from 'yup';
@@ -19,7 +19,7 @@ function Quiz(props) {
     const [course, setCourse] = useState('');
     // const [field, setFieldValue] = useState("course_id")
 
-   
+
 
     console.log(course);
 
@@ -79,8 +79,9 @@ function Quiz(props) {
 
     console.log("AlldataQuizzz", QuizContent?.data);
 
-    
+    const Auth = useSelector(state => state.Auth)
 
+    console.log(Auth);
 
 
     let QuizSchema = object({
@@ -116,6 +117,11 @@ function Quiz(props) {
 
                 return SectionObj ? SectionObj.name : "null";
             }
+        },
+        {
+            field: 'instructure_id',
+            headerName: 'Instructure_id',
+            width: 130,
         },
         {
             field: 'mark',
@@ -196,7 +202,7 @@ function Quiz(props) {
 
             await updataQuiz({ ...values, _id: update._id })
         } else {
-            await addQuiz({ ...values, course_id: course })
+            await addQuiz({ ...values, course_id: course, instructure_id: Auth?.user?._id })
             setCourse('')
         }
 
@@ -235,7 +241,8 @@ function Quiz(props) {
                             course_id: '',
                             Section_id: '',
                             name: '',
-                            mark: null
+                            mark: null,
+                            instructure_id: ''
                             // question: '',
                             // option: '',
                             // answer: '',

@@ -15,7 +15,7 @@ function Instructor_manage_course(props) {
 
     console.log(data?.data);
 
-    const Course = data?.data.filter((v) => v.instructure_id === id)
+    const Course = data?.data?.filter((v) => v?.instructure_id === id)
 
     console.log(Course);
 
