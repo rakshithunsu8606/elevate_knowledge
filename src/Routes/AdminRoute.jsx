@@ -13,6 +13,7 @@ import QuizContent from '../admin/container/Quiz/QuizContent';
 import Content from '../admin/container/Content/COntent';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
+import Coupan from '../admin/container/Coupan/Coupan';
 
 function AdminRoute(props) {
     const ThemeMy = useContext(ThemeContext)
@@ -51,6 +52,7 @@ function AdminRoute(props) {
                     <Route path='/Quiz' element={<Quiz />} />
                     <Route path='/QuizContent/:id' element={<QuizContent />} />
                     <Route path='/Content' element={<Content />} />
+                    <Route path='/Coupan' element={<Coupan />} />
                 </Routes>
             </Layout>
         </ThemeProvider>

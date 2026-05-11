@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetAllCartQuery } from '../../Redux/api/Cart.Api';
+import { useDeleteCartMutation, useGetAllCartQuery, useUpdateCartMutation } from '../../Redux/api/Cart.Api';
 import Carousel from 'react-material-ui-carousel';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
@@ -14,16 +14,40 @@ function Cart(props) {
 
     console.log(Cart?.data);
 
-    const cartUser = Cart?.data?.filter((v) => v?.user_id === Auth?.user?._id)
+    const cartUser = Cart?.data?.find((v) => v?.user_id === Auth?.user?._id)
 
     console.log(cartUser);
+
 
     const { data, error, isLoading } = useGetAllCourseQuery()
 
     console.log(data?.data);
 
+    const [DeleteCart] = useDeleteCartMutation()
+    const [updateCart] = useUpdateCartMutation()
 
+    const handleDelete = async (_id) => {
+        console.log(_id);
 
+        let CartDelete = cartUser?.items?.filter((v) => v._id !== _id)
+
+        console.log(CartDelete);
+
+        updateCart({
+            _id: cartUser._id,
+            user_id: Auth?.user?._id,
+            items: CartDelete
+        })
+
+    }
+
+    const totalPrice = cartUser?.items?.reduce((acc, curr) => { //calculate total
+        let cur = curr.price.match(/\d./g).join('') //parse string to integer(cost)
+        return acc + Number(cur);
+    }, 0)
+
+    console.log(totalPrice);
+    
 
     return (
         <main>
@@ -77,55 +101,61 @@ Page content START */}
                                             {/* Table item */}
                                             {
                                                 cartUser?.items?.map((v) => {
-
                                                     console.log(v);
 
+                                                    let courseData = data?.data?.filter(
+                                                        (v1) => v1._id === v.course_id
+                                                    )
 
-                                                    let courseData = data?.data?.filter((v1) => v1._id === v.course_id)
+                                                    return courseData?.map((v2) => (
+                                                        console.log(courseData),
 
-                                                    console.log(courseData);
+                                                        console.log(v._id),
 
-                                                    courseData?.map((v2) => {
-                                                        return (
-                                                            <tr>
-                                                                {/* Course item */}
-                                                                <td>
-                                                                    <div className="d-lg-flex align-items-center">
-                                                                        {/* Image */}
-                                                                        <div className="w-100px w-md-80px mb-2 mb-md-0">
+
+                                                        <tr key={v2._id}>
+
+                                                            <td>
+                                                                <div className="d-lg-flex align-items-center">
+
+                                                                    <div className="w-100px w-md-80px mb-2 mb-md-0">
+
+                                                                        <Carousel indicators={false}>
                                                                             {
-                                                                                <Carousel>
-                                                                                    {
-                                                                                        v2.course_img.map((v3) => (
-                                                                                            <img src={v3.url} className="rounded" />
-                                                                                        ))
-                                                                                    }
-                                                                                </Carousel>
+                                                                                v2.course_img?.map((v3, i) => (
+                                                                                    <img
+                                                                                        key={i}
+                                                                                        src={v3.url}
+                                                                                        className="rounded"
+                                                                                        alt=""
+                                                                                    />
+                                                                                ))
                                                                             }
-                                                                        </div>
-                                                                        {/* Title */}
-                                                                        <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
-                                                                            <a href="#">Building Scalable APIs with GraphQL</a>
-                                                                        </h6>
+                                                                        </Carousel>
+
                                                                     </div>
-                                                                </td>
-                                                                {/* Amount item */}
-                                                                <td>
-                                                                    <h5 className="text-success mb-0">$350</h5>
-                                                                </td>
-                                                                {/* Action item */}
-                                                                <td>
-                                                                    <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
-                                                                    <button className="btn btn-sm btn-danger-soft px-2 mb-0"><i className="fas fa-fw fa-times" /></button>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    })
 
+                                                                    <h6 className="mb-0 ms-lg-3 mt-2 mt-lg-0">
+                                                                        {v2.name}
+                                                                    </h6>
 
+                                                                </div>
+                                                            </td>
+
+                                                            <td>
+                                                                <h5 className="text-success mb-0">
+                                                                    ${v2.price}
+                                                                </h5>
+                                                            </td>
+
+                                                            <td>
+                                                                <a href="#" className="btn btn-sm btn-success-soft px-2 me-1 mb-1 mb-md-0"><i className="far fa-fw fa-edit" /></a>
+                                                                <button className="btn btn-sm btn-danger-soft px-2 mb-0" onClick={() => handleDelete(v._id)}><i className="fas fa-fw fa-times" /></button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
                                                 })
                                             }
-
                                             {/* Table item */}
                                             <tr>
                                                 {/* Course item */}
@@ -180,7 +210,9 @@ Page content START */}
                                 <ul className="list-group list-group-borderless mb-2">
                                     <li className="list-group-item px-0 d-flex justify-content-between">
                                         <span className="h6 fw-light mb-0">Original Price</span>
-                                        <span className="h6 fw-light mb-0 fw-bold">$500</span>
+                                        <span className="h6 fw-light mb-0 fw-bold">
+                                            ${totalPrice}
+                                        </span>
                                     </li>
                                     <li className="list-group-item px-0 d-flex justify-content-between">
                                         <span className="h6 fw-light mb-0">Coupon Discount</span>
@@ -188,12 +220,14 @@ Page content START */}
                                     </li>
                                     <li className="list-group-item px-0 d-flex justify-content-between">
                                         <span className="h5 mb-0">Total</span>
-                                        <span className="h5 mb-0">$480</span>
+                                        <span className="h5 mb-0">
+                                            ${totalPrice}
+                                        </span>
                                     </li>
                                 </ul>
                                 {/* Button */}
                                 <div className="d-grid">
-                                    <a href="checkout.html" className="btn btn-lg btn-success">Proceed to Checkout</a>
+                                    <a href={'/Checkout'} className="btn btn-lg btn-success">Proceed to Checkout</a>
                                 </div>
                                 {/* Content */}
                                 <p className="small mb-0 mt-2 text-center">By completing your purchase, you agree to these <a href="#"><strong>Terms of Service</strong></a></p>

@@ -31,6 +31,7 @@ import { useContext } from 'react';
 import QuizIcon from '@mui/icons-material/Quiz';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import { useSelector } from 'react-redux';
+import CasesIcon from '@mui/icons-material/Cases';
 
 
 
@@ -133,7 +134,8 @@ export default function Layout({ children }) {
             { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' },
             { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
             { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' },
-            { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' }
+            { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' },
+            { label: 'Coupan', icon: <CasesIcon />, to: '/admin/Coupan' }
         ]
     } else {
         ListItems = [
@@ -142,7 +144,8 @@ export default function Layout({ children }) {
             { label: 'Course', icon: <FoundationIcon />, to: '/admin/Course' },
             { label: 'Section', icon: <AppsIcon />, to: '/admin/Section' },
             { label: 'Quiz', icon: <QuizIcon />, to: '/admin/Quiz' },
-            { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' }
+            { label: 'Content', icon: <ContentPasteGoIcon />, to: '/admin/Content' },
+            { label: 'Coupan', icon: <CasesIcon />, to: '/admin/Coupan' }
         ]
     }
 
