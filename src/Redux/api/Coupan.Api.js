@@ -3,45 +3,46 @@ import { BASE_URL } from '../../../utility/url'
 // import type { Pokemon } from './types'
 
 // Define a service using a base URL and expected endpoints
-export const CartApi = createApi({
-    reducerPath: 'CartApi',
+export const CoupanApi = createApi({
+    reducerPath: 'CoupanApi',
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     endpoints: (build) => ({
-        getAllCart: build.query({
-            query: () => 'cart/getAllCart',
+        getAllCoupan: build.query({
+            query: () => 'coupan/getAllCoupan',
 
-            providesTags: ['Cart']
+            providesTags: ['Coupan']
         }),
-        addCart: build.mutation({
+        addCoupan: build.mutation({
             query: (data) => ({
-                url: 'cart/addCart',
+                url: 'coupan/addCoupan',
                 method: 'POST',
                 body: data
             }),
 
-            invalidatesTags: ['Cart']
+            invalidatesTags: ['Coupan']
         }),
-        updateCart: build.mutation({
+        updateCoupan: build.mutation({
             query: (data) => ({
-                url: `cart/updateCart/${data._id}`,
+                url: `coupan/updateCoupan/${data._id}`,
                 method: 'PUT',
                 body: data
             }),
 
-            invalidatesTags: ['Cart']
+            invalidatesTags: ['Coupan']
         }),
-        deleteCart: build.mutation({
+        deleteCoupan: build.mutation({
             query: (id) => ({
-                url: `cart/deleteCart/${id}`,
+                url: `coupan/deleteCoupan/${id}`,
                 method: 'DELETE',
                 body: id
             }),
 
-            invalidatesTags: ['Cart']
+            invalidatesTags: ['Coupan']
         }),
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useAddCartMutation, useUpdateCartMutation, useDeleteCartMutation, useGetAllCartQuery } = CartApi
+export const { useAddCoupanMutation, useUpdateCoupanMutation, useDeleteCoupanMutation, useGetAllCoupanQuery } = CoupanApi
+

@@ -9,6 +9,7 @@ import { QuizApi } from './api/Quiz.Api'
 import { QuizContentApi } from './api/QuizContent.Api'
 import { ContentApi } from './api/Content.Api'
 import { CartApi } from './api/Cart.Api'
+import { CoupanApi } from './api/Coupan.Api'
 
 // import CategoryDisplaySlice from './Slice/CategoryDisplaySlice'
 
@@ -25,7 +26,8 @@ export const Confstore = () => {
             [QuizApi.reducerPath]:QuizApi.reducer,
             [QuizContentApi.reducerPath]:QuizContentApi.reducer,
             [ContentApi.reducerPath]:ContentApi.reducer,
-            [CartApi.reducerPath]:CartApi.reducer
+            [CartApi.reducerPath]:CartApi.reducer,
+            [CoupanApi.reducerPath]:CoupanApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat([CourseApi.middleware, 
@@ -33,7 +35,8 @@ export const Confstore = () => {
                                         QuizApi.middleware, 
                                         QuizContentApi.middleware,
                                         ContentApi.middleware,
-                                        CartApi.middleware
+                                        CartApi.middleware,
+                                        CoupanApi.middleware
                                     ]),
     })
 
