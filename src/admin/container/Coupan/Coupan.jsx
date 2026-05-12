@@ -100,7 +100,7 @@ function Coupan(props) {
             field: 'expiryDate', headerName: 'expiryDate', width: 130,
         },
         {
-            field: 'Limit', headerName: 'Limit', width: 130,
+            field: 'limit', headerName: 'Limit', width: 130,
         },
         {
             field: 'Action', headerName: 'Action', width: 130,

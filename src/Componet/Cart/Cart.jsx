@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDeleteCartMutation, useGetAllCartQuery, useUpdateCartMutation } from '../../Redux/api/Cart.Api';
 import Carousel from 'react-material-ui-carousel';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
+import { useGetAllCoupanQuery } from '../../Redux/api/Coupan.Api';
 
 function Cart(props) {
+    const [coupon, setCoupon] = useState('');
+    const [price, setPrice] = useState('');
+    const [Minus, setMinus] = useState('');
 
     const Auth = useSelector(state => state.Auth);
 
@@ -43,11 +47,40 @@ function Cart(props) {
 
     const totalPrice = cartUser?.items?.reduce((acc, curr) => { //calculate total
         let cur = curr.price.match(/\d./g).join('') //parse string to integer(cost)
-        return acc + Number(cur);
+        return acc + Number(curr.price);
     }, 0)
 
     console.log(totalPrice);
-    
+
+    const { data: Coupon } = useGetAllCoupanQuery();
+
+    console.log("AlldataCoupan", Coupon?.data);
+
+    const handleCoupon = () => {
+
+        const CouponMatch = Coupon?.data?.find((v) => v.name === coupon);
+
+        console.log(CouponMatch);
+
+        const discount = CouponMatch.discount
+
+        console.log(discount);
+
+
+        const price = totalPrice * discount / 100;
+
+        console.log(price);
+
+        const Minus = totalPrice - price;
+
+        console.log(Minus);
+
+        setPrice(price)
+
+        setMinus(Minus)
+
+    }
+
 
     return (
         <main>
@@ -188,8 +221,8 @@ Page content START */}
                                 <div className="row g-3 mt-2">
                                     <div className="col-md-6">
                                         <div className="input-group">
-                                            <input className="form-control form-control " placeholder="COUPON CODE" />
-                                            <button type="button" className="btn btn-primary">Apply coupon</button>
+                                            <input className="form-control form-control " placeholder="COUPON CODE" onChange={(e) => setCoupon(e.target.value)} />
+                                            <button type="button" className="btn btn-primary" onClick={handleCoupon}>Apply coupon</button>
                                         </div>
                                     </div>
                                     {/* Update button */}
@@ -216,12 +249,12 @@ Page content START */}
                                     </li>
                                     <li className="list-group-item px-0 d-flex justify-content-between">
                                         <span className="h6 fw-light mb-0">Coupon Discount</span>
-                                        <span className="text-danger">-$20</span>
+                                        <span className="text-danger">-${price}</span>
                                     </li>
                                     <li className="list-group-item px-0 d-flex justify-content-between">
                                         <span className="h5 mb-0">Total</span>
                                         <span className="h5 mb-0">
-                                            ${totalPrice}
+                                            ${Minus}
                                         </span>
                                     </li>
                                 </ul>
