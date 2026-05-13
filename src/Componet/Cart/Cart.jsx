@@ -3,12 +3,12 @@ import { useDeleteCartMutation, useGetAllCartQuery, useUpdateCartMutation } from
 import Carousel from 'react-material-ui-carousel';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
-import { useGetAllCoupanQuery } from '../../Redux/api/Coupan.Api';
+import { useGetAllCoupanQuery, useUpdateCoupanMutation } from '../../Redux/api/Coupan.Api';
 
 function Cart(props) {
     const [coupon, setCoupon] = useState('');
-    const [price, setPrice] = useState('');
-    const [Minus, setMinus] = useState('');
+    const [discount, setDiscount] = useState('');
+    const [coupanuse, setCoupanUse] = useState('');
 
     const Auth = useSelector(state => state.Auth);
 
@@ -29,6 +29,8 @@ function Cart(props) {
 
     const [DeleteCart] = useDeleteCartMutation()
     const [updateCart] = useUpdateCartMutation()
+
+    const [updateCoupan] = useUpdateCoupanMutation()
 
     const handleDelete = async (_id) => {
         console.log(_id);
@@ -62,25 +64,34 @@ function Cart(props) {
 
         console.log(CouponMatch);
 
-        const discount = CouponMatch.discount
+        setCoupanUse(CouponMatch)
+
+        const discount = CouponMatch?.discount
 
         console.log(discount);
 
-
-        const price = totalPrice * discount / 100;
-
-        console.log(price);
-
-        const Minus = totalPrice - price;
-
-        console.log(Minus);
-
-        setPrice(price)
-
-        setMinus(Minus)
-
+        setDiscount(discount)
     }
 
+    const price = totalPrice * discount / 100;
+
+    console.log(price);
+
+    const Minus = totalPrice - price;
+
+    console.log(Minus);
+
+    const handleUseCoupan = () => {
+        if (coupanuse.limit > coupanuse.use) {
+            updateCoupan({
+                _id: coupanuse._id,
+                use: coupanuse.use + 1
+            })
+        } else {
+            console.log('Invalid Coupan Code');
+
+        }
+    }
 
     return (
         <main>
@@ -221,7 +232,12 @@ Page content START */}
                                 <div className="row g-3 mt-2">
                                     <div className="col-md-6">
                                         <div className="input-group">
-                                            <input className="form-control form-control " placeholder="COUPON CODE" onChange={(e) => setCoupon(e.target.value)} />
+                                            {
+                                                cartUser?.items ?
+                                                    <input className="form-control form-control " placeholder="COUPON CODE" onChange={(e) => setCoupon(e.target.value)} />
+                                                    : <input className="form-control form-control " placeholder="COUPON CODE" />
+
+                                            }
                                             <button type="button" className="btn btn-primary" onClick={handleCoupon}>Apply coupon</button>
                                         </div>
                                     </div>
@@ -254,13 +270,13 @@ Page content START */}
                                     <li className="list-group-item px-0 d-flex justify-content-between">
                                         <span className="h5 mb-0">Total</span>
                                         <span className="h5 mb-0">
-                                            ${Minus}
+                                            ${Minus || totalPrice}
                                         </span>
                                     </li>
                                 </ul>
                                 {/* Button */}
                                 <div className="d-grid">
-                                    <a href={'/Checkout'} className="btn btn-lg btn-success">Proceed to Checkout</a>
+                                    <a href={'/Checkout'} className="btn btn-lg btn-success" onClick={handleUseCoupan}>Proceed to Checkout</a>
                                 </div>
                                 {/* Content */}
                                 <p className="small mb-0 mt-2 text-center">By completing your purchase, you agree to these <a href="#"><strong>Terms of Service</strong></a></p>
@@ -271,7 +287,7 @@ Page content START */}
                     </div>{/* Row END */}
                 </div>
             </section>
-            {/* =======================
+            {/* 
 Page content END */}
         </main>
 

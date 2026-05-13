@@ -8,7 +8,6 @@ import Blog_Detail from '../Componet/Blog_Detail/Blog_Detail';
 import Blog_Grid from '../Componet/Blog_Grid/Blog_Grid';
 import Blog_Masonry from '../Componet/Blog-Masonry/Blog_Masonry';
 import Book_Class from '../Componet/Book_Class/Book_Class';
-import Cart from '../Componet/Cart/Cart';
 import Checkout from '../Componet/Checkout/Checkout';
 import Coming_Soon from '../Componet/Coming_Soon/Coming_Soon';
 import Contact_us from '../Componet/Contact_us/Contact_us';
@@ -56,6 +55,7 @@ import { CheakAuthUser } from '../Redux/Slice/auth';
 import { ThemeContext } from '../Context/ThemeContext';
 import Home_Default from '../Componet/Home Default/Home_Default';
 import PrivateRoute from './PrivateRoute';
+import Cart from '../Componet/Cart/Cart';
 
 function UserRoute(props) {
     const ThemeData = useContext(ThemeContext)

@@ -39,7 +39,6 @@ function Course_details(props) {
 
     console.log(Section?.data);
 
-
     const selectedCategory = data?.data?.filter((v) => v._id === id)
 
     console.log(selectedCategory);

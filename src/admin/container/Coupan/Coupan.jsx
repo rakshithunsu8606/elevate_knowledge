@@ -61,7 +61,10 @@ function Coupan(props) {
         if (Object.keys(update).length > 0) {
             console.log(values);
 
-            await updataCoupan({ ...values, _id: update._id })
+            await updataCoupan({
+                ...values,
+                _id: update._id
+            })
         } else {
             await addCoupan(values)
         }
@@ -81,7 +84,11 @@ function Coupan(props) {
 
         handleClickOpen();
 
-        setUpdate(val)
+        setUpdate({
+            ...val,
+            startDate: val.startDate?.split("T")[0],
+            expiryDate: val.expiryDate?.split("T")[0]
+        })
     }
 
 
@@ -101,6 +108,9 @@ function Coupan(props) {
         },
         {
             field: 'limit', headerName: 'Limit', width: 130,
+        },
+        {
+            field: 'use', headerName: 'Use', width: 130,
         },
         {
             field: 'Action', headerName: 'Action', width: 130,
