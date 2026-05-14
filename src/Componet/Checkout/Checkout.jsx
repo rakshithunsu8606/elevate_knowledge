@@ -1,6 +1,96 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
+import { useGetAllCartQuery, useUpdateCartMutation } from '../../Redux/api/Cart.Api';
+import { useSelector } from 'react-redux';
+import Carousel from 'react-material-ui-carousel';
+import { useGetAllCoupanQuery } from '../../Redux/api/Coupan.Api';
+
 
 function Checkout(props) {
+
+    const [coupon, setCoupon] = useState('');
+    const [discount, setDiscount] = useState('');
+    const [coupanuse, setCoupanUse] = useState('');
+
+
+    const { data, error, isLoading } = useGetAllCourseQuery()
+
+    console.log(data?.data);
+
+    const Auth = useSelector(state => state.Auth);
+
+    console.log(Auth);
+
+    const { data: Cart } = useGetAllCartQuery();
+
+    console.log(Cart?.data);
+
+    const cartUser = Cart?.data?.find((v) => v?.user_id === Auth?.user?._id)
+
+    console.log(cartUser);
+
+    const [updateCart] = useUpdateCartMutation()
+
+    const totalPrice = cartUser?.items?.reduce((acc, curr) => { //calculate total
+        let cur = curr.price.match(/\d./g).join('') //parse string to integer(cost)
+        return acc + Number(curr.price);
+    }, 0)
+
+    const handleDelete = async (_id) => {
+        console.log(_id);
+
+        let CartDelete = cartUser?.items?.filter((v) => v._id !== _id)
+
+        console.log(CartDelete);
+
+        updateCart({
+            _id: cartUser._id,
+            user_id: Auth?.user?._id,
+            items: CartDelete
+        })
+
+    }
+
+    // const { data: Coupon } = useGetAllCoupanQuery();
+
+    // console.log("AlldataCoupan", Coupon?.data);
+
+    // const handleCoupon = () => {
+
+    //     const CouponMatch = Coupon?.data?.find((v) => v.name === coupon);
+
+    //     console.log(CouponMatch);
+
+    //     setCoupanUse(CouponMatch)
+
+    //     const discount = CouponMatch?.discount
+
+    //     console.log(discount);
+
+    //     setDiscount(discount)
+    // }
+
+    // const price = totalPrice * discount / 100;
+
+    // console.log(price);
+
+    // const Minus = totalPrice - price;
+
+    // console.log(Minus);
+
+    // // const handleUseCoupan = () => {
+    // //     if (coupanuse.limit > coupanuse.use) {
+    // //         updateCoupan({
+    // //             _id: coupanuse._id,
+    // //             use: coupanuse.use + 1
+    // //         })
+    // //     } else {
+    // //         console.log('Invalid Coupan Code');
+
+    // //     }
+    // // }
+
+
     return (
         <main>
             {/* =======================
@@ -217,79 +307,96 @@ Page content START */}
                                     {/* Order summary START */}
                                     <div className="card card-body shadow p-4 mb-4">
                                         {/* Title */}
-                                        <h4 className="mb-4">Order Summary</h4>
+                                        <h4 className="mb-2">Payment Summary</h4>
                                         {/* Coupon START */}
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <span>Transaction code</span>
                                                 <p className="mb-0 h6 fw-light">AB12365E</p>
                                             </div>
                                             <div className="input-group mt-2">
-                                                <input className="form-control form-control" placeholder="COUPON CODE" />
+                                                <input className="form-control form-control" placeholder="COUPON CODE" onChange={(e) => setCoupon(e.target.value)} />
                                                 <button type="button" className="btn btn-primary">Apply</button>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <hr />
                                         {/* Coupon END */}
                                         {/* Course item START */}
-                                        <div className="row g-3">
-                                            {/* Image */}
-                                            <div className="col-sm-4">
-                                                <img className="rounded" src="assets/images/courses/4by3/08.jpg" alt />
-                                            </div>
-                                            {/* Info */}
-                                            <div className="col-sm-8">
-                                                <h6 className="mb-0"><a href="#">Sketch from A to Z: for an app designer</a></h6>
-                                                {/* Info */}
-                                                <div className="d-flex justify-content-between align-items-center mt-3">
-                                                    {/* Price */}
-                                                    <span className="text-success">$150</span>
-                                                    {/* Remove and edit button */}
-                                                    <div className="text-primary-hover">
-                                                        <a href="#" className="text-body me-2"><i className="bi bi-trash me-1" />Remove</a>
-                                                        <a href="#" className="text-body me-2"><i className="bi bi-pencil-square me-1" />Edit</a>
+
+                                        {
+                                            cartUser?.items?.map((v) => {
+
+                                                let courseData = data?.data?.filter(
+                                                    (v1) => v1._id === v.course_id
+                                                )
+
+                                                return courseData?.map((v2) => (
+                                                    console.log(v2),
+
+                                                    <div>
+                                                        <div className="row g-3">
+
+                                                            {/* Image */}
+                                                            <div className="col-sm-4">
+                                                                <Carousel indicators={false}>
+                                                                    {
+                                                                        v2.course_img?.map((v3, i) => (
+                                                                            <img
+                                                                                key={i}
+                                                                                src={v3.url}
+                                                                                className="rounded"
+                                                                                alt=""
+                                                                            />
+                                                                        ))
+                                                                    }
+                                                                </Carousel>
+                                                            </div>
+
+                                                            {/* Info */}
+                                                            <div className="col-sm-8">
+                                                                <h6 className="mb-0">
+                                                                    <a href="#">{v2.course_name}</a>
+                                                                </h6>
+
+                                                                <div className="d-flex justify-content-between align-items-center mt-3">
+
+                                                                    {/* Price */}
+                                                                    <span className="text-success">
+                                                                        ${v2.price}
+                                                                    </span>
+
+                                                                    {/* Remove and edit */}
+                                                                    <div className="text-primary-hover">
+                                                                        <a href="#" className="text-body me-2" onClick={() => handleDelete(v._id)}>
+                                                                            <i className="bi bi-trash me-1" />
+                                                                            Remove
+                                                                        </a>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <hr />
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                ));
+                                            })
+                                        }
                                         {/* Course item END */}
-                                        <hr /> {/* Divider */}
-                                        {/* Course item START */}
-                                        <div className="row g-3">
-                                            {/* Image */}
-                                            <div className="col-sm-4">
-                                                <img className="rounded" src="assets/images/courses/4by3/18.jpg" alt />
-                                            </div>
-                                            {/* Info */}
-                                            <div className="col-sm-8">
-                                                <h6 className="mb-0"><a href="#">The Complete Video Production Bootcamp</a></h6>
-                                                {/* Info */}
-                                                <div className="d-flex justify-content-between align-items-center mt-3">
-                                                    {/* Price */}
-                                                    <span className="text-success">$350</span>
-                                                    {/* Remove and edit button */}
-                                                    <div className="text-primary-hover">
-                                                        <a href="#" className="text-body me-2"><i className="bi bi-trash me-1" />Remove</a>
-                                                        <a href="#" className="text-body me-2"><i className="bi bi-pencil-square me-1" />Edit</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* Course item END */}
-                                        <hr /> {/* Divider */}
                                         {/* Price and detail */}
                                         <ul className="list-group list-group-borderless mb-2">
-                                            <li className="list-group-item px-0 d-flex justify-content-between">
+                                            {/* <li className="list-group-item px-0 d-flex justify-content-between">
                                                 <span className="h6 fw-light mb-0">Original Price</span>
-                                                <span className="h6 fw-light mb-0 fw-bold">$500</span>
+                                                <span className="h6 fw-light mb-0 fw-bold">${totalPrice}</span>
                                             </li>
                                             <li className="list-group-item px-0 d-flex justify-content-between">
                                                 <span className="h6 fw-light mb-0">Coupon Discount</span>
-                                                <span className="text-danger">-$20</span>
-                                            </li>
+                                                <span className="text-danger">-${price}</span>
+                                            </li> */}   
                                             <li className="list-group-item px-0 d-flex justify-content-between">
-                                                <span className="h5 mb-0">Total</span>
-                                                <span className="h5 mb-0">$480</span>
+                                                <span className="h5 mb-0">Final Total</span>
+                                                <span className="h5 mb-0">${totalPrice}</span>
                                             </li>
                                         </ul>
                                         {/* Button */}

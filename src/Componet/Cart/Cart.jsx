@@ -4,6 +4,7 @@ import Carousel from 'react-material-ui-carousel';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
 import { useGetAllCoupanQuery, useUpdateCoupanMutation } from '../../Redux/api/Coupan.Api';
+import { useCreateOrderMutation } from '../../Redux/api/Payment.Api';
 
 function Cart(props) {
     const [coupon, setCoupon] = useState('');
@@ -81,7 +82,11 @@ function Cart(props) {
 
     console.log(Minus);
 
-    const handleUseCoupan = () => {
+    const finalAmount = Minus || totalPrice;
+
+    const [createOrder] = useCreateOrderMutation();
+
+    const handleUseCoupan = async () => {
         if (coupanuse.limit > coupanuse.use) {
             updateCoupan({
                 _id: coupanuse._id,
@@ -91,6 +96,42 @@ function Cart(props) {
             console.log('Invalid Coupan Code');
 
         }
+
+        const response = await createOrder({
+            amount: finalAmount,
+        });
+
+        console.log(response);
+        
+        const order = response.data.Order;
+
+        console.log(order);
+
+
+        const options = {
+            key: order.key, // Replace with your Razorpay key_id
+            amount: order.amount, // Amount is in currency subunits.
+            currency: order.currency,
+            name: 'Hinsu Rakshit',
+            description: 'Test Transaction',
+            order_id: order.id, // This is the order_id created in the backend
+            // callback_url: 'http://localhost:3000/payment-success', // Your success URL
+            prefill: {
+                name: 'Hinsu Rakshit',
+                email: 'rakshithinsu8606@gmail.com',
+                contact: '8156038515'
+            },
+            theme: {
+                color: '#F37254'
+            },
+        };
+
+        const rzp = new window.Razorpay(options);
+        console.log(rzp);
+
+        rzp.open();
+
+        console.log(window.Razorpay);
     }
 
     return (
@@ -276,7 +317,7 @@ Page content START */}
                                 </ul>
                                 {/* Button */}
                                 <div className="d-grid">
-                                    <a href={'/Checkout'} className="btn btn-lg btn-success" onClick={handleUseCoupan}>Proceed to Checkout</a>
+                                    <a className="btn btn-lg btn-success" onClick={handleUseCoupan}>Proceed to Checkout</a>
                                 </div>
                                 {/* Content */}
                                 <p className="small mb-0 mt-2 text-center">By completing your purchase, you agree to these <a href="#"><strong>Terms of Service</strong></a></p>
