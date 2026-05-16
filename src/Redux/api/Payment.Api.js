@@ -14,9 +14,18 @@ export const PaymentApi = createApi({
                 body: data
             }),
             invalidatesTags: ['Payment']
+        }),
+        verifyPayment: build.mutation({
+            query: (data) => ({
+                url: 'payment/verifyPayment',
+                method: 'POST',
+                body: data
+            }),
+
+            invalidatesTags: ['Payment']
         })
     })
 })
 
 
-export const { useCreateOrderMutation } = PaymentApi;
+export const { useCreateOrderMutation,useVerifyPaymentMutation } = PaymentApi;

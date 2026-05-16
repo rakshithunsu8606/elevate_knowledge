@@ -4,7 +4,7 @@ import Carousel from 'react-material-ui-carousel';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
 import { useGetAllCoupanQuery, useUpdateCoupanMutation } from '../../Redux/api/Coupan.Api';
-import { useCreateOrderMutation } from '../../Redux/api/Payment.Api';
+import { useCreateOrderMutation, useVerifyPaymentMutation } from '../../Redux/api/Payment.Api';
 
 function Cart(props) {
     const [coupon, setCoupon] = useState('');
@@ -14,6 +14,8 @@ function Cart(props) {
     const Auth = useSelector(state => state.Auth);
 
     console.log(Auth);
+
+    const Razorpay = import.meta.env.RAZORPAY_API_KEY;
 
     const { data: Cart } = useGetAllCartQuery();
 
@@ -86,6 +88,8 @@ function Cart(props) {
 
     const [createOrder] = useCreateOrderMutation();
 
+    const [verifyPayment] = useVerifyPaymentMutation();
+
     const handleUseCoupan = async () => {
         if (coupanuse.limit > coupanuse.use) {
             updateCoupan({
@@ -99,27 +103,41 @@ function Cart(props) {
 
         const response = await createOrder({
             amount: finalAmount,
+            Cart_id: cartUser._id,
+            userId: Auth.user._id
         });
 
         console.log(response);
-        
-        const order = response.data.Order;
+
+        console.log(response.data?.key);
+
+
+        const order = response.data?.Order;
 
         console.log(order);
 
 
+
         const options = {
-            key: order.key, // Replace with your Razorpay key_id
-            amount: order.amount, // Amount is in currency subunits.
-            currency: order.currency,
+            key: response.data?.key, // Replace with your Razorpay key_id
+            amount: order?.amount, // Amount is in currency subunits.
+            currency: order?.currency,
             name: 'Hinsu Rakshit',
             description: 'Test Transaction',
-            order_id: order.id, // This is the order_id created in the backend
-            // callback_url: 'http://localhost:3000/payment-success', // Your success URL
+            order_id: order?.id, // This is the order_id created in the backend
             prefill: {
                 name: 'Hinsu Rakshit',
                 email: 'rakshithinsu8606@gmail.com',
                 contact: '8156038515'
+            },
+            handler: async function (responce) {
+                console.log(responce);
+
+                // alert(responce.razorpay_payment_id);
+                // alert(responce.razorpay_order_id);
+                // alert(responce.razorpay_signature);
+
+                await verifyPayment(responce)
             },
             theme: {
                 color: '#F37254'
@@ -127,6 +145,7 @@ function Cart(props) {
         };
 
         const rzp = new window.Razorpay(options);
+
         console.log(rzp);
 
         rzp.open();
