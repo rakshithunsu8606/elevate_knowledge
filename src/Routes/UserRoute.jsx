@@ -143,6 +143,7 @@ function UserRoute(props) {
 
                 <Route path='/Instructor_dashBorad' element={<Instructor_dashBorad />} />
                 <Route path='/Student_deshborad' element={<Student_deshborad />} />
+                <Route path='/Student_deshborad/:id' element={<Student_deshborad />} />
 
 
             </Routes>

@@ -4,7 +4,7 @@ import Carousel from 'react-material-ui-carousel';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
 import { useGetAllCoupanQuery, useUpdateCoupanMutation } from '../../Redux/api/Coupan.Api';
-import { useCreateOrderMutation, useVerifyPaymentMutation } from '../../Redux/api/Payment.Api';
+import { useCreateOrderMutation, useGetAllPaymentQuery, useVerifyPaymentMutation } from '../../Redux/api/Payment.Api';
 
 function Cart(props) {
     const [coupon, setCoupon] = useState('');
@@ -50,16 +50,43 @@ function Cart(props) {
 
     }
 
-    const totalPrice = cartUser?.items?.reduce((acc, curr) => { //calculate total
-        let cur = curr.price.match(/\d./g).join('') //parse string to integer(cost)
-        return acc + Number(curr.price);
-    }, 0)
-
-    console.log(totalPrice);
 
     const { data: Coupon } = useGetAllCoupanQuery();
 
     console.log("AlldataCoupan", Coupon?.data);
+
+    const { data: AllPayment } = useGetAllPaymentQuery();
+
+    console.log(AllPayment?.data);
+
+    const PaymentUser = AllPayment?.data?.find(
+        (v) => v?.userId === Auth?.user?._id
+    );
+
+    console.log(PaymentUser);
+
+
+    const CartEmpty = cartUser?.items?.filter(
+        (v) =>
+            !PaymentUser?.Pay_Cart?.some(
+                (v1) =>
+                    v1?.course_id?.toString() ===
+                    v?.course_id?.toString()
+            )
+    );
+
+    console.log(CartEmpty);
+
+
+    const totalPrice =
+        CartEmpty?.reduce((acc, curr) => {
+            return acc + Number(curr.price);
+        }, 0) || 0;
+
+    console.log(totalPrice);
+
+
+
 
     const handleCoupon = () => {
 
@@ -90,6 +117,10 @@ function Cart(props) {
 
     const [verifyPayment] = useVerifyPaymentMutation();
 
+
+
+
+
     const handleUseCoupan = async () => {
         if (coupanuse.limit > coupanuse.use) {
             updateCoupan({
@@ -101,10 +132,19 @@ function Cart(props) {
 
         }
 
+        const Pay = CartEmpty?.map((v) => ({
+            course_id: v.course_id,
+            price: v.price
+        }))
+
+        console.log(Pay);
+
+
         const response = await createOrder({
             amount: finalAmount,
             Cart_id: cartUser._id,
-            userId: Auth.user._id
+            userId: Auth.user._id,
+            Pay_Cart: Pay
         });
 
         console.log(response);
@@ -142,6 +182,8 @@ function Cart(props) {
             theme: {
                 color: '#F37254'
             },
+
+
         };
 
         const rzp = new window.Razorpay(options);
@@ -204,7 +246,7 @@ Page content START */}
                                         <tbody className="border-top-0">
                                             {/* Table item */}
                                             {
-                                                cartUser?.items?.map((v) => {
+                                                CartEmpty?.length > 0 ? (CartEmpty?.map((v) => {
                                                     console.log(v);
 
                                                     let courseData = data?.data?.filter(
@@ -258,7 +300,14 @@ Page content START */}
                                                             </td>
                                                         </tr>
                                                     ))
-                                                })
+                                                })) : (
+                                                    <tr>
+                                                        <td colSpan="3" className="text-center">
+                                                            Cart is Empty
+                                                        </td>
+                                                    </tr>
+                                                )
+
                                             }
                                             {/* Table item */}
                                             <tr>

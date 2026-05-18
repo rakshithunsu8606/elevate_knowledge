@@ -1,6 +1,47 @@
 import React from 'react';
+import { useGetAllPaymentQuery } from '../../Redux/api/Payment.Api';
+import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
+import { useSelector } from 'react-redux';
+import { NavLink, useParams } from 'react-router';
 
 function Student_list_course(props) {
+
+    const { id } = useParams()
+
+    console.log(id);
+
+    const { data: AllPayment } = useGetAllPaymentQuery();
+
+    console.log(AllPayment?.data);
+
+    const { data, error, isLoading } = useGetAllCourseQuery()
+
+    console.log(data?.data);
+
+    const Course_id = data?.data?.find((v) => v._id);
+
+    console.log(Course_id?._id);
+
+
+
+    const Auth = useSelector(state => state.Auth);
+
+    console.log(Auth);
+
+    const StudentUser = AllPayment?.data?.find((v) => v?.userId === Auth?.user?._id)
+
+    console.log(StudentUser?.Pay_Cart);
+
+    const Course_iddd = StudentUser?.Pay_Cart?.map(
+        (v) => v.course_id
+    );
+    console.log(Course_iddd);
+
+
+    // const StudentCourse = StudentUser?.Pay_Cart?.filter((v) => v.course_id === Course_id?._id)
+
+    // console.log(StudentCourse);
+
     return (
         <main>
             {/* =======================
@@ -149,6 +190,18 @@ Page content START */}
                                             </thead>
                                             {/* Table body START */}
                                             <tbody>
+
+                                                {
+                                                    StudentUser?.Pay_Cart?.map((v) => {
+
+                                                        let courseID = data?.data?.filter((v1) => v1._id === v.course_id)
+
+                                                        console.log(courseID);
+
+                                                        courseID?.map((v)=>)
+
+                                                    })
+                                                }
                                                 {/* Table item */}
                                                 <tr>
                                                     {/* Table data */}
@@ -176,135 +229,6 @@ Page content START */}
                                                     <td>56</td>
                                                     {/* Table data */}
                                                     <td>40</td>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <a href="#" className="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i className="bi bi-play-circle me-1" />Continue</a>
-                                                    </td>
-                                                </tr>
-                                                {/* Table item */}
-                                                <tr>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <div className="d-flex align-items-center">
-                                                            {/* Image */}
-                                                            <div className="w-100px">
-                                                                <img src="assets/images/courses/4by3/03.jpg" className="rounded" alt />
-                                                            </div>
-                                                            <div className="mb-0 ms-2">
-                                                                {/* Title */}
-                                                                <h6><a href="#">Create a Design System in Figma</a></h6>
-                                                                {/* Info */}
-                                                                <div className="overflow-hidden">
-                                                                    <h6 className="mb-0 text-end">100%</h6>
-                                                                    <div className="progress progress-sm bg-primary bg-opacity-10">
-                                                                        <div className="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay={200} data-aos-duration={1000} data-aos-easing="ease-in-out" style={{ width: '100%' }} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    {/* Table data */}
-                                                    <td>42</td>
-                                                    {/* Table data */}
-                                                    <td>42</td>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <button className="btn btn-sm btn-success me-1 mb-1 mb-x;-0 disabled"><i className="bi bi-check me-1" />Complete</button>
-                                                        <a href="#" className="btn btn-sm btn-light me-1"><i className="bi bi-arrow-repeat me-1" />Restart</a>
-                                                    </td>
-                                                </tr>
-                                                {/* Table item */}
-                                                <tr>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <div className="d-flex align-items-center">
-                                                            {/* Image */}
-                                                            <div className="w-100px">
-                                                                <img src="assets/images/courses/4by3/05.jpg" className="rounded" alt />
-                                                            </div>
-                                                            <div className="mb-0 ms-2">
-                                                                {/* Title */}
-                                                                <h6><a href="#">The Complete Web Development in python</a></h6>
-                                                                {/* Info */}
-                                                                <div className="overflow-hidden">
-                                                                    <h6 className="mb-0 text-end">60%</h6>
-                                                                    <div className="progress progress-sm bg-primary bg-opacity-10">
-                                                                        <div className="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay={200} data-aos-duration={1000} data-aos-easing="ease-in-out" style={{ width: '60%' }} aria-valuenow={60} aria-valuemin={0} aria-valuemax={100}>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    {/* Table data */}
-                                                    <td>28</td>
-                                                    {/* Table data */}
-                                                    <td>12</td>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <a href="#" className="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i className="bi bi-play-circle me-1" />Continue</a>
-                                                    </td>
-                                                </tr>
-                                                {/* Table item */}
-                                                <tr>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <div className="d-flex align-items-center">
-                                                            {/* Image */}
-                                                            <div className="w-100px">
-                                                                <img src="assets/images/courses/4by3/01.jpg" className="rounded" alt />
-                                                            </div>
-                                                            <div className="mb-0 ms-2">
-                                                                {/* Title */}
-                                                                <h6><a href="#">Digital Marketing Masterclass</a></h6>
-                                                                {/* Info */}
-                                                                <div className="overflow-hidden">
-                                                                    <h6 className="mb-0 text-end">40%</h6>
-                                                                    <div className="progress progress-sm bg-primary bg-opacity-10">
-                                                                        <div className="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay={200} data-aos-duration={1000} data-aos-easing="ease-in-out" style={{ width: '40%' }} aria-valuenow={40} aria-valuemin={0} aria-valuemax={100}>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    {/* Table data */}
-                                                    <td>32</td>
-                                                    {/* Table data */}
-                                                    <td>18</td>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <a href="#" className="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i className="bi bi-play-circle me-1" />Continue</a>
-                                                    </td>
-                                                </tr>
-                                                {/* Table item */}
-                                                <tr>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <div className="d-flex align-items-center">
-                                                            {/* Image */}
-                                                            <div className="w-100px">
-                                                                <img src="assets/images/courses/4by3/02.jpg" className="rounded" alt />
-                                                            </div>
-                                                            <div className="mb-0 ms-2">
-                                                                {/* Title */}
-                                                                <h6><a href="#">Graphic Design Masterclass</a></h6>
-                                                                {/* Info */}
-                                                                <div className="overflow-hidden">
-                                                                    <h6 className="mb-0 text-end">90%</h6>
-                                                                    <div className="progress progress-sm bg-primary bg-opacity-10">
-                                                                        <div className="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay={200} data-aos-duration={1000} data-aos-easing="ease-in-out" style={{ width: '90%' }} aria-valuenow={90} aria-valuemin={0} aria-valuemax={100}>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    {/* Table data */}
-                                                    <td>16</td>
-                                                    {/* Table data */}
-                                                    <td>14</td>
                                                     {/* Table data */}
                                                     <td>
                                                         <a href="#" className="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i className="bi bi-play-circle me-1" />Continue</a>

@@ -7,6 +7,11 @@ export const PaymentApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     tagTypes: ['payment'],
     endpoints: (build) => ({
+        getAllPayment: build.query({
+            query: () => 'payment/getAllPayment',
+
+            providesTags: ['Payment']
+        }),
         createOrder: build.mutation({
             query: (data) => ({
                 url: 'payment/create-order',
@@ -28,4 +33,4 @@ export const PaymentApi = createApi({
 })
 
 
-export const { useCreateOrderMutation,useVerifyPaymentMutation } = PaymentApi;
+export const { useCreateOrderMutation, useVerifyPaymentMutation, useGetAllPaymentQuery } = PaymentApi;

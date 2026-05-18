@@ -1,6 +1,11 @@
 import React from 'react';
 
+
 function Student_deshborad(props) {
+
+
+
+
     return (
         <main>
             {/* =======================
@@ -86,7 +91,7 @@ Page content START */}
                                             <div className="list-group list-group-dark list-group-borderless">
                                                 <a className="list-group-item active" href="student-dashboard.html"><i className="bi bi-ui-checks-grid fa-fw me-2" />Dashboard</a>
                                                 <a className="list-group-item" href="student-subscription.html"><i className="bi bi-card-checklist fa-fw me-2" />My Subscriptions</a>
-                                                <a className="list-group-item" href="student-course-list.html"><i className="bi bi-basket fa-fw me-2" />My Courses</a>
+                                                <NavLink className="list-group-item" to={'/Student_list_course'}><i className="bi bi-basket fa-fw me-2" />My Courses</NavLink>
                                                 <a className="list-group-item" href="student-payment-info.html"><i className="bi bi-credit-card-2-front fa-fw me-2" />Payment info</a>
                                                 <a className="list-group-item" href="student-bookmark.html"><i className="bi bi-cart-check fa-fw me-2" />Wishlist</a>
                                                 <a className="list-group-item" href="instructor-edit-profile.html"><i className="bi bi-pencil-square fa-fw me-2" />Edit Profile</a>
