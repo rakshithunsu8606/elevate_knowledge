@@ -3,6 +3,8 @@ import { useGetAllPaymentQuery } from '../../Redux/api/Payment.Api';
 import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router';
+import Carousel from 'react-material-ui-carousel';
+
 
 function Student_list_course(props) {
 
@@ -198,42 +200,59 @@ Page content START */}
 
                                                         console.log(courseID);
 
-                                                        courseID?.map((v)=>)
+                                                        return courseID?.map((v2) => (
+                                                            console.log(courseID),
+
+                                                            console.log(v._id),
+
+                                                            <tr>
+                                                                {/* Table data */}
+                                                                <td>
+                                                                    <div className="d-flex align-items-center">
+                                                                        {/* Image */}
+                                                                        <div className="w-100px">
+                                                                            <Carousel indicators={false}>
+                                                                                {
+                                                                                    v2.course_img?.map((v3, i) => (
+                                                                                        <img
+                                                                                            key={i}
+                                                                                            src={v3.url}
+                                                                                            className="rounded"
+                                                                                            alt=""
+                                                                                        />
+                                                                                    ))
+                                                                                }
+                                                                            </Carousel>                                                                        </div>
+                                                                        <div className="mb-0 ms-2">
+                                                                            {/* Title */}
+                                                                            <h6><a href="#">{v2.name}</a></h6>
+                                                                            {/* Info */}
+                                                                            <div className="overflow-hidden">
+                                                                                <h6 className="mb-0 text-end">85%</h6>
+                                                                                <div className="progress progress-sm bg-primary bg-opacity-10">
+                                                                                    <div className="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay={200} data-aos-duration={1000} data-aos-easing="ease-in-out" style={{ width: '85%' }} aria-valuenow={85} aria-valuemin={0} aria-valuemax={100}>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                {/* Table data */}
+                                                                <td>56</td>
+                                                                {/* Table data */}
+                                                                <td>40</td>
+                                                                {/* Table data */}
+                                                                <td>
+                                                                    <a href="#" className="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i className="bi bi-play-circle me-1" />Continue</a>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+
 
                                                     })
                                                 }
                                                 {/* Table item */}
-                                                <tr>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <div className="d-flex align-items-center">
-                                                            {/* Image */}
-                                                            <div className="w-100px">
-                                                                <img src="assets/images/courses/4by3/08.jpg" className="rounded" alt />
-                                                            </div>
-                                                            <div className="mb-0 ms-2">
-                                                                {/* Title */}
-                                                                <h6><a href="#">Building Scalable APIs with GraphQL</a></h6>
-                                                                {/* Info */}
-                                                                <div className="overflow-hidden">
-                                                                    <h6 className="mb-0 text-end">85%</h6>
-                                                                    <div className="progress progress-sm bg-primary bg-opacity-10">
-                                                                        <div className="progress-bar bg-primary aos" role="progressbar" data-aos="slide-right" data-aos-delay={200} data-aos-duration={1000} data-aos-easing="ease-in-out" style={{ width: '85%' }} aria-valuenow={85} aria-valuemin={0} aria-valuemax={100}>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    {/* Table data */}
-                                                    <td>56</td>
-                                                    {/* Table data */}
-                                                    <td>40</td>
-                                                    {/* Table data */}
-                                                    <td>
-                                                        <a href="#" className="btn btn-sm btn-primary-soft me-1 mb-1 mb-md-0"><i className="bi bi-play-circle me-1" />Continue</a>
-                                                    </td>
-                                                </tr>
+
                                             </tbody>
                                             {/* Table body END */}
                                         </table>

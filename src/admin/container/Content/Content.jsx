@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useSelector } from 'react-redux';
+import RadioFiled from '../../Componet/RadioButton/RadioFiled';
 
 function Content(props) {
     const [open, setOpen] = useState(false);
@@ -73,6 +74,10 @@ function Content(props) {
 
     console.log(Auth);
 
+    const dataType = [
+        { value: "free", label: "Free" },
+        { value: "paid", label: "Paid" }
+    ]
 
 
 
@@ -82,6 +87,7 @@ function Content(props) {
         name: string().required('Please Enter Name'),
         order: string().required('Please Enter order'),
         video: mixed().required('Please Enter content_video'),
+        // Pub_Priv:string().required('Please enter ')
     })
 
     const columns = [
@@ -111,6 +117,11 @@ function Content(props) {
         },
         { field: 'name', headerName: 'name', width: 130 },
         { field: 'order', headerName: 'Order', width: 130 },
+        {
+            field: 'content_type',
+            headerName: 'Content_type',
+            width: 130,
+        },
         {
             field: 'instructure_id',
             headerName: 'Instructure_id',
@@ -195,7 +206,8 @@ function Content(props) {
         formData.append("Section_id", values.Section_id)
         formData.append("name", values.name);
         formData.append("order", values.order)
-        formData.append("instructure_id",Auth?.user?._id)
+        formData.append("instructure_id", Auth?.user?._id)
+        formData.append("content_type", values.content_type)
 
         console.log("formdataa", Object.fromEntries(formData.entries()));
 
@@ -245,7 +257,8 @@ function Content(props) {
                             name: '',
                             order: '',
                             video: [],
-                            instructure_id: '    '
+                            instructure_id: '',
+                            content_type: ''
                         }}
                         validationSchema={ContentSchema}
                         onSubmit={(values, { resetForm }) => {
@@ -304,9 +317,21 @@ function Content(props) {
                                 label='Order'
                             />
 
+                            <RadioFiled
+
+
+                                name="content_type"
+                                label="Content Type"
+                                data={dataType}
+                            />
+                            <br />
+
                             <File
                                 name="video"
                             />
+
+                            <br />
+
 
                         </Form>
 

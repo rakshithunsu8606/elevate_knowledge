@@ -18,14 +18,14 @@ function RadioFiled({ data, label, ...props }) {
     return (
         
             <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
                 <RadioGroup
                     {...field}
                     aria-labelledby="demo-radio-buttons-group-label"
                 >
 
                     {
-                        data.map((v) => (
+                        data?.map((v) => (
                             <FormControlLabel value={v.value} control={<Radio />} label={v.label} />
                         ))
                     }

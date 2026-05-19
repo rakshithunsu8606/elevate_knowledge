@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,6 +15,7 @@ import { useGetAllSectionQuery } from '../../Redux/api/Section.Api';
 import { useGetAllContentQuery } from '../../Redux/api/Content.Api';
 import { useAddCartMutation, useGetAllCartQuery, useUpdateCartMutation } from '../../Redux/api/Cart.Api';
 import { useSelector } from 'react-redux';
+import { useGetAllPaymentQuery } from '../../Redux/api/Payment.Api';
 
 function Course_details(props) {
 
@@ -63,7 +64,7 @@ function Course_details(props) {
 
     console.log(Cart);
 
-    
+
 
     const [addCart] = useAddCartMutation()
 
@@ -114,6 +115,68 @@ function Course_details(props) {
         }
 
     };
+
+    const { data: AllPayment } = useGetAllPaymentQuery();
+
+    console.log(AllPayment?.data);
+
+
+
+    const PaymentUser = AllPayment?.data?.find(
+        (v) => v?.userId === Auth?.user?._id
+    );
+
+    console.log(PaymentUser);
+
+    const Pur_course = PaymentUser?.Pay_Cart
+
+    console.log(Pur_course);
+
+
+    const Pay_Course = Pur_course?.some(v => v?.course_id === id);
+
+    console.log(Pay_Course);
+
+    const frames = 25;
+    const vRef = useRef(null);
+
+    console.log(vRef);
+
+    // const [currentFrame, setCurrentFrame] = useState(0);
+    const [videoDur, setvideoTotalDuration] = useState(0);
+    // const [curTime, setVideoCurrentTime] = useState(0);
+    // const [currTime, setCurrTime] = useState(0);
+
+    const onTimeUpdate = (e) => {
+        let ref = vRef.current;
+
+        // console.log(e.target.currentTime);
+
+        // setCurrTime(e.target.currentTime);
+
+        if (ref) {
+            let videoTotalDuration = ref.duration;
+            // let videoDuration = ref.currentTime;
+            // let videoCurrentFrame = Math.floor(videoTotalDuration * frames);
+            console.log(videoTotalDuration);
+
+            // setVideoCurrentTime(videoDuration);
+            setvideoTotalDuration(videoTotalDuration);
+            // setCurrentFrame(videoCurrentFrame);
+        }
+    };
+
+    console.log(videoDur);
+
+    const min = Math.floor(videoDur)
+
+    console.log(min);
+    
+    // console.log(currentFrame);
+    // console.log(curTime);
+
+
+
 
 
     return (
@@ -247,9 +310,15 @@ Page content START */}
                                                 Sectionss?.map((v, i) => {
                                                     console.log(v)
 
-                                                    let Match_Con = Content?.data.filter((v1) => v1.Section_id === v._id)
+                                                    let Match_Con = Content?.data.filter((v1) =>
+                                                        // console.log(v1),
+                                                        v1.Section_id === v._id
+                                                    )
 
                                                     console.log(Match_Con);
+
+
+
 
                                                     const sort = Match_Con?.sort((a, b) => a.order - b.order)
 
@@ -270,8 +339,25 @@ Page content START */}
                                                                     {/* Course lecture */}
                                                                     {
                                                                         sort?.map((v2) => {
+                                                                            console.log(v2);
+                                                                            const file = v2.video?.[0];
+                                                                            console.log(file);
+                                                                            console.log("type:", file?.type);
+
                                                                             return (
-                                                                                <NavLink to={`/Course_video_palyer/${v2._id}`}>
+                                                                                <div>
+                                                                                    {
+                                                                                        file?.type === "video" ?
+
+                                                                                            <video
+                                                                                                ref={vRef}
+                                                                                                style={{ display: "none" }}
+                                                                                                // controls
+                                                                                                onLoadedMetadata={onTimeUpdate}
+                                                                                                src={file.url}
+                                                                                            >
+                                                                                            </video> : ''
+                                                                                    }
                                                                                     <div className="d-flex justify-content-between align-items-center">
                                                                                         <div className="position-relative d-flex align-items-center">
                                                                                             <a href="#" className="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
@@ -279,10 +365,25 @@ Page content START */}
                                                                                             </a>
                                                                                             <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">{v2.name}</span>
                                                                                         </div>
-                                                                                        <p className="mb-0">11m 20s</p>
+                                                                                        {(v2.content_type === "free") ? (
+                                                                                            <NavLink
+                                                                                                to={`/Course_video_palyer/${v2._id}`}
+                                                                                                className="btn btn-primary btn-sm"
+
+                                                                                            >
+                                                                                                Preview
+                                                                                            </NavLink>
+                                                                                        ) : (
+                                                                                            <span className="bg-danger btn btn-sm btn-primar text-white">
+                                                                                                Locked
+                                                                                            </span>
+                                                                                        )}
+
+                                                                                        <p className="mb-0">{min}</p>
+                                                                                        {/* <label> {currentFrame} </label> */}
                                                                                     </div>
                                                                                     <hr />
-                                                                                </NavLink>
+                                                                                </div>
                                                                             )
                                                                         })
 
