@@ -137,41 +137,40 @@ function Course_details(props) {
 
     console.log(Pay_Course);
 
-    const frames = 25;
-    const vRef = useRef(null);
+    // const frames = 25;
+    // const vRef = useRef(null);
 
-    console.log(vRef);
+    // console.log(vRef);
 
-    // const [currentFrame, setCurrentFrame] = useState(0);
-    const [videoDur, setvideoTotalDuration] = useState(0);
-    // const [curTime, setVideoCurrentTime] = useState(0);
-    // const [currTime, setCurrTime] = useState(0);
+    const [videoDur, setvideoTotalDuration] = useState({});
 
-    const onTimeUpdate = (e) => {
-        let ref = vRef.current;
 
-        // console.log(e.target.currentTime);
+    const onTimeUpdate = (e, id) => {
+        // let ref = vRef.current;
+
+        console.log(e.target.duration);
+
+        setvideoTotalDuration((prev) => ({
+            ...prev,
+            [id]: e.target.duration
+        }))
 
         // setCurrTime(e.target.currentTime);
 
-        if (ref) {
-            let videoTotalDuration = ref.duration;
-            // let videoDuration = ref.currentTime;
-            // let videoCurrentFrame = Math.floor(videoTotalDuration * frames);
-            console.log(videoTotalDuration);
+        // if (ref) {
+        //     let videoTotalDuration = ref.duration;
+        //     console.log(videoTotalDuration);
 
-            // setVideoCurrentTime(videoDuration);
-            setvideoTotalDuration(videoTotalDuration);
-            // setCurrentFrame(videoCurrentFrame);
-        }
+        //     setvideoTotalDuration(videoTotalDuration);
+        // }
     };
 
     console.log(videoDur);
 
-    const min = Math.floor(videoDur)
+    // const min = Math.floor(videoDur)
 
-    console.log(min);
-    
+    // console.log(min);
+
     // console.log(currentFrame);
     // console.log(curTime);
 
@@ -350,10 +349,11 @@ Page content START */}
                                                                                         file?.type === "video" ?
 
                                                                                             <video
-                                                                                                ref={vRef}
+                                                                                                // ref={vRef}
                                                                                                 style={{ display: "none" }}
-                                                                                                // controls
-                                                                                                onLoadedMetadata={onTimeUpdate}
+                                                                                                onLoadedMetadata={(e) =>
+                                                                                                    onTimeUpdate(e, v2._id)
+                                                                                                }
                                                                                                 src={file.url}
                                                                                             >
                                                                                             </video> : ''
@@ -379,7 +379,15 @@ Page content START */}
                                                                                             </span>
                                                                                         )}
 
-                                                                                        <p className="mb-0">{min}</p>
+                                                                                        {
+                                                                                            videoDur[v2._id]
+                                                                                                ? `${Math.floor(videoDur[v2._id] / 60)}
+                                                                                                    :${Math.floor(videoDur[v2._id] % 60)
+                                                                                                    .toString()
+                                                                                                    .padStart(2, "0")}`
+                                                                                                : ""
+                                                                                        }
+                                                                                        {/* <p className="mb-0">0</p> */}
                                                                                         {/* <label> {currentFrame} </label> */}
                                                                                     </div>
                                                                                     <hr />
@@ -401,7 +409,7 @@ Page content START */}
                                                                                 <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">Quiz</span>
                                                                             </div>
 
-                                                                            <p className="mb-0">11m 20s</p>
+                                                                            {/* <p className="mb-0">11m 20s</p> */}
                                                                         </div>
                                                                     </NavLink>
                                                                     <hr /> {/* Divider */}

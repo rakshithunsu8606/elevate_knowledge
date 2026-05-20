@@ -12,6 +12,7 @@ import { CartApi } from './api/Cart.Api'
 import { CoupanApi } from './api/Coupan.Api'
 import { OrderApi } from './api/Order.Api'
 import { PaymentApi } from './api/Payment.Api'
+import { EnrollmentApi } from './api/Enrollment.APi'
 
 // import CategoryDisplaySlice from './Slice/CategoryDisplaySlice'
 
@@ -31,7 +32,8 @@ export const Confstore = () => {
             [CartApi.reducerPath]:CartApi.reducer,
             [CoupanApi.reducerPath]:CoupanApi.reducer,
             [OrderApi.reducerPath]:OrderApi.reducer,
-            [PaymentApi.reducerPath]:PaymentApi.reducer
+            [PaymentApi.reducerPath]:PaymentApi.reducer,
+            [EnrollmentApi.reducerPath]:EnrollmentApi.reducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat([CourseApi.middleware, 
@@ -42,7 +44,8 @@ export const Confstore = () => {
                                         CartApi.middleware,
                                         CoupanApi.middleware,
                                         OrderApi.middleware,
-                                        PaymentApi.middleware
+                                        PaymentApi.middleware,
+                                        EnrollmentApi.middleware
                                     ]),
     })
 
