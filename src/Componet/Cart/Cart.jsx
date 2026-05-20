@@ -5,7 +5,7 @@ import { useGetAllCourseQuery } from '../../Redux/api/Course.Api';
 import { useSelector } from 'react-redux';
 import { useGetAllCoupanQuery, useUpdateCoupanMutation } from '../../Redux/api/Coupan.Api';
 import { useCreateOrderMutation, useGetAllPaymentQuery, useVerifyPaymentMutation } from '../../Redux/api/Payment.Api';
-import { useGetAllEnrollmentQuery } from '../../Redux/api/Enrollment.APi';
+// import { useGetAllEnrollmentQuery } from '../../Redux/api/Progress.Api';
 
 function Cart(props) {
     const [coupon, setCoupon] = useState('');
@@ -60,9 +60,9 @@ function Cart(props) {
 
     console.log(AllPayment?.data);
 
-    const { data: Enrollment } = useGetAllEnrollmentQuery();
+    // const { data: Enrollment } = useGetAllEnrollmentQuery();
 
-    console.log(Enrollment?.data);
+    // console.log(Enrollment?.data);
 
     const PaymentUser = AllPayment?.data?.find(
         (v) => v?.userId === Auth?.user?._id

@@ -122,18 +122,33 @@ function Course_details(props) {
 
 
 
-    const PaymentUser = AllPayment?.data?.find(
+    const PaymentUser = AllPayment?.data?.filter(
         (v) => v?.userId === Auth?.user?._id
     );
 
     console.log(PaymentUser);
 
-    const Pur_course = PaymentUser?.Pay_Cart
+    // const Pur_course = PaymentUser?.Pay_Cart
 
-    console.log(Pur_course);
+    // console.log(Pur_course);
+
+    const user = [];
+
+    PaymentUser?.map((v) => {
+        console.log(v);
+
+        v?.Pay_Cart?.map((v2) => {
+            console.log(v2);
+
+            user?.push(v2.course_id)
+        })
+    })
+
+    console.log(user);
 
 
-    const Pay_Course = Pur_course?.some(v => v?.course_id === id);
+
+    const Pay_Course = user?.some(v => v === id);
 
     console.log(Pay_Course);
 
@@ -143,17 +158,25 @@ function Course_details(props) {
     // console.log(vRef);
 
     const [videoDur, setvideoTotalDuration] = useState({});
-
+    const [currentTime, setCurrentTime] = useState({})
 
     const onTimeUpdate = (e, id) => {
         // let ref = vRef.current;
 
         console.log(e.target.duration);
+        console.log(e.target.currentTime);
+
+        const currentTime = Math.floor(e.target.currentTime);
 
         setvideoTotalDuration((prev) => ({
             ...prev,
             [id]: e.target.duration
         }))
+
+        setCurrentTime((prev) => ({
+            ...prev,
+            [id]: currentTime
+        }));
 
         // setCurrTime(e.target.currentTime);
 
@@ -166,6 +189,8 @@ function Course_details(props) {
     };
 
     console.log(videoDur);
+    console.log(currentTime);
+
 
     // const min = Math.floor(videoDur)
 
@@ -365,7 +390,7 @@ Page content START */}
                                                                                             </a>
                                                                                             <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">{v2.name}</span>
                                                                                         </div>
-                                                                                        {(v2.content_type === "free") ? (
+                                                                                        {(v2.content_type === "free" || Pay_Course) ? (
                                                                                             <NavLink
                                                                                                 to={`/Course_video_palyer/${v2._id}`}
                                                                                                 className="btn btn-primary btn-sm"
