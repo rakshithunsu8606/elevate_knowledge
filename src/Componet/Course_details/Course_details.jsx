@@ -16,6 +16,8 @@ import { useGetAllContentQuery } from '../../Redux/api/Content.Api';
 import { useAddCartMutation, useGetAllCartQuery, useUpdateCartMutation } from '../../Redux/api/Cart.Api';
 import { useSelector } from 'react-redux';
 import { useGetAllPaymentQuery } from '../../Redux/api/Payment.Api';
+import { useAddProgressMutation, useGetAllProgressQuery, useUpdateProgressMutation } from '../../Redux/api/Progress.Api';
+import { useAddEnrollmentMutation, useGetAllEnrollmentQuery } from '../../Redux/api/Enrollment.APi';
 
 function Course_details(props) {
 
@@ -56,6 +58,8 @@ function Course_details(props) {
 
     console.log(Match_Con);
 
+    // const Content_id = Math_Con._id
+
     // const sortedContent = Match_Con?.sort((a, b) => a.order - b.order)
 
     // console.log(sortedContent);
@@ -63,6 +67,8 @@ function Course_details(props) {
     const { data: Cart } = useGetAllCartQuery();
 
     console.log(Cart);
+
+
 
 
 
@@ -121,7 +127,7 @@ function Course_details(props) {
     console.log(AllPayment?.data);
 
 
-
+    Math
     const PaymentUser = AllPayment?.data?.filter(
         (v) => v?.userId === Auth?.user?._id
     );
@@ -152,52 +158,75 @@ function Course_details(props) {
 
     console.log(Pay_Course);
 
-    // const frames = 25;
-    // const vRef = useRef(null);
 
-    // console.log(vRef);
+    const { data: progress } = useGetAllProgressQuery();
+
+    console.log(progress);
+
+    const [addProgress] = useAddProgressMutation();
+    const [updateProgress] = useUpdateProgressMutation();
+
+    const { data: enrollment } = useGetAllEnrollmentQuery();
+
+    console.log(enrollment);
+
+    const [addEnrollment] = useAddEnrollmentMutation();
+
+    const Enroll_USER = enrollment?.data?.find((v) => v?.user_id === Auth?.user?._id)
+
+    console.log(Enroll_USER);
+
+    const Enroll_id = Enroll_USER?._id
+
+
 
     const [videoDur, setvideoTotalDuration] = useState({});
-    const [currentTime, setCurrentTime] = useState({})
 
-    const onTimeUpdate = (e, id) => {
-        // let ref = vRef.current;
+    const onTimeUpdate = async (e, id) => {
 
-        console.log(e.target.duration);
-        console.log(e.target.currentTime);
+        const duration = e.target.duration;
 
-        const currentTime = Math.floor(e.target.currentTime);
+        const currentTime = localStorage.getItem(id);
+
+        console.log("duration:", duration);
+        console.log("currentTime:", currentTime);
+
+        if (currentTime) {
+            await addProgress({
+                enrollment_id: Enroll_id,
+                content_id: id,
+                duration: currentTime,
+                is_completed: currentTime >= duration - 1
+            })
+        }
+
+
+
+
+
+        const percentage = (currentTime / duration) * 100;
+
+        console.log(percentage);
+
+        if (percentage === 100 || percentage === 99.9) {
+            await updateProgress({
+                enrollment_id: Enroll_id,
+                content_id: id,
+                duration: currentTime,
+
+            })
+        }
 
         setvideoTotalDuration((prev) => ({
             ...prev,
-            [id]: e.target.duration
-        }))
-
-        setCurrentTime((prev) => ({
-            ...prev,
-            [id]: currentTime
+            [id]: duration
         }));
-
-        // setCurrTime(e.target.currentTime);
-
-        // if (ref) {
-        //     let videoTotalDuration = ref.duration;
-        //     console.log(videoTotalDuration);
-
-        //     setvideoTotalDuration(videoTotalDuration);
-        // }
     };
 
     console.log(videoDur);
-    console.log(currentTime);
 
 
-    // const min = Math.floor(videoDur)
 
-    // console.log(min);
-
-    // console.log(currentFrame);
-    // console.log(curTime);
 
 
 

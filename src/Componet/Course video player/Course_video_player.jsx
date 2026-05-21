@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { useGetAllContentQuery } from '../../Redux/api/Content.Api';
 
@@ -6,15 +6,49 @@ function Course_video_player(props) {
 
     const { id } = useParams()
 
-    console.log(id);
+    // console.log(id);
 
     const { data: Content } = useGetAllContentQuery();
 
-    console.log(Content?.data);
+    // console.log(Content?.data);
 
     const Video_display = Content?.data?.filter((v) => v?._id === id);
 
-    console.log(Video_display);
+    // console.log(Video_display);
+
+    const [videoDur, setvideoTotalDuration] = useState({});
+    const [currentTime, setCurrentTime] = useState({})
+
+    const onTimeUpdate = (e, id) => {
+
+        console.log(e.target);
+
+        console.log(e.target.duration);
+        console.log(e.target.currentTime);
+
+        const currentTimeee = Math.floor(e.target.currentTime);
+
+        setvideoTotalDuration((prev) => ({
+            ...prev,
+            [id]: e.target.duration
+        }))
+
+        setCurrentTime((prev) => ({
+            ...prev,
+            [id]: currentTime
+        }));
+
+        localStorage.setItem(id,currentTimeee)
+
+        // const percantage = (currentTime / videoDur) * 100
+
+        // console.log(percantage);
+
+    };
+
+
+    // console.log(videoDur);
+    // console.log(currentTime);
 
     // const sort=Video_display.sort((a,b)=>a.order-b.order)
 
@@ -32,10 +66,10 @@ function Course_video_player(props) {
 
                                 {
                                     Video_display?.map((v) => {
-                                        console.log(v.video[0].type);
+                                        // console.log(v.video[0].type);
                                         let file = v.video[0]
 
-                                        console.log(file);
+                                        // console.log(file);
 
                                         if (file.type === "image") {
                                             return (
@@ -47,7 +81,14 @@ function Course_video_player(props) {
                                             );
                                         } else if (file.type === "video") {
                                             return (
-                                                <video controls autoPlay className="w-100">
+                                                <video
+                                                    controls
+                                                    autoPlay
+                                                    className="w-100"
+                                                    onTimeUpdate={(e) =>
+                                                        onTimeUpdate(e, v._id)
+                                                    }
+                                                >
                                                     <source src={file.url} type="video/mp4" />
                                                 </video>
                                             )

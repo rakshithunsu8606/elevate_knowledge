@@ -21,42 +21,18 @@ export const ProgressApi = createApi({
 
             invalidatesTags: ['Progress']
         }),
+        updateProgress: build.mutation({
+            query: (data) => ({
+                url: 'progress/updateProgress',
+                method: 'PUT',
+                body: data
+            }),
+
+            invalidatesTags: ['Progress']
+        }),
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useAddProgressMutation, useGetAllProgressQuery } = ProgressApi
-
-// const [addProgress] = useAddProgressMutation();
-
-// const onTimeUpdate = async (e, id) => {
-
-//     const currentVideoTime = Math.floor(e.target.currentTime);
-//     const duration = Math.floor(e.target.duration);
-
-//     setvideoTotalDuration((prev) => ({
-//         ...prev,
-//         [id]: duration
-//     }));
-
-//     setCurrentTime((prev) => ({
-//         ...prev,
-//         [id]: currentVideoTime
-//     }));
-
-
-//     // every 10 sec save
-//     if (currentVideoTime % 10 === 0) {
-
-//         await addProgress({
-
-//             enrollment_id,
-//             content_id: id,
-//             content_time: currentVideoTime,
-//             is_completed: currentVideoTime >= duration - 1
-
-//         });
-
-//     }
-// };
+export const { useAddProgressMutation, useGetAllProgressQuery, useUpdateProgressMutation } = ProgressApi
