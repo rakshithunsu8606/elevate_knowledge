@@ -1,51 +1,134 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { useGetAllContentQuery } from '../../Redux/api/Content.Api';
+import { useAddProgressMutation, useGetAllProgressQuery, useUpdateProgressMutation } from '../../Redux/api/Progress.Api';
+import { useAddEnrollmentMutation, useGetAllEnrollmentQuery } from '../../Redux/api/Enrollment.APi';
+import { useSelector } from 'react-redux';
+// import { useUpdateProgressMutation } from '../../Redux/api/Progress.Api';
 
 function Course_video_player(props) {
 
-    const { id } = useParams()
-
-    // console.log(id);
+    const { id } = useParams();
 
     const { data: Content } = useGetAllContentQuery();
 
-    // console.log(Content?.data);
+    const Video_display = Content?.data?.filter(
+        (v) => v?._id === id
+    );
 
-    const Video_display = Content?.data?.filter((v) => v?._id === id);
+    const Auth = useSelector(state => state.Auth);
 
-    // console.log(Video_display);
+    console.log(Auth);
 
-    const [videoDur, setvideoTotalDuration] = useState({});
-    const [currentTime, setCurrentTime] = useState({})
+    const { data: enrollment } = useGetAllEnrollmentQuery();
+
+    console.log(enrollment);
+
+    const [addEnrollment] = useAddEnrollmentMutation();
+
+    const Enroll_USER = enrollment?.data?.find((v) => v?.user_id === Auth?.user?._id)
+
+    console.log(Enroll_USER);
+
+    const En_ID = Enroll_USER?._id
+
+    console.log(En_ID);
+
+
+
 
     const onTimeUpdate = (e, id) => {
 
-        console.log(e.target);
-
-        console.log(e.target.duration);
-        console.log(e.target.currentTime);
-
         const currentTimeee = Math.floor(e.target.currentTime);
 
-        setvideoTotalDuration((prev) => ({
-            ...prev,
-            [id]: e.target.duration
-        }))
-
-        setCurrentTime((prev) => ({
-            ...prev,
-            [id]: currentTime
-        }));
-
-        localStorage.setItem(id,currentTimeee)
-
-        // const percantage = (currentTime / videoDur) * 100
-
-        // console.log(percantage);
-
+        localStorage.setItem(id, currentTimeee);
     };
 
+    const { data: progress } = useGetAllProgressQuery();
+
+
+    // console.log(progress);
+
+    const [addProgress] = useAddProgressMutation();
+
+    const [updateProgress] = useUpdateProgressMutation();
+
+    // const findProgress = progress?.data?.find(
+    //     (v) =>
+    //         v.content_id === id &&
+    //         v.enrollment_id === En_ID
+    // );
+
+    // console.log(findProgress);
+
+
+
+    // const Enroll = findProgress?.find((v) => v?.enrollment_id === En_ID)
+
+    // console.log(Enroll);
+
+
+
+    const handleVideoEnd = async (e, id) => {
+
+        const duration = e.target.duration;
+
+        const findProgress = progress?.data?.find(
+            (v) =>
+                v.content_id === id &&
+                v.enrollment_id === En_ID
+        );
+
+        console.log(findProgress);
+
+        if (findProgress) {
+
+            await updateProgress({
+                _id: findProgress._id,
+                duration: duration,
+                is_completed: true,
+            });
+
+        } else {
+
+            await addProgress({
+                enrollment_id: Enroll_USER._id,
+                content_id: id,
+                duration: duration,
+            });
+        }
+    };
+
+    const handlePause = async (e, id) => {
+
+        const currentTime = e.target.currentTime;
+        const duration = e.target.duration;
+
+        const findProgress = progress?.data?.find(
+            (v) =>
+                v.content_id === id &&
+                v.enrollment_id === En_ID
+        );
+
+        console.log(findProgress);
+
+        if (findProgress) {
+
+            await updateProgress({
+                _id: findProgress._id,
+                duration: currentTime,
+                is_completed: false,
+            });
+
+        } else {
+
+            await addProgress({
+                enrollment_id: Enroll_USER._id,
+                content_id: id,
+                duration: duration,
+            });
+        }
+    }
 
     // console.log(videoDur);
     // console.log(currentTime);
@@ -85,8 +168,21 @@ function Course_video_player(props) {
                                                     controls
                                                     autoPlay
                                                     className="w-100"
+                                                    onLoadedMetadata={(e) => {
+                                                        const saveTime = localStorage.getItem(v._id)
+
+                                                        if (saveTime) {
+                                                            e.target.currentTime = parseFloat(saveTime)
+                                                        }
+                                                    }}
                                                     onTimeUpdate={(e) =>
                                                         onTimeUpdate(e, v._id)
+                                                    }
+                                                    onEnded={(e) =>
+                                                        handleVideoEnd(e, v._id)
+                                                    }
+                                                    onPause={(e) =>
+                                                        handlePause(e, v._id)
                                                     }
                                                 >
                                                     <source src={file.url} type="video/mp4" />

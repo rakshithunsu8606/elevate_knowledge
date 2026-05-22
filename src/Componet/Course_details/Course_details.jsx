@@ -18,6 +18,8 @@ import { useSelector } from 'react-redux';
 import { useGetAllPaymentQuery } from '../../Redux/api/Payment.Api';
 import { useAddProgressMutation, useGetAllProgressQuery, useUpdateProgressMutation } from '../../Redux/api/Progress.Api';
 import { useAddEnrollmentMutation, useGetAllEnrollmentQuery } from '../../Redux/api/Enrollment.APi';
+import { TiTick } from "react-icons/ti";
+import CheckIcon from '@mui/icons-material/Check';
 
 function Course_details(props) {
 
@@ -127,7 +129,6 @@ function Course_details(props) {
     console.log(AllPayment?.data);
 
 
-    Math
     const PaymentUser = AllPayment?.data?.filter(
         (v) => v?.userId === Auth?.user?._id
     );
@@ -163,6 +164,13 @@ function Course_details(props) {
 
     console.log(progress);
 
+    const findProgress = progress?.data?.find(
+        (v) => v.content_id === id
+    );
+
+    console.log(findProgress);
+
+
     const [addProgress] = useAddProgressMutation();
     const [updateProgress] = useUpdateProgressMutation();
 
@@ -186,36 +194,18 @@ function Course_details(props) {
 
         const duration = e.target.duration;
 
+        // localStorage.setItem(id,duration)
+
         const currentTime = localStorage.getItem(id);
 
         console.log("duration:", duration);
-        console.log("currentTime:", currentTime);
-
-        if (currentTime) {
-            await addProgress({
-                enrollment_id: Enroll_id,
-                content_id: id,
-                duration: currentTime,
-                is_completed: currentTime >= duration - 1
-            })
-        }
-
-
-
-
+        console.log("currentTime:", currentTime)
 
         const percentage = (currentTime / duration) * 100;
 
         console.log(percentage);
 
-        if (percentage === 100 || percentage === 99.9) {
-            await updateProgress({
-                enrollment_id: Enroll_id,
-                content_id: id,
-                duration: currentTime,
 
-            })
-        }
 
         setvideoTotalDuration((prev) => ({
             ...prev,
@@ -224,6 +214,8 @@ function Course_details(props) {
     };
 
     console.log(videoDur);
+
+
 
 
 
@@ -373,9 +365,36 @@ Page content START */}
 
 
 
+
+
                                                     const sort = Match_Con?.sort((a, b) => a.order - b.order)
 
                                                     console.log(sort);
+
+                                                    const totalContents = sort?.length;
+
+                                                    console.log(totalContents);
+
+                                                    const sectionProgress = progress?.data?.filter(
+                                                        (p) =>
+                                                            p.enrollment_id === Enroll_id &&
+                                                            sort.some((c) => c._id === p.content_id)
+                                                    );
+
+                                                    console.log(sectionProgress);
+
+                                                    const completedContents = sectionProgress?.length || 0;
+
+
+
+
+                                                    const percentage =
+                                                        totalContents > 0
+                                                            ? ((completedContents / totalContents) * 100).toFixed(2)
+                                                            : 0;
+
+                                                    console.log(percentage);
+
 
 
                                                     return (
@@ -383,8 +402,9 @@ Page content START */}
                                                             <h6 className="accordion-header font-base" id={"heading-" + i}>
                                                                 <button className="accordion-button fw-bold collapsed rounded d-sm-flex d-inline-block" type="button" key={i} data-bs-toggle="collapse" data-bs-target={"#collapse-" + i} aria-expanded="false" aria-controls={"collapse-" + i}>
                                                                     {v.name}
-                                                                    <span className="small ms-0 ms-sm-2">(4 Lectures)</span>
-                                                                </button>
+                                                                    <span className="small ms-2">
+                                                                        ({totalContents} Lectures | {percentage}% completed)
+                                                                    </span>                                                                </button>
                                                             </h6>
                                                             <div id={"collapse-" + i} className="accordion-collapse collapse" aria-labelledby={"heading-" + i} data-bs-parent="#accordionExample2">
                                                                 {/* Accordion body START */}
@@ -396,6 +416,24 @@ Page content START */}
                                                                             const file = v2.video?.[0];
                                                                             console.log(file);
                                                                             console.log("type:", file?.type);
+
+                                                                            // const isCompleted = progress?.data?.find((c) =>
+                                                                            //     c.content_id === v2._id &&
+                                                                            //     c.enrollment_id === Enroll_id
+                                                                            // );
+
+                                                                            const isCompleted = progress?.data?.find(
+                                                                                (v3) =>
+                                                                                    v3.content_id === v2._id &&
+                                                                                    v3.enrollment_id === Enroll_id
+                                                                            );
+
+                                                                            console.log(isCompleted);
+
+                                                                            const complete = isCompleted?.is_completed
+
+                                                                            console.log(complete);
+
 
                                                                             return (
                                                                                 <div>
@@ -418,6 +456,10 @@ Page content START */}
                                                                                                 <i className="fas fa-play me-0" />
                                                                                             </a>
                                                                                             <span className="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">{v2.name}</span>
+                                                                                            {
+                                                                                                complete ?
+                                                                                                    <CheckIcon className="text-success" /> : null
+                                                                                            }
                                                                                         </div>
                                                                                         {(v2.content_type === "free" || Pay_Course) ? (
                                                                                             <NavLink

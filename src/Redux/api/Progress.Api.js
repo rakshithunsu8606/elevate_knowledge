@@ -23,7 +23,7 @@ export const ProgressApi = createApi({
         }),
         updateProgress: build.mutation({
             query: (data) => ({
-                url: 'progress/updateProgress',
+                url: `/progress/updateProgress/${data._id}`,
                 method: 'PUT',
                 body: data
             }),
