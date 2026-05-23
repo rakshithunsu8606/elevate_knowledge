@@ -375,22 +375,20 @@ Page content START */}
 
                                                     console.log(totalContents);
 
-                                                    const sectionProgress = progress?.data?.filter(
-                                                        (p) =>
+                                                    const sectionProgress = sort?.filter((item) => {
+                                                        return progress?.data?.find((p) =>
+                                                            p.content_id === item._id &&
                                                             p.enrollment_id === Enroll_id &&
-                                                            sort.some((c) => c._id === p.content_id)
-                                                    );
+                                                            p.is_completed === true
+                                                        )
+                                                    })
+
 
                                                     console.log(sectionProgress);
 
-                                                    const completedContents = sectionProgress?.length || 0;
-
-
-
-
                                                     const percentage =
                                                         totalContents > 0
-                                                            ? ((completedContents / totalContents) * 100).toFixed(2)
+                                                            ? ((sectionProgress.length / totalContents) * 100)
                                                             : 0;
 
                                                     console.log(percentage);
